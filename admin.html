@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoneyWise Admin Console - Premium Insights</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+      margin: 0;
+    }
+    .admin-container {
+      max-width: 1100px;
+      width: 100%;
+      padding: 3rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.5rem;
+    }
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+    .stat-box {
+      background: var(--color-card-grad);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+      background: var(--color-accent-grad);
+    }
+    .stat-box.success::before { background: var(--color-needs); }
+    .stat-box.danger::before { background: var(--color-wants); }
+    .stat-box.info::before { background: var(--color-savings); }
+
+    .stat-title {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+    }
+    .admin-main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .dist-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .dist-row:last-child {
+      border-bottom: none;
+    }
+    .bar-wrapper {
+      flex: 1;
+      margin: 0 1.5rem;
+      height: 6px;
+      background-color: var(--bg-tertiary);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: var(--color-accent-grad);
+      border-radius: 3px;
+    }
+    @media (max-width: 768px) {
+      .admin-stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .admin-main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="admin-container">
+    <div class="admin-header">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <div class="brand-icon">MW</div>
+        <div>
+          <h2>MoneyWise Administrative Platform</h2>
+          <p style="color:var(--text-secondary); font-size:0.9rem; margin-top:0.15rem;">Anonymized aggregated statistics for operational decisions</p>
+        </div>
+      </div>
+      <a href="/" class="btn btn-secondary" style="font-size:0.85rem; padding:0.5rem 1rem;">
+        <i data-lucide="arrow-left" style="width:14px;"></i> Back to App
+      </a>
+    </div>
+
+    <!-- KPI STATS CARDS -->
+    <div class="admin-stats-grid">
+      <div class="stat-box">
+        <span class="stat-title">Active User Base</span>
+        <span class="stat-value" id="stat-users">0</span>
+      </div>
+      <div class="stat-box success">
+        <span class="stat-title">Average Monthly Income</span>
+        <span class="stat-value" id="stat-income">₹0</span>
+      </div>
+      <div class="stat-box danger">
+        <span class="stat-title">Cumulative Outflows (Spent)</span>
+        <span class="stat-value" id="stat-expenses">₹0</span>
+      </div>
+      <div class="stat-box info">
+        <span class="stat-title">Cumulative Asset Value (Saved)</span>
+        <span class="stat-value" id="stat-savings">₹0</span>
+      </div>
+    </div>
+
+    <!-- MAIN DATA TABLES -->
+    <div class="admin-main-grid">
+      
+      <!-- Profession Breakdown -->
+      <div class="card">
+        <h3 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; display:flex; align-items:center; gap:0.5rem;">
+          <i data-lucide="briefcase" style="color:var(--color-accent);"></i> Profession Demographic
+        </h3>
+        <div id="profession-list" style="display:flex; flex-direction:column;">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Top Spending Categories -->
+      <div class="card">
+        <h3 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; display:flex; align-items:center; gap:0.5rem;">
+          <i data-lucide="bar-chart-2" style="color:var(--color-wants);"></i> Top Spending Categories
+        </h3>
+        <div id="category-list" style="display:flex; flex-direction:column;">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      fetch('/api/admin/analytics')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('stat-users').textContent = formatNumber(data.totalUsers);
+          document.getElementById('stat-income').textContent = `₹${formatNumber(data.avgIncome)}`;
+          document.getElementById('stat-expenses').textContent = `₹${formatNumber(data.totalExpenses)}`;
+          document.getElementById('stat-savings').textContent = `₹${formatNumber(data.totalSavings)}`;
+
+          // 1. Profession split rendering
+          const profList = document.getElementById('profession-list');
+          profList.innerHTML = '';
+          const splits = data.professionSplit;
+          const totalUsers = data.totalUsers || 1;
+
+          Object.keys(splits).forEach(prof => {
+            const count = splits[prof];
+            const pct = Math.round((count / totalUsers) * 100);
+            const row = document.createElement('div');
+            row.className = 'dist-row';
+            row.innerHTML = `
+              <span style="font-weight:600; font-size:0.9rem; min-width: 100px;">${prof}</span>
+              <div class="bar-wrapper">
+                <div class="bar-fill" style="width: ${pct}%"></div>
+              </div>
+              <span style="font-weight:700; color:var(--text-secondary); font-size:0.9rem;">${count} user(s) (${pct}%)</span>
+            `;
+            profList.appendChild(row);
+          });
+
+          if (Object.keys(splits).length === 0) {
+            profList.innerHTML = '<p style="text-align:center; padding: 1.5rem; color:var(--text-muted);">No demographics logged yet</p>';
+          }
+
+          // 2. Categories spent rendering
+          const catList = document.getElementById('category-list');
+          catList.innerHTML = '';
+          const categories = data.topCategories;
+
+          categories.forEach((cat, idx) => {
+            const row = document.createElement('div');
+            row.className = 'dist-row';
+            row.innerHTML = `
+              <span style="font-weight:600; font-size:0.9rem; min-width: 150px;">${cat.category}</span>
+              <span style="font-weight:800; color:var(--color-wants); font-size:0.95rem;">₹${formatNumber(cat.amount)}</span>
+            `;
+            catList.appendChild(row);
+          });
+
+          if (categories.length === 0) {
+            catList.innerHTML = '<p style="text-align:center; padding: 1.5rem; color:var(--text-muted);">No transactions logged yet</p>';
+          }
+
+          lucide.createIcons();
+        })
+        .catch(err => {
+          console.error("Error loading admin stats:", err);
+        });
+    });
+
+    function formatNumber(n) {
+      const x = n.toString();
+      let lastThree = x.substring(x.length - 3);
+      const rest = x.substring(0, x.length - 3);
+      if (rest !== '') lastThree = ',' + lastThree;
+      return rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    }
+  </script>
+</body>
+</html>

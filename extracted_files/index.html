@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoneyWise - Premium Personal Wealth & 50/30/20 Engine</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- CDNs for Visuals & Math -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+  <!-- ==================== FLOW 1: simulated LANDING & AUTHENTICATION ==================== -->
+  <div id="auth-overlay">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="brand-icon">MW</div>
+        <h2>MoneyWise</h2>
+      </div>
+      <p class="auth-tagline">Spend Smarter. Save Faster. Accumulate Wealth.</p>
+
+      <div class="auth-tabs">
+        <button id="tab-btn-login" class="auth-tab-btn active" onclick="toggleAuthTab('login')">Sign In</button>
+        <button id="tab-btn-signup" class="auth-tab-btn" onclick="toggleAuthTab('signup')">Create Account</button>
+      </div>
+
+      <!-- Login Form Panel -->
+      <form id="login-form" class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
+        <div class="input-group">
+          <label for="login-username">Email Address</label>
+          <input type="text" id="login-username" class="input-field" placeholder="your@email.com" required>
+        </div>
+        <div class="input-group">
+          <div style="display:flex; justify-content:space-between;">
+            <label for="login-password">Password</label>
+            <a href="#" class="auth-link" onclick="forgotPasswordAlert()">Forgot Password?</a>
+          </div>
+          <input type="password" id="login-password" class="input-field" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Access Dashboard</button>
+      </form>
+
+      <!-- Sign Up Form Panel -->
+      <form id="signup-form" class="auth-form" style="display: none;" onsubmit="handleAuthSubmit(event, 'signup')">
+        <div class="input-group">
+          <label for="signup-username">Preferred Username</label>
+          <input type="text" id="signup-username" class="input-field" placeholder="wealth_builder" required>
+        </div>
+        <div class="input-group">
+          <label for="signup-email">Email Address</label>
+          <input type="email" id="signup-email" class="input-field" placeholder="builder@moneywise.in" required>
+        </div>
+        <div class="input-group">
+          <label for="signup-password">Secure Password</label>
+          <input type="password" id="signup-password" class="input-field" placeholder="Min. 8 characters" minlength="8" required>
+        </div>
+        <div class="input-group">
+          <label for="signup-confirm">Confirm Password</label>
+          <input type="password" id="signup-confirm" class="input-field" placeholder="Re-type password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Create My Account</button>
+      </form>
+
+      <div class="auth-divider">
+        <span>OR</span>
+      </div>
+
+      <button class="btn btn-secondary" style="width: 100%;" onclick="continueAsGuest()">
+        <i data-lucide="user-check" style="width:16px;"></i> Continue as Guest
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== FLOW 1: MULTI-STEP ONBOARDING & SETUP ==================== -->
+  <div id="onboarding-overlay" style="display: none;">
+    <div class="onboarding-card">
+      
+      <!-- Stepper Indicator -->
+      <div class="onboard-steps-indicator">
+        <div class="step-dot active" id="dot-step-1" title="Account Setup">1</div>
+        <div class="step-line"></div>
+        <div class="step-dot" id="dot-step-2" title="Banking Linker">2</div>
+      </div>
+
+      <div class="onboarding-title-group">
+        <h2 id="onboard-title">Configure Profile</h2>
+        <p id="onboard-desc">Customize your income flows and 50/30/20 splits to begin tracking</p>
+      </div>
+
+      <!-- STEP 1: Account setup details -->
+      <div id="onboard-step-1" class="onboard-step-pane active">
+        <form id="onboard-profile-form" onsubmit="submitOnboardStep1(event)">
+          
+          <!-- Profession picker -->
+          <div class="input-group">
+            <label>Choose Your Profession Profile</label>
+            <div class="user-types-grid">
+              <div class="user-type-btn selected" data-type="Salaried" onclick="selectOnboardProfession('Salaried')">
+                <i data-lucide="briefcase"></i><span>Salaried</span>
+              </div>
+              <div class="user-type-btn" data-type="Freelancer" onclick="selectOnboardProfession('Freelancer')">
+                <i data-lucide="laptop"></i><span>Freelancer</span>
+              </div>
+              <div class="user-type-btn" data-type="Business Owner" onclick="selectOnboardProfession('Business Owner')">
+                <i data-lucide="store"></i><span>Business Owner</span>
+              </div>
+              <div class="user-type-btn" data-type="Student" onclick="selectOnboardProfession('Student')">
+                <i data-lucide="graduation-cap"></i><span>Student</span>
+              </div>
+              <div class="user-type-btn" data-type="Others" onclick="selectOnboardProfession('Others')">
+                <i data-lucide="more-horizontal"></i><span>Others</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide down custom profession area -->
+          <div class="input-group" id="onboard-custom-prof-container" style="display:none; margin-top:1rem;">
+            <label for="onboard-custom-profession">Please Specify Your Profession</label>
+            <input type="text" id="onboard-custom-profession" class="input-field" placeholder="e.g. Homemaker, Retired, Consultant">
+          </div>
+
+          <!-- Income Input -->
+          <div class="input-group" style="margin-top: 1.25rem;">
+            <label for="onboard-income">Monthly Take-Home Income (₹)</label>
+            <div class="input-currency-wrapper">
+              <span class="currency-prefix">₹</span>
+              <input type="number" id="onboard-income" class="input-field has-prefix" placeholder="50,000" min="1000" required>
+            </div>
+          </div>
+
+          <!-- Budget splits override sliders -->
+          <div class="input-group" style="margin-top: 1.25rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label>Budget Allocation Splits</label>
+              <button type="button" class="btn-secondary" style="padding:0.25rem 0.5rem; font-size:0.7rem;" onclick="resetToDefaultSplits()">Reset to 50/30/20</button>
+            </div>
+            
+            <div class="split-slider-container">
+              <div class="slider-group">
+                <div class="slider-header" style="color: var(--color-needs)">
+                  <span class="split-title"><span class="split-dot split-needs-dot"></span> Needs (Essential)</span>
+                  <span id="label-needs">50%</span>
+                </div>
+                <input type="range" id="slider-needs" class="slider-input" min="0" max="100" value="50" oninput="updateSplitSliders('needs')">
+              </div>
+
+              <div class="slider-group">
+                <div class="slider-header" style="color: var(--color-wants)">
+                  <span class="split-title"><span class="split-dot split-wants-dot"></span> Wants (Lifestyle)</span>
+                  <span id="label-wants">30%</span>
+                </div>
+                <input type="range" id="slider-wants" class="slider-input" min="0" max="100" value="30" oninput="updateSplitSliders('wants')">
+              </div>
+
+              <div class="slider-group">
+                <div class="slider-header" style="color: var(--color-savings)">
+                  <span class="split-title"><span class="split-dot split-savings-dot"></span> Savings (Wealth)</span>
+                  <span id="label-savings">20%</span>
+                </div>
+                <input type="range" id="slider-savings" class="slider-input" min="0" max="100" value="20" oninput="updateSplitSliders('savings')">
+              </div>
+
+              <div class="split-validation">
+                <span>Total Allocation:</span>
+                <span id="split-total-badge" class="split-total-badge valid">100% (Valid)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Consent toggles -->
+          <div style="margin-top: 1.25rem; background: var(--bg-tertiary); padding: 1rem; border-radius:12px; border:1px solid var(--border-color);">
+            <label class="checkbox-group">
+              <input type="checkbox" id="onboard-perm-sms" checked>
+              <span>Auto-detect SMS receipts to categorize transactions</span>
+            </label>
+          </div>
+
+          <button type="submit" id="onboard-submit-1" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Continue to Integration <i data-lucide="arrow-right" style="width:16px;"></i></button>
+        </form>
+      </div>
+
+      <!-- STEP 2: Link Banking (Consent / File Upload / Manual) -->
+      <div id="onboard-step-2" class="onboard-step-pane">
+        <div style="display:flex; flex-direction:column; gap:1.25rem;">
+          <label style="text-align:center; display:block; font-weight:600;">Link Bank Statement Balance</label>
+          
+          <div class="card bank-link-card" onclick="startAAConsentFlow()">
+            <div class="bank-link-icon"><i data-lucide="shield-check" style="color:var(--color-success);"></i></div>
+            <div class="bank-link-desc">
+              <h4>Secure Account Aggregator (Recommended)</h4>
+              <p>Consent-driven linkage with HDFC, ICICI, SBI. Instant balance updates.</p>
+            </div>
+            <div class="bank-link-badge success">Auto</div>
+          </div>
+
+          <div class="card bank-link-card" onclick="triggerMockStatementUpload()">
+            <div class="bank-link-icon"><i data-lucide="file-up" style="color:var(--color-accent);"></i></div>
+            <div class="bank-link-desc">
+              <h4>Upload Bank Statement File</h4>
+              <p>Import monthly statement files in PDF or CSV format.</p>
+            </div>
+            <div class="bank-link-badge">PDF / CSV</div>
+          </div>
+
+          <div class="card bank-link-card" onclick="completeOnboardingFlow(false)">
+            <div class="bank-link-icon"><i data-lucide="keyboard" style="color:var(--text-secondary);"></i></div>
+            <div class="bank-link-desc">
+              <h4>Bypass Linking (Manual Entry)</h4>
+              <p>Log all deposits and expenses manually at your own convenience.</p>
+            </div>
+            <div class="bank-link-badge">Skip</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:1rem; margin-top: 2rem;">
+          <button class="btn btn-secondary" style="flex:1;" onclick="goToOnboardStep(1)"><i data-lucide="arrow-left" style="width:16px;"></i> Back</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== FLOW 2: BANK ACCESS / AA SIMULATOR DIALOG ==================== -->
+  <div id="modal-aa-sim" class="modal-overlay">
+    <div class="modal-card" style="max-width:440px;">
+      <div class="modal-header">
+        <h3 style="display:flex; align-items:center; gap:0.5rem;"><i data-lucide="landmark" style="color:var(--color-accent)"></i> Account Aggregator</h3>
+        <button class="btn-icon" onclick="closeAAModal()"><i data-lucide="x"></i></button>
+      </div>
+      
+      <div id="aa-view-phone">
+        <p style="font-size:0.875rem; color:var(--text-secondary); line-height:1.5;">
+          Enter mobile number linked with your bank accounts.
+        </p>
+        <div class="input-group" style="margin-top:1rem;">
+          <label>Mobile Number</label>
+          <input type="tel" id="aa-phone" class="input-field" placeholder="98765 43210" maxlength="10">
+        </div>
+        <button class="btn btn-primary" style="width:100%; margin-top:1.5rem;" onclick="sendAAOtp()">Send Consent OTP</button>
+      </div>
+
+      <div id="aa-view-otp" style="display:none;">
+        <p style="font-size:0.875rem; color:var(--text-secondary); line-height:1.5;">
+          Enter the 6-digit OTP code received.
+        </p>
+        <div class="input-group" style="margin-top:1rem;">
+          <label>One-Time Password (OTP)</label>
+          <input type="text" id="aa-otp" class="input-field" placeholder="123456" maxlength="6" style="letter-spacing:0.5em; text-align:center; font-weight:700;">
+        </div>
+        <button class="btn btn-primary" style="width:100%; margin-top:1.5rem;" onclick="confirmAAOtp()">Verify and Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FLOW 2: SIMULATED BANK SMS TOAST POP-UP ==================== -->
+  <div id="phone-sms-toast" class="sms-toast" style="display:none;">
+    <div class="sms-toast-header">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <i data-lucide="message-square" style="width:14px; height:14px; color:var(--color-accent);"></i>
+        <span>Bank SMS Alert</span>
+      </div>
+      <button class="sms-close" onclick="closeSMSToast()"><i data-lucide="x" style="width:12px; height:12px;"></i></button>
+    </div>
+    <div class="sms-toast-body">
+      <p id="sms-text">HDFC Bank: DR ₹1,200 at Swiggy on 10-Jun-26. Avail Bal: ₹32,040.</p>
+      <div class="sms-actions">
+        <button class="btn btn-primary btn-sms" onclick="openQuickCategorize()">Categorize</button>
+        <button class="btn btn-secondary btn-sms" onclick="closeSMSToast()">Ignore</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== QUICK CATEGORIZE DIALOG ==================== -->
+  <div id="modal-quick-categorize" class="modal-overlay">
+    <div class="modal-card" style="max-width:400px;">
+      <div class="modal-header">
+        <h3>Auto-Categorize Transaction</h3>
+        <button class="btn-icon" onclick="closeQuickCategorize()"><i data-lucide="x"></i></button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:1rem;">
+        <p style="font-size:0.9rem; color:var(--text-secondary);">
+          We parsed a debit transaction of <strong id="quick-cat-amount" style="color:var(--text-primary);">₹0</strong> at <span id="quick-cat-merchant" style="font-weight:700;">Merchant</span>. Assign it to a budget.
+        </p>
+
+        <!-- Selected Account details -->
+        <div class="input-group">
+          <label>Allocate To Bucket</label>
+          <div style="display:flex; gap:0.5rem; margin-top:0.25rem;">
+            <button class="btn btn-secondary filter-btn-active" id="btn-quick-needs" onclick="setQuickCatBucket('Needs')">Needs</button>
+            <button class="btn btn-secondary" id="btn-quick-wants" onclick="setQuickCatBucket('Wants')">Wants</button>
+            <button class="btn btn-secondary" id="btn-quick-savings" onclick="setQuickCatBucket('Savings')">Savings</button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="quick-cat-select">Category</label>
+          <select id="quick-cat-select" class="input-field" onchange="toggleQuickCustomCategoryInput()"></select>
+        </div>
+
+        <!-- Dynamic Category Specifier -->
+        <div class="input-group" id="quick-custom-cat-group" style="display:none;">
+          <label for="quick-custom-cat-name">Specify Category Name</label>
+          <input type="text" id="quick-custom-cat-name" class="input-field" placeholder="e.g. Dog Vet, Concert Ticket">
+        </div>
+
+        <div class="input-group">
+          <label for="quick-cat-note">Note / Label</label>
+          <input type="text" id="quick-cat-note" class="input-field">
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;" onclick="saveQuickCategorizedTxn()">Allocate Transaction</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN HEADER / FLOATING TOP NAVIGATION BAR ==================== -->
+  <div id="app-container" style="display:none;">
+    
+    <!-- SIDEBAR NAVIGATION (Desktop left aside, Mobile overlay drawer) -->
+    <aside id="app-sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-section">
+          <div class="brand-icon">MW</div>
+          <h2>MoneyWise</h2>
+        </div>
+        <button class="btn-icon mobile-close-btn" onclick="toggleSidebar(false)"><i data-lucide="x"></i></button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="sidebar-link active" id="nav-dashboard" onclick="switchTab('dashboard')">
+          <i data-lucide="layout-dashboard"></i><span>Dashboard</span>
+        </a>
+        <a class="sidebar-link" id="nav-expenses" onclick="switchTab('expenses')">
+          <i data-lucide="receipt"></i><span>Transactions</span>
+        </a>
+        <a class="sidebar-link" id="nav-subscriptions" onclick="switchTab('subscriptions')">
+          <i data-lucide="calendar-range"></i><span>Subscriptions</span>
+        </a>
+        <a class="sidebar-link" id="nav-goals" onclick="switchTab('goals')">
+          <i data-lucide="target"></i><span>Savings Goals</span>
+        </a>
+        <a class="sidebar-link" id="nav-investments" onclick="switchTab('investments')">
+          <i data-lucide="trending-up"></i><span>Investments</span>
+        </a>
+        <a class="sidebar-link" id="nav-insights" onclick="switchTab('insights')">
+          <i data-lucide="pie-chart"></i><span>Spend Analytics</span>
+        </a>
+        <a class="sidebar-link" id="nav-report" onclick="switchTab('report')">
+          <i data-lucide="award"></i><span>Monthly Audit</span>
+        </a>
+        <a class="sidebar-link" id="nav-settings" onclick="switchTab('settings')">
+          <i data-lucide="settings"></i><span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar-circle" id="sidebar-avatar-initials">MW</div>
+          <div class="user-info-text">
+            <span class="user-display-name" id="sidebar-user-name">Guest User</span>
+            <span class="user-display-profession" id="sidebar-user-profession">Consultant</span>
+          </div>
+        </div>
+        <div class="footer-actions">
+          <button class="btn-icon" onclick="toggleTheme()" title="Toggle Theme">
+            <i data-lucide="sun" id="theme-toggle-icon-sidebar"></i>
+          </button>
+          <button class="btn-icon" onclick="handleLogout()" title="Logout">
+            <i data-lucide="log-out"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MOBILE TOP HEADER -->
+    <header class="mobile-top-header">
+      <button class="btn-icon hamburger-menu-btn" onclick="toggleSidebar(true)"><i data-lucide="menu"></i></button>
+      <div class="mobile-brand">
+        <div class="brand-icon">MW</div>
+        <h2>MoneyWise</h2>
+      </div>
+      <div class="mobile-profile-actions">
+        <button class="btn-icon notification-bell-btn" onclick="showToast('No new notifications', 'info')"><i data-lucide="bell"></i></button>
+        <div class="mobile-avatar-circle" onclick="switchTab('settings')" id="mobile-avatar-initials">MW</div>
+      </div>
+    </header>
+
+    <!-- MOBILE BOTTOM TAB BAR -->
+    <div class="mobile-nav-bar">
+      <a class="mobile-nav-item active" id="mob-nav-dashboard" onclick="switchTab('dashboard')">
+        <i data-lucide="layout-dashboard"></i><span>Dashboard</span>
+      </a>
+      <a class="mobile-nav-item" id="mob-nav-expenses" onclick="switchTab('expenses')">
+        <i data-lucide="receipt"></i><span>Ledger</span>
+      </a>
+      <a class="mobile-nav-item" id="mob-nav-investments" onclick="switchTab('investments')">
+        <i data-lucide="trending-up"></i><span>Assets</span>
+      </a>
+      <a class="mobile-nav-item" id="mob-nav-settings" onclick="switchTab('settings')">
+        <i data-lucide="settings"></i><span>Settings</span>
+      </a>
+    </div>
+
+    <!-- MAIN VIEWPORT CONTAINER -->
+    <main>
+      
+      <!-- SUB-TITLE BAR -->
+      <div class="viewport-sub-header">
+        <div>
+          <h2 id="tab-title-text" style="font-size:1.75rem;">Financial Dashboard</h2>
+          <p id="current-date-text" style="color:var(--text-secondary); font-size:0.9rem; margin-top:0.2rem;">Wednesday, 10 June 2026</p>
+        </div>
+      </div>
+
+      <!-- ACTIVE ALERTS SYSTEM DECK -->
+      <div id="alerts-banner-container"></div>
+
+      <!-- ==================== TAB 1: DASHBOARD ==================== -->
+      <div id="tab-dashboard" class="tab-content active">
+        
+        <!-- Premium Balance & Metrics Layout -->
+        <div class="dashboard-top-grid">
+          <!-- Grand Balance Card (Aligned with Image UI) -->
+          <div class="card grand-balance-card">
+            <div class="balance-card-header">
+              <span>Available Balance</span>
+              <i data-lucide="eye" style="width:16px; opacity:0.85;"></i>
+            </div>
+            <h1 class="balance-amount" id="dash-remaining-balance">₹0</h1>
+            <p class="account-number">Account no: ••• ••• 3569</p>
+            <div class="balance-actions">
+              <button class="btn balance-btn" style="width: 100%;" onclick="openAddGoalModal()"><i data-lucide="plus" style="width:14px;"></i> Add Money</button>
+            </div>
+          </div>
+
+          <!-- Metrics side card panel -->
+          <div class="metrics-side-grid">
+            <div class="card metric-card metric-income">
+              <span class="metric-label">Total Saved</span>
+              <span class="metric-value" id="dash-total-saved">₹0</span>
+              <span class="metric-subtext" id="dash-saved-percent">0% of income saved</span>
+            </div>
+            <div class="card metric-card metric-spent">
+              <span class="metric-label">Total Spent</span>
+              <span class="metric-value" id="dash-total-spent">₹0</span>
+              <span class="metric-subtext" id="dash-spent-percent">0% of income spent</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions Grid (Aligned with Image Quick Actions) -->
+        <div class="quick-actions-section">
+          <h3>Quick Actions</h3>
+          <div class="quick-actions-grid">
+            <div class="quick-action-card" onclick="openExpenseModal()">
+              <div class="quick-action-icon" style="background: rgba(99, 102, 241, 0.1); color: var(--color-accent);"><i data-lucide="plus"></i></div>
+              <span>Log Spend</span>
+            </div>
+            <div class="quick-action-card" onclick="openAddSubModal()">
+              <div class="quick-action-icon" style="background: rgba(244, 63, 94, 0.1); color: var(--color-wants);"><i data-lucide="receipt"></i></div>
+              <span>Add Bill</span>
+            </div>
+            <div class="quick-action-card" onclick="openAddGoalModal()">
+              <div class="quick-action-icon" style="background: rgba(6, 182, 212, 0.1); color: var(--color-savings);"><i data-lucide="piggy-bank"></i></div>
+              <span>Add Goal</span>
+            </div>
+            <div class="quick-action-card" onclick="switchTab('investments')">
+              <div class="quick-action-icon" style="background: rgba(249, 115, 22, 0.1); color: var(--color-investments);"><i data-lucide="credit-card"></i></div>
+              <span>Assets</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Allocation Progress Section -->
+        <h2 style="font-size:1.4rem; margin-top:0.5rem;">Allocation Progress</h2>
+        <div class="buckets-grid">
+          
+          <!-- Needs Bucket Card -->
+          <div class="card bucket-card bucket-needs">
+            <div class="bucket-header">
+              <div class="bucket-title-group">
+                <h3>Needs</h3>
+                <span>Essentials, Rent, EMIs, Groceries</span>
+              </div>
+              <span class="bucket-percentage-pill" id="badge-needs-pct">50% Allocated</span>
+            </div>
+            <div class="bucket-progress-wrapper">
+              <div class="progress-track">
+                <div id="progress-bar-needs" class="progress-bar"></div>
+              </div>
+              <div class="bucket-details">
+                <span class="bucket-spent" id="spent-needs">₹0 spent</span>
+                <span class="bucket-remaining" id="remaining-needs">₹0 left</span>
+              </div>
+            </div>
+            <div class="daily-recomm-text" id="recomm-needs">
+              <i data-lucide="info" style="width:12px; height:12px;"></i>
+              <span>Daily recommended allowance: ₹0/day</span>
+            </div>
+          </div>
+
+          <!-- Wants Bucket Card -->
+          <div class="card bucket-card bucket-wants">
+            <div class="bucket-header">
+              <div class="bucket-title-group">
+                <h3>Wants</h3>
+                <span>Dining, Swiggy, Shopping, OTT</span>
+              </div>
+              <span class="bucket-percentage-pill" id="badge-wants-pct">30% Allocated</span>
+            </div>
+            <div class="bucket-progress-wrapper">
+              <div class="progress-track">
+                <div id="progress-bar-wants" class="progress-bar"></div>
+              </div>
+              <div class="bucket-details">
+                <span class="bucket-spent" id="spent-wants">₹0 spent</span>
+                <span class="bucket-remaining" id="remaining-wants">₹0 left</span>
+              </div>
+            </div>
+            <div class="daily-recomm-text" id="recomm-wants">
+              <i data-lucide="info" style="width:12px; height:12px;"></i>
+              <span>Daily recommended allowance: ₹0/day</span>
+            </div>
+          </div>
+
+          <!-- Savings Bucket Card -->
+          <div class="card bucket-card bucket-savings">
+            <div class="bucket-header">
+              <div class="bucket-title-group">
+                <h3>Savings</h3>
+                <span>SIP, Investments, Goals</span>
+              </div>
+              <span class="bucket-percentage-pill" id="badge-savings-pct">20% Allocated</span>
+            </div>
+            <div class="bucket-progress-wrapper">
+              <div class="progress-track">
+                <div id="progress-bar-savings" class="progress-bar"></div>
+              </div>
+              <div class="bucket-details">
+                <span class="bucket-spent" id="spent-savings">₹0 saved</span>
+                <span class="bucket-remaining" id="remaining-savings">₹0 left</span>
+              </div>
+            </div>
+            <div class="daily-recomm-text" id="recomm-savings">
+              <i data-lucide="info" style="width:12px; height:12px;"></i>
+              <span>Savings targets linked & compounding</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Advisor Card & Recent Transactions list -->
+        <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:1.5rem; margin-top:0.5rem;">
+          <div class="card" style="display:flex; flex-direction:column; gap:1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+              <h3>Recent Transactions</h3>
+              <button class="btn-secondary" style="padding:0.4rem 0.8rem; font-size:0.8rem;" onclick="switchTab('expenses')">View All</button>
+            </div>
+            <div class="recent-transactions-list" id="dash-recent-list">
+              <!-- Dynamically populated in app.js -->
+            </div>
+          </div>
+
+          <div class="card" style="display:flex; flex-direction:column; gap:1.25rem; justify-content: center;">
+            <h3 style="display:flex; align-items:center; gap:0.5rem;"><i data-lucide="heart-pulse" style="color:var(--color-needs)"></i> 50/30/20 Advisor</h3>
+            <p id="dash-status-paragraph" style="font-size:0.9rem; line-height:1.5; color:var(--text-secondary);"></p>
+            <div style="border-top:1px solid var(--border-color); padding-top:1rem; display:flex; gap:1rem;">
+              <div style="flex:1;">
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600; display:block;">Active Goals</span>
+                <span style="font-size:1.25rem; font-weight:800; color:var(--color-savings);" id="dash-active-goals-count">0 Goals</span>
+              </div>
+              <div style="flex:1;">
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600; display:block;">Subscription Drain</span>
+                <span style="font-size:1.25rem; font-weight:800; color:var(--color-wants);" id="dash-sub-drain-cost">₹0/mo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 2: TRANSACTIONS / EXPENSES ==================== -->
+      <div id="tab-expenses" class="tab-content">
+        <div class="card ledger-panel" style="min-height:550px;">
+          <div class="ledger-header">
+            <div>
+              <h3>Ledger Database</h3>
+              <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:0.25rem;">Manage transaction items, edit records, and map category labels.</p>
+            </div>
+            
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <button class="btn btn-primary" onclick="openExpenseModal()"><i data-lucide="plus" style="width:16px;"></i> Log Transaction</button>
+              
+              <select id="filter-bucket" class="select-filter" onchange="renderExpenses()">
+                <option value="all">All Buckets</option>
+                <option value="Needs">Needs</option>
+                <option value="Wants">Wants</option>
+                <option value="Savings">Savings</option>
+              </select>
+
+              <select id="filter-subcategory" class="select-filter" onchange="renderExpenses()">
+                <option value="all">All Categories</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-wrapper" style="margin-top:0.5rem;">
+            <table id="expenses-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Bucket</th>
+                  <th>Category</th>
+                  <th>Note</th>
+                  <th>Amount</th>
+                  <th style="width: 100px; text-align:center;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="expenses-table-body"></tbody>
+            </table>
+          </div>
+
+          <div id="expenses-empty-state" class="empty-state" style="display:none;">
+            <i data-lucide="receipt-text"></i>
+            <h4>No personal expenses logged yet</h4>
+            <p>Click "Log Transaction" above to start tracking your spend.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 3: SUBSCRIPTIONS ==================== -->
+      <div id="tab-subscriptions" class="tab-content">
+        <div class="subscription-stats">
+          <div class="card metric-card" style="border-top: 3px solid var(--color-wants);">
+            <span class="metric-label">Monthly Subscription Drain</span>
+            <span class="metric-value" id="sub-stat-total" style="color: var(--color-wants);">₹0/mo</span>
+            <span class="metric-subtext" id="sub-stat-percentage">0% of Wants budget</span>
+          </div>
+          <div class="card metric-card" style="border-top: 3px solid var(--color-warning);">
+            <span class="metric-label">Forgotten Subscriptions</span>
+            <span class="metric-value" id="sub-stat-forgotten" style="color: var(--color-warning);">0</span>
+            <span class="metric-subtext">Unused for more than 30 days</span>
+          </div>
+          <div class="card metric-card" style="border-top: 3px solid var(--color-accent);">
+            <span class="metric-label">Next Renewal Due</span>
+            <span class="metric-value" id="sub-stat-renewal" style="font-size:1.5rem; padding-top:0.35rem; color: var(--color-accent);">None</span>
+            <span class="metric-subtext" id="sub-stat-renewal-countdown">No active bills</span>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
+          <h3>Active Subscriptions</h3>
+          <button class="btn btn-primary" onclick="openAddSubModal()">
+            <i data-lucide="plus" style="width:16px;"></i> Track Subscription
+          </button>
+        </div>
+
+        <div class="subscription-grid" id="subscriptions-container"></div>
+        <div id="subscriptions-empty-state" class="empty-state" style="display:none; width: 100%;">
+          <i data-lucide="calendar-heart"></i>
+          <h4>No active subscriptions tracked</h4>
+          <p>Add streaming, SaaS, or utilities to monitor monthly recurring drains.</p>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 4: SAVINGS GOALS ==================== -->
+      <div id="tab-goals" class="tab-content">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <h3>Goal Progress Targets</h3>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top:0.25rem;">
+              Linked to your <span style="color: var(--color-savings); font-weight:700;">Savings Bucket</span>. Estimated dates assume default monthly SIP rates.
+            </p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddGoalModal()">
+            <i data-lucide="plus" style="width:16px;"></i> Create Savings Goal
+          </button>
+        </div>
+
+        <div class="goals-grid" id="goals-container"></div>
+        <div id="goals-empty-state" class="empty-state" style="display:none; width: 100%;">
+          <i data-lucide="compass"></i>
+          <h4>No savings goals established yet</h4>
+          <p>Map your 20% savings budget to specific objectives (e.g. Emergency Fund, Travel, Gadgets).</p>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 5: INVESTMENTS MANAGEMENT ==================== -->
+      <div id="tab-investments" class="tab-content">
+        
+        <!-- Investment Metrics (CAGR Growth) -->
+        <div class="metrics-grid">
+          <div class="card metric-card metric-saved" style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.16) 0%, rgba(139, 92, 246, 0.16) 100%); border-color: rgba(249, 115, 22, 0.22);">
+            <span class="metric-label">Total Investment Assets</span>
+            <span class="metric-value" style="color:var(--color-warning);" id="inv-total-portfolio">₹0</span>
+            <span class="metric-subtext">Total active holdings valuation</span>
+          </div>
+          <div class="card metric-card metric-income">
+            <span class="metric-label">Monthly SIP Investing Rate</span>
+            <span class="metric-value" id="inv-monthly-rate">₹0/mo</span>
+            <span class="metric-subtext" id="inv-rate-percentage">0% of total income invested</span>
+          </div>
+          <div class="card metric-card metric-spent" style="background: var(--bg-card); border-left:4px solid var(--color-warning);">
+            <span class="metric-label">Projected Net Worth (5 Years)</span>
+            <span class="metric-value" id="inv-projection-5yr" style="color: var(--text-primary);">₹0</span>
+            <span class="metric-subtext" id="inv-projection-sub">Simulating standard 12% CAGR</span>
+          </div>
+        </div>
+
+        <!-- Asset Allocation charts & compound advisor -->
+        <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:1.5rem;">
+          
+          <!-- Allocation Pie -->
+          <div class="card chart-card">
+            <h3>Investment Allocation</h3>
+            <p style="color:var(--text-secondary); font-size:0.8rem; margin-bottom:0.75rem;">Holding distribution categorized by asset types.</p>
+            <div class="chart-container">
+              <canvas id="chart-investment-alloc"></canvas>
+            </div>
+          </div>
+
+          <!-- Compound Interest Advisor Card -->
+          <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; gap:1rem;">
+            <div>
+              <div style="display:flex; align-items:center; gap:0.5rem; color:var(--color-warning);">
+                <i data-lucide="trending-up"></i>
+                <h3 style="font-size:1.2rem;">CAGR Compound Advisor</h3>
+              </div>
+              <p style="font-size:0.9rem; line-height:1.5; color:var(--text-secondary); margin-top:0.75rem;">
+                Compound interest is the 8th wonder of the world. By consistently maintaining your monthly investment rate of <strong id="cagr-monthly-contrib" style="color:var(--text-primary);">₹0</strong>, you will accumulate:
+              </p>
+              
+              <div style="display:flex; flex-direction:column; gap:0.75rem; margin-top:1.25rem;">
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:0.5rem;">
+                  <span>Valuation in 5 Years (12% CAGR):</span>
+                  <strong id="cagr-5yr" style="color:var(--color-success);">₹0</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:0.5rem;">
+                  <span>Valuation in 10 Years (12% CAGR):</span>
+                  <strong id="cagr-10yr" style="color:var(--color-success);">₹0</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                  <span>Estimated Total Capital Invested:</span>
+                  <strong id="cagr-total-principal">₹0</strong>
+                </div>
+              </div>
+            </div>
+            
+            <div style="background:rgba(59, 130, 246, 0.05); border:1px dashed rgba(59,130,246,0.2); padding:0.85rem; border-radius:10px; font-size:0.75rem; color:var(--text-secondary); line-height:1.4;">
+              💡 <strong>Asset Allocation Advice:</strong> Based on your profile, consider maintaining a healthy split of 60% Equity (Mutual Funds/Stocks) and 40% Debt (Fixed Deposits, PPF, Gold) for balanced risk hedging.
+            </div>
+          </div>
+        </div>
+
+        <!-- Investment Ledger list -->
+        <div class="card">
+          <h3>Asset Portfolio Holdings</h3>
+          <div class="table-wrapper" style="margin-top:1rem;">
+            <table id="investments-table">
+              <thead>
+                <tr>
+                  <th>Asset Name</th>
+                  <th>Asset Type</th>
+                  <th>Amount Invested</th>
+                  <th>Last Transaction</th>
+                  <th style="width: 100px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="investments-table-body">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+          
+          <div id="investments-empty" class="empty-state" style="display:none;">
+            <i data-lucide="line-chart"></i>
+            <h4>No investment assets registered</h4>
+            <p>Log a transaction under "Savings" and tick "Mark as Investment Asset" to track portfolio growth.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== TAB 6: INSIGHTS & ANALYTICS ==================== -->
+      <div id="tab-insights" class="tab-content">
+        
+        <!-- Premium widgets row -->
+        <!-- Zomato Swiggy widget -->
+        <div class="card widget-food" style="display:flex; flex-direction:column; justify-content:space-between; margin-bottom: 1.25rem;">
+          <div>
+            <div style="display:flex; align-items:center; gap:0.75rem;">
+              <i data-lucide="chef-hat" style="font-size:1.5rem;"></i>
+              <h3>Zomato & Swiggy Aggregate Tracker</h3>
+            </div>
+            <p style="color: var(--text-secondary); font-size:0.85rem; margin-top:0.5rem;">
+              Looking at Swiggy and Zomato spending under the Wants bucket.
+            </p>
+            
+            <div class="food-details">
+              <div style="display:flex; justify-content:space-between; font-size:0.9rem; border-bottom:1px solid var(--border-color); padding:0.4rem 0;">
+                <span>Monthly Delivery Orders:</span>
+                <strong id="food-orders-count">0 orders</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:0.9rem; border-bottom:1px solid var(--border-color); padding:0.4rem 0;">
+                <span>Total Spent:</span>
+                <strong id="food-delivery-total">₹0</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:0.9rem; padding:0.4rem 0;">
+                <span>Average Cost per Meal:</span>
+                <strong id="food-avg-cost">₹0</strong>
+              </div>
+            </div>
+          </div>
+          <p id="food-insights-text" style="font-size:0.75rem; color:var(--text-muted); font-style:italic; border-top:1px solid var(--border-color); padding-top:0.75rem; margin-top:0.75rem;"></p>
+        </div>
+
+        <!-- Top 3 Categories highlights -->
+        <div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Top 3 Spending Categories</h3>
+          <div class="highlight-cards" id="top-categories-highlights"></div>
+        </div>
+
+        <!-- Double Column Chart canvases -->
+        <div class="insights-charts-grid">
+          <div class="card chart-card">
+            <h3>Actual vs Target Allocation</h3>
+            <div class="chart-container">
+              <canvas id="chart-allocation"></canvas>
+            </div>
+          </div>
+          
+          <div class="card chart-card">
+            <h3>Category Spending Details</h3>
+            <div class="chart-container">
+              <canvas id="chart-subcategories"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card chart-card" style="min-height: 280px;">
+          <h3>Month-over-Month Comparison</h3>
+          <div class="chart-container">
+            <canvas id="chart-mom"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 7: REPORT ==================== -->
+      <div id="tab-report" class="tab-content">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3>Monthly Wealth Audit</h3>
+          <button class="btn btn-primary" onclick="exportReportToPDF()"><i data-lucide="download" style="width:16px;"></i> Export PDF</button>
+        </div>
+
+        <div class="report-frame" id="monthly-report-frame">
+          <div class="report-header">
+            <div>
+              <h2 style="font-size:1.75rem; color:var(--text-primary); margin-bottom:0.25rem;">MoneyWise Personal Financial Statement</h2>
+              <p style="color:var(--text-secondary); font-size:0.9rem;" id="report-month-title">Audit Period: June 2026</p>
+            </div>
+            <div class="report-stamp" id="report-compliance-stamp">COMPLIANT</div>
+          </div>
+
+          <div class="report-summary-boxes">
+            <div class="report-box">
+              <div class="report-box-title">MONTHLY INCOME</div>
+              <div class="report-box-value" id="report-income">₹0</div>
+            </div>
+            <div class="report-box">
+              <div class="report-box-title">CONSUMED OUTFLOW (NEEDS+WANTS)</div>
+              <div class="report-box-value" id="report-spent" style="color: var(--color-wants);">₹0</div>
+            </div>
+            <div class="report-box">
+              <div class="report-box-title">SAVED CAPITAL (SAVINGS)</div>
+              <div class="report-box-value" id="report-saved" style="color: var(--color-needs);">₹0</div>
+            </div>
+          </div>
+
+          <div class="comparison-table-wrapper">
+            <h3>Allocation Split Compliance Analysis</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Budget Category</th>
+                    <th>Target Split</th>
+                    <th>Target Budget</th>
+                    <th>Actual Spent</th>
+                    <th>Actual Split %</th>
+                    <th>Variance Status</th>
+                  </tr>
+                </thead>
+                <tbody id="report-comparison-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:1.25rem;">
+            <h3>Strategic Wealth Recommendation</h3>
+            <div class="card" style="background:var(--bg-tertiary); border:1px solid var(--border-color); padding:1.25rem;">
+              <h4 style="margin-bottom:0.5rem; display:flex; align-items:center; gap:0.5rem;" id="report-rec-title">
+                <i data-lucide="award" style="color:var(--color-success)"></i> Compliance Score: 100/100
+              </h4>
+              <p id="report-rec-paragraph" style="font-size:0.9rem; line-height:1.5; color:var(--text-secondary);"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 8: SETTINGS ==================== -->
+      <div id="tab-settings" class="tab-content">
+        <div class="settings-grid">
+          
+          <div class="card settings-group-card">
+            <h3>Modify Budget Parameters</h3>
+            
+            <div class="input-group">
+              <label for="settings-income">Modify Net Monthly Income (₹)</label>
+              <div class="input-currency-wrapper">
+                <span class="currency-prefix">₹</span>
+                <input type="number" id="settings-income" class="input-field has-prefix" min="1000">
+              </div>
+            </div>
+
+            <!-- Manual Splits Slider Adjuster -->
+            <div class="input-group">
+              <label>Adjust Target Splits</label>
+              <div class="split-slider-container">
+                <div class="slider-group">
+                  <div class="slider-header" style="color: var(--color-needs)"><span>Needs Split</span><span id="label-settings-needs">50%</span></div>
+                  <input type="range" id="slider-settings-needs" class="slider-input" min="0" max="100" value="50" oninput="updateSettingsSliders('needs')">
+                </div>
+                <div class="slider-group">
+                  <div class="slider-header" style="color: var(--color-wants)"><span>Wants Split</span><span id="label-settings-wants">30%</span></div>
+                  <input type="range" id="slider-settings-wants" class="slider-input" min="0" max="100" value="30" oninput="updateSettingsSliders('wants')">
+                </div>
+                <div class="slider-group">
+                  <div class="slider-header" style="color: var(--color-savings)"><span>Savings Split</span><span id="label-settings-savings">20%</span></div>
+                  <input type="range" id="slider-settings-savings" class="slider-input" min="0" max="100" value="20" oninput="updateSettingsSliders('savings')">
+                </div>
+                <div class="split-validation">
+                  <span>Total Split:</span><span id="settings-split-total" class="split-total-badge valid">100% (Valid)</span>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveSettingsSplits()">Save Split Allocations</button>
+          </div>
+
+          <div class="card settings-group-card">
+            <h3>Notifications & Database Controls</h3>
+            
+            <div class="settings-option">
+              <div class="settings-option-text">
+                <h4>Mid-Month Overspend Alert</h4>
+                <p>Nudges you if Needs or Wants exceed limits mid-month.</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="pref-alert-overspend" checked onchange="saveNotificationPreferences()"><span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <div class="settings-option">
+              <div class="settings-option-text">
+                <h4>Subscription Reminders</h4>
+                <p>Alerts before renewal dates (3 days prior).</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="pref-alert-renewal" checked onchange="saveNotificationPreferences()"><span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <div class="settings-option">
+              <div class="settings-option-text">
+                <h4>Bank SMS Auto-read</h4>
+                <p>Simulates reading incoming notifications to trigger parser.</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="settings-pref-sms" checked onchange="toggleSMSAutoRead()"><span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <h3 style="margin-top:0.5rem; color:var(--color-danger)">System Developer Controls</h3>
+            
+            <div class="settings-option">
+              <div class="settings-option-text">
+                <h4>Simulate Transaction SMS Receipt</h4>
+                <p>Receive a mock bank debit alert (e.g. ₹1,200 Swiggy) to trigger parsing wizard.</p>
+              </div>
+              <button class="btn btn-secondary" style="background:rgba(59,130,246,0.1); border-color:rgba(59,130,246,0.2); color:var(--color-accent);" onclick="triggerMockSMS()">
+                Send SMS
+              </button>
+            </div>
+
+            <div class="settings-option">
+              <div class="settings-option-text">
+                <h4>Inject Sandbox Preview Datasets</h4>
+                <p>Pre-populate your database with mock personal expenses and investment logs.</p>
+              </div>
+              <button class="btn btn-secondary" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.2); color:var(--color-success);" onclick="injectMockData()">
+                Inject Data
+              </button>
+            </div>
+
+            <div class="settings-option">
+              <div class="settings-option-text" style="color:var(--color-danger);">
+                <h4>Database Reset</h4>
+                <p>Permanently delete all registered transactions, goals, and history.</p>
+              </div>
+              <button class="btn btn-danger" onclick="triggerLedgerReset()">
+                Clear All Data
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ==================== DIALOGS & OVERLAY MODALS ==================== -->
+
+  <!-- Add/Edit Expense Dialog Modal -->
+  <div id="modal-expense" class="modal-overlay">
+    <div class="modal-card" style="max-width:480px;">
+      <div class="modal-header">
+        <h3 id="expense-modal-title">Log Transaction</h3>
+        <button class="btn-icon" onclick="closeExpenseModal()"><i data-lucide="x"></i></button>
+      </div>
+
+      <form id="expense-form" class="form-panel" onsubmit="handleExpenseSubmit(event)">
+        <input type="hidden" id="expense-id-field" value="">
+        
+        <div class="input-group">
+          <label for="expense-amount">Amount (₹)</label>
+          <div class="input-currency-wrapper">
+            <span class="currency-prefix">₹</span>
+            <input type="number" id="expense-amount" class="input-field has-prefix" min="1" placeholder="500" required>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="expense-bucket">Budget Bucket</label>
+          <select id="expense-bucket" class="input-field" onchange="updateSubcategoriesSelect()" required>
+            <option value="Needs">Needs (Essential Expenses)</option>
+            <option value="Wants" selected>Wants (Lifestyle Expenses)</option>
+            <option value="Savings">Savings (Assets & Future)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="expense-category">Subcategory</label>
+          <select id="expense-category" class="input-field" onchange="toggleCustomCategoryInput()" required></select>
+        </div>
+
+        <!-- Custom category text input (toggled when subcategory has "Other") -->
+        <div class="input-group" id="custom-category-group" style="display:none;">
+          <label for="expense-custom-category">Specify Custom Category Name</label>
+          <input type="text" id="expense-custom-category" class="input-field" placeholder="e.g. Dog Vet, Concert Tickets">
+        </div>
+
+        <!-- Asset selection fields (displayed when bucket is "Savings") -->
+        <div id="investment-fields-container" style="display:none; background:var(--bg-tertiary); padding:1rem; border-radius:12px; border:1px solid var(--border-color); flex-direction:column; gap:0.75rem;">
+          <label class="checkbox-group">
+            <input type="checkbox" id="expense-is-investment" onchange="toggleAssetTypeSelect()" checked>
+            <span>Mark as Investment Asset Holding</span>
+          </label>
+          
+          <div class="input-group" id="asset-type-group">
+            <label for="expense-asset-type">Asset Type / Class</label>
+            <select id="expense-asset-type" class="input-field">
+              <option value="Mutual Funds">Mutual Funds (Equity)</option>
+              <option value="Stocks">Direct Stocks (Equity)</option>
+              <option value="Fixed Deposits">Fixed Deposits (Debt)</option>
+              <option value="Gold">Digital/Physical Gold</option>
+              <option value="PPF">PPF / Retirement Savings</option>
+              <option value="Cryptocurrencies">Cryptocurrencies</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="expense-date">Date</label>
+          <input type="date" id="expense-date" class="input-field" required>
+        </div>
+
+        <div class="input-group">
+          <label for="expense-note">Description Note</label>
+          <input type="text" id="expense-note" class="input-field" placeholder="Vendor details, specific labels...">
+        </div>
+
+        <label class="checkbox-group">
+          <input type="checkbox" id="expense-recurring">
+          <span>Mark as Recurring Monthly Expense</span>
+        </label>
+
+        <div class="modal-actions" style="margin-top:0.75rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeExpenseModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="expense-submit-btn">Save Entry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add/Edit Subscription Modal -->
+  <div id="modal-subscription" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Track Subscription Drain</h3>
+        <button class="btn-icon" onclick="closeAddSubModal()"><i data-lucide="x"></i></button>
+      </div>
+
+      <form id="subscription-form" onsubmit="handleSubSubmit(event)">
+        <div class="input-group">
+          <label for="sub-name">Subscription Service Name</label>
+          <select id="sub-name" class="input-field" onchange="checkCustomSub()" required>
+            <option value="Netflix">Netflix</option>
+            <option value="Prime Video">Amazon Prime Video</option>
+            <option value="Hotstar">Disney+ Hotstar</option>
+            <option value="Spotify">Spotify</option>
+            <option value="Zee5">Zee5</option>
+            <option value="custom">Other / Custom Service</option>
+          </select>
+        </div>
+
+        <div class="input-group" id="custom-sub-name-group" style="display:none; margin-top: 1rem;">
+          <label for="sub-custom-name">Custom Service Name</label>
+          <input type="text" id="sub-custom-name" class="input-field" placeholder="YouTube Premium">
+        </div>
+
+        <div class="input-group" style="margin-top: 1rem;">
+          <label for="sub-cost">Monthly Billing Cost (₹)</label>
+          <div class="input-currency-wrapper">
+            <span class="currency-prefix">₹</span>
+            <input type="number" id="sub-cost" class="input-field has-prefix" min="1" placeholder="199" required>
+          </div>
+        </div>
+
+        <div class="input-group" style="margin-top: 1rem;">
+          <label for="sub-billing-date">Monthly Billing Day (1 - 31)</label>
+          <input type="number" id="sub-billing-date" class="input-field" min="1" max="31" placeholder="5" required>
+        </div>
+
+        <div class="input-group" style="margin-top: 1rem;">
+          <label for="sub-last-used">Last Day Used / Accessed</label>
+          <input type="date" id="sub-last-used" class="input-field" required>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeAddSubModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Track Subscription</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add/Edit Savings Goal Modal -->
+  <div id="modal-goal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Create Named Savings Goal</h3>
+        <button class="btn-icon" onclick="closeAddGoalModal()"><i data-lucide="x"></i></button>
+      </div>
+
+      <form id="goal-form" onsubmit="handleGoalSubmit(event)">
+        <div class="input-group">
+          <label for="goal-name">Savings Objective / Goal Name</label>
+          <input type="text" id="goal-name" class="input-field" placeholder="Emergency Fund, Trip..." required>
+        </div>
+
+        <div class="input-group" style="margin-top: 1rem;">
+          <label for="goal-target">Target Savings Amount (₹)</label>
+          <div class="input-currency-wrapper">
+            <span class="currency-prefix">₹</span>
+            <input type="number" id="goal-target" class="input-field has-prefix" min="100" placeholder="50,000" required>
+          </div>
+        </div>
+
+        <div class="input-group" style="margin-top: 1rem;">
+          <label for="goal-split-pct">Linked Savings Allocation Percentage</label>
+          <input type="number" id="goal-split-pct" class="input-field" min="1" max="100" placeholder="50" required>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.25rem;">
+            The portion of your monthly savings bucket linked to this goal.
+          </p>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeAddGoalModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Goal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Simulated Statement Upload dialog helper -->
+  <div id="modal-statement-upload" class="modal-overlay">
+    <div class="modal-card" style="max-width:400px;">
+      <div class="modal-header">
+        <h3>Link Bank Statement File</h3>
+        <button class="btn-icon" onclick="closeStatementModal()"><i data-lucide="x"></i></button>
+      </div>
+      <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.5;">
+        Upload statement files in PDF or CSV format.
+      </p>
+      
+      <div style="border:2px dashed var(--border-color); padding:2rem; border-radius:12px; text-align:center; cursor:pointer; margin-top:1rem;" onclick="document.getElementById('statement-file-input').click()">
+        <i data-lucide="upload-cloud" style="width:36px; height:36px; color:var(--color-accent); margin-bottom:0.5rem;"></i>
+        <h4 style="font-size:0.875rem;">Click to browse files</h4>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.25rem;">PDF, CSV, or XLS. Max size 5MB.</p>
+        <input type="file" id="statement-file-input" style="display:none;" onchange="handleStatementFileChosen(event)">
+      </div>
+    </div>
+  </div>
+
+  <!-- Float notification stack -->
+  <div id="toast-container"></div>
+
+  <script type="module" src="firebase.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
