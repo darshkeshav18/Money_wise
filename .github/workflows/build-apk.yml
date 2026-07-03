@@ -1,0 +1,53 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Set Execute Permission for Gradle Wrapper
+      run: |
+        cd android
+        # Generate wrapper scripts if not present
+        if [ ! -f gradlew ]; then
+          npm install -g gradle || true # fallback
+          gradle wrapper || android update project || true
+        fi
+        # If gradle command wasn't found, try standard wrapper generation or fall back
+        if [ ! -f gradlew ]; then
+          echo "Generating wrapper using fallback"
+          jar -cvf dummy.jar .
+        fi
+        chmod +x gradlew || true
+
+    - name: Build Debug APK
+      run: |
+        cd android
+        # Use gradle directly if wrapper is missing
+        if [ -f gradlew ]; then
+          ./gradlew assembleDebug
+        else
+          gradle assembleDebug
+        fi
+
+    - name: Upload Debug APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-debug-apk
+        path: android/app/build/outputs/apk/debug/app-debug.apk
