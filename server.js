@@ -13,6 +13,25 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
 
+// Load environment variables from .env file if it exists
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+  try {
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    envContent.split('\n').forEach(line => {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) return;
+      const [key, ...valueParts] = trimmed.split('=');
+      if (key && valueParts.length > 0) {
+        process.env[key.trim()] = valueParts.join('=').trim();
+      }
+    });
+    console.log("Loaded environment variables from .env");
+  } catch (err) {
+    console.error("Error reading local .env file:", err);
+  }
+}
+
 // Initialize local JSON database (fallback)
 if (!fs.existsSync(DB_FILE)) {
   const initialDb = {
@@ -22,7 +41,7 @@ if (!fs.existsSync(DB_FILE)) {
   fs.writeFileSync(DB_FILE, JSON.stringify(initialDb, null, 2));
 }
 
-// Database helpers (supports Vercel KV when deployed, falls back to database.json locally)
+// Database helpers (supports Vercel KV, GitHub DB, or local database.json)
 const isKVPresent = !!process.env.KV_REST_API_URL;
 let kv = null;
 if (isKVPresent) {
@@ -30,7 +49,144 @@ if (isKVPresent) {
     kv = require('@vercel/kv').kv;
     console.log("Connected to Vercel KV Database.");
   } catch (err) {
-    console.error("Vercel KV package missing, falling back to local database.json file");
+    console.error("Vercel KV package missing, falling back");
+  }
+}
+
+// GitHub DB Configurations
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_REPO = process.env.GITHUB_REPO || 'darshkeshav18/Money_wise';
+const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+const GITHUB_DB_PATH = 'database.json';
+const isGitHubConfigured = !!(GITHUB_TOKEN && GITHUB_TOKEN !== 'your_personal_access_token_here');
+
+if (isGitHubConfigured) {
+  console.log(`GitHub database backend enabled targeting repo: ${GITHUB_REPO} (Branch: ${GITHUB_BRANCH})`);
+} else {
+  console.log("GitHub database backend disabled or token not set. Using local database.json storage.");
+}
+
+// Memory Cache to prevent rapid GitHub API calls (rate limiting)
+let gitDbCache = null;
+let gitDbSha = null;
+let lastGitFetchTime = 0;
+
+async function fetchFromGitHub() {
+  const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_DB_PATH}?ref=${GITHUB_BRANCH}`;
+  const response = await fetch(url, {
+    headers: {
+      'Authorization': `token ${GITHUB_TOKEN}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'MoneyWise-App'
+    }
+  });
+
+  if (response.status === 404) {
+    const initialDb = { users: [], userData: {} };
+    await writeToGitHub(initialDb);
+    return initialDb;
+  }
+
+  if (!response.ok) {
+    throw new Error(`GitHub API returned status ${response.status}: ${await response.text()}`);
+  }
+
+  const json = await response.json();
+  gitDbSha = json.sha;
+  const content = Buffer.from(json.content, 'base64').toString('utf8');
+  const db = JSON.parse(content);
+  gitDbCache = db;
+  lastGitFetchTime = Date.now();
+  return db;
+}
+
+async function writeToGitHub(db) {
+  const contentBase64 = Buffer.from(JSON.stringify(db, null, 2)).toString('base64');
+  
+  if (!gitDbSha) {
+    try {
+      const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_DB_PATH}?ref=${GITHUB_BRANCH}`;
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `token ${GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'User-Agent': 'MoneyWise-App'
+        }
+      });
+      if (res.ok) {
+        const json = await res.json();
+        gitDbSha = json.sha;
+      }
+    } catch (err) {
+      console.error("Error fetching SHA prior to write:", err);
+    }
+  }
+
+  const body = {
+    message: 'Update database.json from MoneyWise API',
+    content: contentBase64,
+    branch: GITHUB_BRANCH
+  };
+  if (gitDbSha) {
+    body.sha = gitDbSha;
+  }
+
+  const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_DB_PATH}`;
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${GITHUB_TOKEN}`,
+      'Content-Type': 'application/json',
+      'User-Agent': 'MoneyWise-App'
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to write database to GitHub: ${await response.text()}`);
+  }
+
+  const json = await response.json();
+  gitDbSha = json.content.sha;
+  gitDbCache = db;
+  lastGitFetchTime = Date.now();
+}
+
+async function getDatabase() {
+  if (isGitHubConfigured) {
+    if (gitDbCache && (Date.now() - lastGitFetchTime < 3000)) {
+      return gitDbCache;
+    }
+    try {
+      return await fetchFromGitHub();
+    } catch (err) {
+      console.error("Error fetching database from GitHub, using cache or local fallback:", err);
+      if (gitDbCache) return gitDbCache;
+    }
+  }
+  
+  try {
+    const raw = fs.readFileSync(DB_FILE, 'utf8');
+    return JSON.parse(raw);
+  } catch (err) {
+    return { users: [], userData: {} };
+  }
+}
+
+async function saveDatabase(db) {
+  if (isGitHubConfigured) {
+    try {
+      await writeToGitHub(db);
+      return;
+    } catch (err) {
+      console.error("Error writing database to GitHub:", err);
+    }
+  }
+  
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), 'utf8');
+  } catch (err) {
+    console.error("Error writing database to local disk:", err);
   }
 }
 
@@ -38,13 +194,8 @@ async function getUsers() {
   if (kv) {
     return (await kv.get('users')) || [];
   } else {
-    try {
-      const raw = fs.readFileSync(DB_FILE, 'utf8');
-      const db = JSON.parse(raw);
-      return db.users || [];
-    } catch (err) {
-      return [];
-    }
+    const db = await getDatabase();
+    return db.users || [];
   }
 }
 
@@ -54,14 +205,10 @@ async function saveUser(newUser) {
     users.push(newUser);
     await kv.set('users', users);
   } else {
-    try {
-      const raw = fs.readFileSync(DB_FILE, 'utf8');
-      const db = JSON.parse(raw);
-      db.users.push(newUser);
-      fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), 'utf8');
-    } catch (err) {
-      console.error("Error saving user:", err);
-    }
+    const db = await getDatabase();
+    db.users = db.users || [];
+    db.users.push(newUser);
+    await saveDatabase(db);
   }
 }
 
@@ -70,13 +217,9 @@ async function getUserData(username) {
   if (kv) {
     return await kv.get(`userdata:${lowerUsername}`);
   } else {
-    try {
-      const raw = fs.readFileSync(DB_FILE, 'utf8');
-      const db = JSON.parse(raw);
-      return db.userData[lowerUsername] || null;
-    } catch (err) {
-      return null;
-    }
+    const db = await getDatabase();
+    db.userData = db.userData || {};
+    return db.userData[lowerUsername] || null;
   }
 }
 
@@ -85,14 +228,10 @@ async function saveUserData(username, data) {
   if (kv) {
     await kv.set(`userdata:${lowerUsername}`, data);
   } else {
-    try {
-      const raw = fs.readFileSync(DB_FILE, 'utf8');
-      const db = JSON.parse(raw);
-      db.userData[lowerUsername] = data;
-      fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), 'utf8');
-    } catch (err) {
-      console.error("Error saving user data:", err);
-    }
+    const db = await getDatabase();
+    db.userData = db.userData || {};
+    db.userData[lowerUsername] = data;
+    await saveDatabase(db);
   }
 }
 
