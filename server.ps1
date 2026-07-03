@@ -18,7 +18,41 @@ try {
 
 $dbFile = Join-Path $PSScriptRoot "database.json"
 
-# Initialize DB
+# Load environment variables from .env file if it exists
+$envFile = Join-Path $PSScriptRoot ".env"
+$gitHubToken = $null
+$gitHubRepo = "darshkeshav18/Money_wise"
+$gitHubBranch = "main"
+$gitHubDbPath = "database.json"
+
+if (Test-Path $envFile) {
+    try {
+        Get-Content $envFile | ForEach-Object {
+            $line = $_.Trim()
+            if ($line -and -not $line.StartsWith("#")) {
+                $parts = $line.Split("=", 2)
+                if ($parts.Length -eq 2) {
+                    $key = $parts[0].Trim()
+                    $val = $parts[1].Trim()
+                    if ($key -eq "GITHUB_TOKEN") { $gitHubToken = $val }
+                    if ($key -eq "GITHUB_REPO") { $gitHubRepo = $val }
+                    if ($key -eq "GITHUB_BRANCH") { $gitHubBranch = $val }
+                }
+            }
+        }
+    } catch {
+        Write-Host "Error reading .env: $_" -ForegroundColor Red
+    }
+}
+
+$isGitHubConfigured = ($null -ne $gitHubToken) -and ($gitHubToken -ne "your_personal_access_token_here") -and ($gitHubToken -ne "")
+if ($isGitHubConfigured) {
+    Write-Host "GitHub database backend enabled targeting repo: $gitHubRepo (Branch: $gitHubBranch)" -ForegroundColor Green
+} else {
+    Write-Host "GitHub database backend disabled. Using local database.json storage." -ForegroundColor Yellow
+}
+
+# Initialize local JSON database (fallback)
 if (-not (Test-Path $dbFile)) {
     $initialDb = @{
         users = @()
@@ -27,7 +61,48 @@ if (-not (Test-Path $dbFile)) {
     $initialDb | ConvertTo-Json -Depth 100 | Out-File $dbFile -Encoding utf8
 }
 
+$gitDbCache = $null
+$gitDbSha = $null
+$lastGitFetchTime = 0
+
 function Read-Database {
+    global $gitDbCache, $gitDbSha, $lastGitFetchTime
+
+    if ($isGitHubConfigured) {
+        $now = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
+        if ($null -ne $gitDbCache -and ($now - $lastGitFetchTime -lt 3000)) {
+            return $gitDbCache
+        }
+
+        try {
+            $url = "https://api.github.com/repos/$gitHubRepo/contents/$gitHubDbPath?ref=$gitHubBranch"
+            $headers = @{
+                "Authorization" = "token $gitHubToken"
+                "Accept" = "application/vnd.github.v3+json"
+                "User-Agent" = "MoneyWise-App"
+            }
+            $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
+            $gitDbSha = $response.sha
+            
+            $base64 = $response.content.Replace("`n", "").Replace("`r", "")
+            $decodedBytes = [System.Convert]::FromBase64String($base64)
+            $decodedText = [System.Text.Encoding]::UTF8.GetString($decodedBytes)
+            $db = $decodedText | ConvertFrom-Json
+            
+            $gitDbCache = $db
+            $lastGitFetchTime = $now
+            return $db
+        } catch {
+            if ($_.Exception.Response.StatusCode -eq 404) {
+                $initialDb = @{ users = @(); userData = @{} }
+                Write-Database $initialDb
+                return $initialDb
+            }
+            Write-Host "Error reading database from GitHub, falling back: $_" -ForegroundColor Red
+            if ($null -ne $gitDbCache) { return $gitDbCache }
+        }
+    }
+
     try {
         $raw = Get-Content $dbFile -Raw -ErrorAction Stop
         return $raw | ConvertFrom-Json
@@ -37,10 +112,54 @@ function Read-Database {
 }
 
 function Write-Database ($db) {
+    global $gitDbCache, $gitDbSha, $lastGitFetchTime
+
+    if ($isGitHubConfigured) {
+        try {
+            $headers = @{
+                "Authorization" = "token $gitHubToken"
+                "Accept" = "application/vnd.github.v3+json"
+                "User-Agent" = "MoneyWise-App"
+            }
+
+            if ($null -eq $gitDbSha) {
+                try {
+                    $url = "https://api.github.com/repos/$gitHubRepo/contents/$gitHubDbPath?ref=$gitHubBranch"
+                    $res = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
+                    $gitDbSha = $res.sha
+                } catch {}
+            }
+
+            $json = $db | ConvertTo-Json -Depth 100
+            $bytes = [System.Text.Encoding]::UTF8.GetBytes($json)
+            $base64 = [System.Convert]::ToBase64String($bytes)
+
+            $body = @{
+                message = "Update database.json from MoneyWise PowerShell API"
+                content = $base64
+                branch = $gitHubBranch
+            }
+            if ($null -ne $gitDbSha) {
+                $body.sha = $gitDbSha
+            }
+
+            $url = "https://api.github.com/repos/$gitHubRepo/contents/$gitHubDbPath"
+            $bodyJson = $body | ConvertTo-Json -Depth 100
+            
+            $res = Invoke-RestMethod -Uri $url -Headers $headers -Method Put -Body $bodyJson -ContentType "application/json"
+            $gitDbSha = $res.content.sha
+            $gitDbCache = $db
+            $lastGitFetchTime = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
+            return
+        } catch {
+            Write-Host "Error writing database to GitHub: $_" -ForegroundColor Red
+        }
+    }
+
     try {
         $db | ConvertTo-Json -Depth 100 | Out-File $dbFile -Encoding utf8
     } catch {
-        Write-Host "Error saving database: $_" -ForegroundColor Red
+        Write-Host "Error saving database to local disk: $_" -ForegroundColor Red
     }
 }
 
