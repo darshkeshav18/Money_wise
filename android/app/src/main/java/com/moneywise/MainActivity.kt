@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var webView: WebView
 
     // Replace this with your Vercel deployment URL
-    private val DASHBOARD_URL = "https://money-wise.vercel.app"
+    private val DASHBOARD_URL = "https://money-wise-henna.vercel.app/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
