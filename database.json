@@ -8,5 +8,20 @@
       "createdAt": "2026-07-04T15:29:18.926Z"
     }
   ],
-  "userData": {}
+  "userData": {
+    "darsh_keshav": {
+      "profile": null,
+      "expenses": [],
+      "subscriptions": [],
+      "goals": [],
+      "preferences": {
+        "notifications": {
+          "overspend": true,
+          "renewal": true,
+          "goals": true
+        },
+        "darkMode": true
+      }
+    }
+  }
 }
