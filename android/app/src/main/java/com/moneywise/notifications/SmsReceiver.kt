@@ -18,6 +18,14 @@ class SmsReceiver : BroadcastReceiver() {
     private val scope = CoroutineScope(Dispatchers.IO)
 
     override fun onReceive(context: Context, intent: Intent) {
+        // Abort processing immediately if no user is actively logged in
+        val prefs = context.getSharedPreferences("MoneyWisePrefs", Context.MODE_PRIVATE)
+        val username = prefs.getString("username", null)
+        if (username.isNullOrEmpty()) {
+            Log.d("SmsReceiver", "No user logged in. Ignoring SMS.")
+            return
+        }
+
         if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION) return
 
         val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)

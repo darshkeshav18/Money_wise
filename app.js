@@ -68,6 +68,11 @@ function loadSessionState() {
   if (userSession) {
     state.user = JSON.parse(userSession);
     
+    // Call Android JS Bridge if present
+    if (window.AndroidBridge && state.user && state.user.loggedIn && !state.user.isGuest) {
+      window.AndroidBridge.onLoginSuccess(state.user.username);
+    }
+    
     // Hide Landing Auth
     document.getElementById('auth-overlay').style.display = 'none';
 
@@ -253,6 +258,12 @@ function handleAuthSubmit(e, action) {
       };
       
       saveStateToStorage();
+      
+      // Call Android JS Bridge if present
+      if (window.AndroidBridge) {
+        window.AndroidBridge.onLoginSuccess(data.username);
+      }
+      
       showToast(`Welcome ${data.username}! Account created.`, 'success');
       
       // Transition to onboarding
@@ -287,6 +298,11 @@ function handleAuthSubmit(e, action) {
     })
     .then(data => {
       state.user = { loggedIn: true, username: data.username, isGuest: false };
+      
+      // Call Android JS Bridge if present
+      if (window.AndroidBridge) {
+        window.AndroidBridge.onLoginSuccess(data.username);
+      }
       
       localStorage.setItem('mw_user', JSON.stringify(state.user));
       showToast(`Welcome back, ${data.username}!`, 'success');
@@ -359,6 +375,9 @@ function continueAsGuest() {
 
 function handleLogout() {
   if (confirm('Are you sure you want to log out? Local session variables will be cleared.')) {
+    if (window.AndroidBridge) {
+      window.AndroidBridge.onLogout();
+    }
     localStorage.removeItem('mw_user');
     localStorage.removeItem('mw_profile');
     localStorage.removeItem('mw_expenses');

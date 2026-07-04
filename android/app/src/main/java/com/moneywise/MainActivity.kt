@@ -36,10 +36,30 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Register JavaScript interface bridge
+        webView.addJavascriptInterface(WebAppInterface(this), "AndroidBridge")
+
         webView.loadUrl(DASHBOARD_URL)
 
         // Request permissions on app launch
         requestAppPermissions()
+    }
+
+    // JavaScript Interface to receive login updates from WebView
+    class WebAppInterface(private val activity: MainActivity) {
+        @android.webkit.JavascriptInterface
+        fun onLoginSuccess(username: String) {
+            val prefs = activity.getSharedPreferences("MoneyWisePrefs", android.content.Context.MODE_PRIVATE)
+            prefs.edit().putString("username", username).apply()
+            android.util.Log.d("MoneyWiseBridge", "Captured logged-in username: $username")
+        }
+
+        @android.webkit.JavascriptInterface
+        fun onLogout() {
+            val prefs = activity.getSharedPreferences("MoneyWisePrefs", android.content.Context.MODE_PRIVATE)
+            prefs.edit().remove("username").apply()
+            android.util.Log.d("MoneyWiseBridge", "User logged out. Cleared username.")
+        }
     }
 
     private fun requestAppPermissions() {

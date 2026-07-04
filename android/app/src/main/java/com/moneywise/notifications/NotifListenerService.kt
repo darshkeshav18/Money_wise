@@ -24,6 +24,14 @@ class NotifListenerService : NotificationListenerService() {
     )
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
+        // Abort processing immediately if no user is actively logged in
+        val prefs = applicationContext.getSharedPreferences("MoneyWisePrefs", android.content.Context.MODE_PRIVATE)
+        val username = prefs.getString("username", null)
+        if (username.isNullOrEmpty()) {
+            Log.d("BankNotifListener", "No user logged in. Ignoring notification.")
+            return
+        }
+
         val pkg = sbn.packageName
         
         // Log package name to logcat as requested for on-device verification

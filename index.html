@@ -255,23 +255,6 @@
     </div>
   </div>
 
-  <!-- ==================== FLOW 2: SIMULATED BANK SMS TOAST POP-UP ==================== -->
-  <div id="phone-sms-toast" class="sms-toast" style="display:none;">
-    <div class="sms-toast-header">
-      <div style="display:flex; align-items:center; gap:0.5rem;">
-        <i data-lucide="message-square" style="width:14px; height:14px; color:var(--color-accent);"></i>
-        <span>Bank SMS Alert</span>
-      </div>
-      <button class="sms-close" onclick="closeSMSToast()"><i data-lucide="x" style="width:12px; height:12px;"></i></button>
-    </div>
-    <div class="sms-toast-body">
-      <p id="sms-text">HDFC Bank: DR ₹1,200 at Swiggy on 10-Jun-26. Avail Bal: ₹32,040.</p>
-      <div class="sms-actions">
-        <button class="btn btn-primary btn-sms" onclick="openQuickCategorize()">Categorize</button>
-        <button class="btn btn-secondary btn-sms" onclick="closeSMSToast()">Ignore</button>
-      </div>
-    </div>
-  </div>
 
   <!-- ==================== QUICK CATEGORIZE DIALOG ==================== -->
   <div id="modal-quick-categorize" class="modal-overlay">
@@ -1169,37 +1152,6 @@
               </label>
             </div>
 
-            <h3 style="margin-top:0.5rem; color:var(--color-danger)">System Developer Controls</h3>
-            
-            <div class="settings-option">
-              <div class="settings-option-text">
-                <h4>Simulate Transaction SMS Receipt</h4>
-                <p>Receive a mock bank debit alert (e.g. ₹1,200 Swiggy) to trigger parsing wizard.</p>
-              </div>
-              <button class="btn btn-secondary" style="background:rgba(59,130,246,0.1); border-color:rgba(59,130,246,0.2); color:var(--color-accent);" onclick="triggerMockSMS()">
-                Send SMS
-              </button>
-            </div>
-
-            <div class="settings-option">
-              <div class="settings-option-text">
-                <h4>Simulate App Notification</h4>
-                <p>Simulate bank transaction notification trigger from Canara, HDFC, or SBI apps.</p>
-              </div>
-              <button class="btn btn-secondary" style="background:rgba(163,230,53,0.1); border-color:rgba(163,230,53,0.2); color:var(--color-success);" onclick="openMockNotifDialog()">
-                Simulate Notif
-              </button>
-            </div>
-
-            <div class="settings-option">
-              <div class="settings-option-text">
-                <h4>Inject Sandbox Preview Datasets</h4>
-                <p>Pre-populate your database with mock personal expenses and investment logs.</p>
-              </div>
-              <button class="btn btn-secondary" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.2); color:var(--color-success);" onclick="injectMockData()">
-                Inject Data
-              </button>
-            </div>
 
             <div class="settings-option">
               <div class="settings-option-text" style="color:var(--color-danger);">
@@ -1416,67 +1368,6 @@
   <!-- Float notification stack -->
   <div id="toast-container"></div>
 
-  <!-- Simulated Notification Overlay Popup -->
-  <div id="overlay-notif-popup" class="overlay-notif-container" style="display:none;">
-    <div class="overlay-notif-card">
-      <div class="overlay-notif-header">
-        <div style="display:flex; align-items:center; gap:0.5rem;">
-          <i data-lucide="bell" style="width:16px; height:16px; color:var(--color-accent);"></i>
-          <span id="overlay-notif-bank" style="font-weight:700; font-size:0.85rem; color:var(--text-primary);">HDFC Bank Alert</span>
-        </div>
-        <div id="overlay-notif-timer" class="overlay-notif-timer-circle">5</div>
-      </div>
-      <div class="overlay-notif-body">
-        <h3 id="overlay-notif-amount">₹3,000.00 spent</h3>
-        <p id="overlay-notif-reason" style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:0.75rem;">To: DARSH KESHAV</p>
-        <p style="font-size:0.8rem; margin-bottom:0.75rem; font-weight:600; color:var(--text-secondary);">Categorize transaction:</p>
-        <div class="overlay-notif-actions">
-          <button class="btn btn-secondary btn-notif-cat" style="flex:1; padding:0.4rem;" onclick="categorizeOverlayNotif('Need')">Need</button>
-          <button class="btn btn-secondary btn-notif-cat" style="flex:1; padding:0.4rem;" onclick="categorizeOverlayNotif('Want')">Want</button>
-          <button class="btn btn-secondary btn-notif-cat" style="flex:1; padding:0.4rem;" onclick="categorizeOverlayNotif('Savings')">Savings</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mock Notification Trigger Dialog -->
-  <div id="modal-mock-notif" class="modal-overlay">
-    <div class="modal-card" style="max-width:440px;">
-      <div class="modal-header">
-        <h3>Simulate App Notification</h3>
-        <button class="btn-icon" onclick="closeMockNotifDialog()"><i data-lucide="x"></i></button>
-      </div>
-      <div style="display:flex; flex-direction:column; gap:1rem;">
-        <div class="input-group">
-          <label for="mock-notif-pkg">Select Source App Package</label>
-          <select id="mock-notif-pkg" class="input-field" onchange="fillSampleNotifText()">
-            <option value="com.sbi.SBIFreedomPlus">SBI (com.sbi.SBIFreedomPlus)</option>
-            <option value="com.snapwork.hdfc" selected>HDFC Bank (com.snapwork.hdfc)</option>
-            <option value="com.canarabank.mobility">Canara Bank (com.canarabank.mobility)</option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label for="mock-notif-title">Notification Title</label>
-          <input type="text" id="mock-notif-title" class="input-field" placeholder="Dear User / Alert">
-        </div>
-        <div class="input-group">
-          <label for="mock-notif-text">Notification Message Body</label>
-          <textarea id="mock-notif-text" class="input-field" rows="3" style="resize:none;" placeholder="Notification message text..."></textarea>
-        </div>
-        <div class="input-group">
-          <label for="mock-notif-timestamp-offset">Timestamp Offset</label>
-          <select id="mock-notif-timestamp-offset" class="input-field">
-            <option value="0">Current Time (Unique transaction)</option>
-            <option value="-60000">1 minute ago (Simulate duplicate window)</option>
-          </select>
-        </div>
-        <div style="font-size:0.75rem; color:var(--text-secondary); line-height:1.4;">
-          💡 <strong>Dedupe check:</strong> Triggering two transactions with the same amount/type within a 2-minute window will trigger the dedupe filter, auto-ignoring the duplicate.
-        </div>
-        <button class="btn btn-primary" style="width:100%;" onclick="triggerMockNotifListener()">Post Notification</button>
-      </div>
-    </div>
-  </div>
 
   <script src="app.js"></script>
 </body>
