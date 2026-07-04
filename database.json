@@ -1,0 +1,39 @@
+{
+  "users": [
+    {
+      "id": "5zb7xd2",
+      "username": "darsh_keshav",
+      "email": "darshkeshav18@gmail.com",
+      "passwordHash": "2acc16ad2dd0283b9c76c973073c683e243a572af859436818a125d16907c3c5",
+      "createdAt": "2026-07-04T15:29:18.926Z"
+    }
+  ],
+  "userData": {
+    "darsh_keshav": {
+      "profile": {
+        "profession": "Student",
+        "income": 50000,
+        "budgetSplits": {
+          "needs": 50,
+          "wants": 30,
+          "savings": 20
+        },
+        "bankingConnected": false,
+        "smsConsent": true
+      },
+      "expenses": [],
+      "subscriptions": [],
+      "goals": [],
+      "preferences": {
+        "notifications": {
+          "overspend": true,
+          "renewal": true,
+          "goals": true
+        },
+        "darkMode": true,
+        "showTooltips": true,
+        "tourCompleted": true
+      }
+    }
+  }
+}
