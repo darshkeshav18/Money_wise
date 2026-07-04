@@ -6,7 +6,7 @@ const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DB_FILE = path.join(__dirname, 'database.json');
+const DB_FILE = process.env.VERCEL ? path.join('/tmp', 'database.json') : path.join(__dirname, 'database.json');
 
 // Middleware
 app.use(cors());
@@ -38,7 +38,11 @@ if (!fs.existsSync(DB_FILE)) {
     users: [],
     userData: {}
   };
-  fs.writeFileSync(DB_FILE, JSON.stringify(initialDb, null, 2));
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(initialDb, null, 2));
+  } catch (err) {
+    console.error("Could not write initial fallback database.json:", err.message);
+  }
 }
 
 // Database helpers (supports Vercel KV, GitHub DB, or local database.json)

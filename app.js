@@ -229,7 +229,14 @@ function handleAuthSubmit(e, action) {
     })
     .then(res => {
       if (res.ok) return res.json();
-      return res.json().then(err => { throw new Error(err.error || 'Registration failed'); });
+      return res.text().then(text => {
+        try {
+          const errJson = JSON.parse(text);
+          throw new Error(errJson.error || 'Registration failed');
+        } catch (e) {
+          throw new Error(text.substring(0, 100) || 'Server error occurred during registration');
+        }
+      });
     })
     .then(data => {
       // Direct login on register success
@@ -269,7 +276,14 @@ function handleAuthSubmit(e, action) {
     })
     .then(res => {
       if (res.ok) return res.json();
-      return res.json().then(err => { throw new Error(err.error || 'Authentication failed'); });
+      return res.text().then(text => {
+        try {
+          const errJson = JSON.parse(text);
+          throw new Error(errJson.error || 'Authentication failed');
+        } catch (e) {
+          throw new Error(text.substring(0, 100) || 'Server error occurred during login');
+        }
+      });
     })
     .then(data => {
       state.user = { loggedIn: true, username: data.username, isGuest: false };
