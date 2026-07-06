@@ -40,7 +40,7 @@
         "darkMode": false,
         "showTooltips": true,
         "tourCompleted": true,
-        "hideBalance": true
+        "hideBalance": false
       }
     },
     "sammie24": {
