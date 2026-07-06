@@ -42,6 +42,20 @@
         "tourCompleted": true,
         "hideBalance": true
       }
+    },
+    "sammie24": {
+      "profile": null,
+      "expenses": [],
+      "subscriptions": [],
+      "goals": [],
+      "preferences": {
+        "notifications": {
+          "overspend": true,
+          "renewal": true,
+          "goals": true
+        },
+        "darkMode": true
+      }
     }
   }
 }
