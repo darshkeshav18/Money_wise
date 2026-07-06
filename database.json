@@ -46,11 +46,11 @@
     "sammie24": {
       "profile": {
         "profession": "Student",
-        "income": 50000,
+        "income": 10000,
         "budgetSplits": {
-          "needs": 50,
-          "wants": 30,
-          "savings": 20
+          "needs": 0,
+          "wants": 100,
+          "savings": 0
         },
         "bankingConnected": false,
         "smsConsent": true
