@@ -77,8 +77,8 @@
           "goals": true
         },
         "darkMode": true,
-        "showTooltips": false,
-        "tourCompleted": true,
+        "showTooltips": true,
+        "tourCompleted": false,
         "hideBalance": false
       }
     }
