@@ -33,7 +33,7 @@
         "darkMode": true,
         "showTooltips": true,
         "tourCompleted": true,
-        "hideBalance": true
+        "hideBalance": false
       }
     }
   }
