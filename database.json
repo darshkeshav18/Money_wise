@@ -65,7 +65,7 @@
           "goals": true
         },
         "darkMode": true,
-        "showTooltips": true,
+        "showTooltips": false,
         "tourCompleted": true,
         "hideBalance": false
       }
