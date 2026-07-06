@@ -76,6 +76,13 @@
           "target": 2000,
           "linkedSplitPercent": 20,
           "createdAt": "2026-07-06"
+        },
+        {
+          "id": "ava4oyg",
+          "name": "clothes",
+          "target": 2000,
+          "linkedSplitPercent": 5,
+          "createdAt": "2026-07-06"
         }
       ],
       "preferences": {
