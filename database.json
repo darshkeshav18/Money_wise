@@ -55,7 +55,19 @@
         "bankingConnected": false,
         "smsConsent": true
       },
-      "expenses": [],
+      "expenses": [
+        {
+          "id": "yr36axs",
+          "amount": 199,
+          "bucket": "Wants",
+          "category": "Entertainment",
+          "date": "2026-07-06",
+          "note": "Netflix",
+          "isRecurring": true,
+          "isInvestment": false,
+          "assetType": ""
+        }
+      ],
       "subscriptions": [],
       "goals": [],
       "preferences": {
