@@ -32,7 +32,8 @@
         },
         "darkMode": true,
         "showTooltips": true,
-        "tourCompleted": true
+        "tourCompleted": true,
+        "hideBalance": true
       }
     }
   }
