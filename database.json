@@ -54,7 +54,9 @@
           "renewal": true,
           "goals": true
         },
-        "darkMode": true
+        "darkMode": true,
+        "showTooltips": true,
+        "tourCompleted": false
       }
     }
   }
