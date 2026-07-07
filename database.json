@@ -30,7 +30,15 @@
       },
       "expenses": [],
       "subscriptions": [],
-      "goals": [],
+      "goals": [
+        {
+          "id": "g358mg3",
+          "name": "Trip",
+          "target": 500000,
+          "linkedSplitPercent": 20,
+          "createdAt": "2026-07-07"
+        }
+      ],
       "preferences": {
         "notifications": {
           "overspend": true,
