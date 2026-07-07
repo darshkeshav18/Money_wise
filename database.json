@@ -45,7 +45,7 @@
         {
           "id": "g358mg3",
           "name": "Trip",
-          "target": 500000,
+          "target": 500,
           "linkedSplitPercent": 20,
           "createdAt": "2026-07-07"
         }
