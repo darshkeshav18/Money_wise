@@ -393,26 +393,30 @@ app.post('/api/transaction/add', async (req, res) => {
     const currentData = await getUserData(username) || { expenses: [], profile: null, subscriptions: [], goals: [], preferences: {} };
     currentData.expenses = currentData.expenses || [];
 
-    // Map bucket "Need" / "Want" / "Savings"
+    // Map bucket & category based on type (credit vs debit)
+    const isCredit = type.toLowerCase() === 'credit';
     let bucket = 'Wants';
-    const cleanCategory = category ? category.toLowerCase().trim() : '';
-    if (cleanCategory.startsWith('need')) { bucket = 'Needs'; }
-    else if (cleanCategory.startsWith('want')) { bucket = 'Wants'; }
-    else if (cleanCategory.startsWith('saving')) { bucket = 'Savings'; }
-
-    // Map sub-category
     let subCategory = 'Other Wants';
-    if (bucket === 'Needs') subCategory = 'Other Needs';
-    else if (bucket === 'Savings') subCategory = 'Other Savings';
+
+    if (isCredit) {
+      bucket = 'Savings';
+      subCategory = 'Other Income';
+    } else {
+      const cleanCategory = category ? category.toLowerCase().trim() : '';
+      if (cleanCategory.startsWith('need')) { bucket = 'Needs'; subCategory = 'Other Needs'; }
+      else if (cleanCategory.startsWith('want')) { bucket = 'Wants'; subCategory = 'Other Wants'; }
+      else if (cleanCategory.startsWith('saving')) { bucket = 'Savings'; subCategory = 'Other Savings'; }
+    }
 
     // Create expense object matching dashboard schema
     const newExpense = {
       id: Math.random().toString(36).substring(2, 9),
       amount: Number(amount),
-      description: reason || `${bank} transaction`,
+      note: reason || (isCredit ? 'Credit alert received' : `${bank} transaction`),
       date: new Date(Number(timestamp || Date.now())).toISOString().split('T')[0],
       bucket: bucket,
-      category: subCategory
+      category: subCategory,
+      type: isCredit ? 'credit' : 'debit'
     };
 
     currentData.expenses.push(newExpense);

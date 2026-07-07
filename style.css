@@ -2453,4 +2453,67 @@ body.show-tour-tooltips:not(.tour-active) .has-tour-tooltip:hover .tour-tooltip-
   to { opacity: 1; }
 }
 
+/* Pull to Refresh styles */
+.pull-to-refresh-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.25s ease, margin-bottom 0.25s ease, opacity 0.25s ease;
+  opacity: 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.pull-to-refresh-container.active {
+  height: 60px;
+  opacity: 1;
+  margin-bottom: 1rem;
+}
+
+.pull-to-refresh-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-color);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: ptr-spin 0.8s linear infinite;
+}
+
+@keyframes ptr-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Form panel gap styling to fix squished modals */
+.form-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* Settings mobile responsiveness fixes */
+.settings-group-card .btn {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .settings-option {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+  }
+  .settings-option button {
+    width: 100%;
+  }
+  .settings-option-text {
+    width: 100%;
+  }
+}
+
 

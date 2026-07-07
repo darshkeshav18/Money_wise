@@ -12,6 +12,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('mw_user')) {
+      document.write('<style>#auth-overlay { display: none !important; }</style>');
+      if (localStorage.getItem('mw_profile')) {
+        document.write('<style>#onboarding-overlay { display: none !important; } #app-container { display: flex !important; }</style>');
+      }
+    }
+  </script>
 
   <!-- ==================== FLOW 1: simulated LANDING & AUTHENTICATION ==================== -->
   <div id="auth-overlay">
@@ -85,9 +93,10 @@
         <div class="step-dot" id="dot-step-2" title="Banking Linker">2</div>
       </div>
 
-      <div class="onboarding-title-group">
-        <h2 id="onboard-title">Configure Profile</h2>
-        <p id="onboard-desc">Customize your income flows and 50/30/20 splits to begin tracking</p>
+      <div class="onboarding-title-group" style="position:relative;">
+        <a href="#" onclick="handleLogout()" class="auth-link" style="position:absolute; left:0; top:50%; transform:translateY(-50%); font-size:0.8rem; display:inline-flex; align-items:center; gap:0.25rem; font-weight:600;"><i data-lucide="arrow-left" style="width:14px; height:14px;"></i> Sign Out</a>
+        <h2 id="onboard-title" style="margin: 0 auto; text-align:center;">Configure Profile</h2>
+        <p id="onboard-desc" style="margin-top:0.5rem; text-align:center;">Customize your income flows and 50/30/20 splits to begin tracking</p>
       </div>
 
       <!-- STEP 1: Account setup details -->
@@ -403,6 +412,11 @@
 
       <!-- ==================== TAB 1: DASHBOARD ==================== -->
       <div id="tab-dashboard" class="tab-content active">
+        <!-- Pull to Refresh Spinner Indicator -->
+        <div id="pull-to-refresh-indicator" class="pull-to-refresh-container">
+          <div class="pull-to-refresh-spinner"></div>
+          <span>Pull to refresh...</span>
+        </div>
         
         <!-- Premium Balance & Metrics Layout -->
         <div class="dashboard-top-grid">
@@ -412,7 +426,7 @@
               <i data-lucide="eye" id="balance-toggle-eye" style="width:16px; opacity:0.85; cursor:pointer;" onclick="toggleBalanceVisibility()"></i>
             </div>
             <h1 class="balance-amount" id="dash-remaining-balance">₹0</h1>
-            <p class="account-number">Account no: ••• ••• 3569</p>
+            <p class="account-number">Account no: ••• ••• xxxx</p>
             <div class="balance-actions">
               <button class="btn balance-btn" style="width: 100%;" onclick="openAddGoalModal()"><i data-lucide="plus" style="width:14px;"></i> Add Money</button>
             </div>
@@ -439,7 +453,12 @@
           </div>
 
           <!-- Metrics side card panel -->
-          <div class="metrics-side-grid">
+          <div class="metrics-side-grid" style="grid-template-rows: repeat(3, 1fr); height: 100%;">
+            <div class="card metric-card metric-income" style="border-left: 4px solid var(--color-needs);">
+              <span class="metric-label">Monthly Income</span>
+              <span class="metric-value" id="dash-monthly-income" style="color:var(--color-needs);">₹0</span>
+              <span class="metric-subtext" id="dash-base-income">Base: ₹0</span>
+            </div>
             <div class="card metric-card metric-income">
               <span class="metric-label">Total Saved</span>
               <span class="metric-value" id="dash-total-saved">₹0</span>
@@ -1112,6 +1131,11 @@
           <div class="card settings-group-card">
             <h3>Notifications & Database Controls</h3>
             
+            <div class="input-group" style="padding-bottom:1rem; border-bottom:1px solid var(--border-color);">
+              <label for="settings-phone">SMS Warning Alert Mobile Number</label>
+              <input type="tel" id="settings-phone" class="input-field" placeholder="e.g. 9876543210" maxlength="10" onchange="saveNotificationPreferences()">
+            </div>
+            
             <div class="settings-option">
               <div class="settings-option-text">
                 <h4>Mid-Month Overspend Alert</h4>
@@ -1368,6 +1392,34 @@
   <!-- Float notification stack -->
   <div id="toast-container"></div>
 
+  <!-- Custom Confirmation Dialog Modal -->
+  <div id="modal-confirm-dialog" class="modal-overlay">
+    <div class="modal-card" style="max-width:380px; text-align:center; padding:1.75rem;">
+      <h3 id="confirm-title" style="margin-bottom:0.75rem;">Confirm Action</h3>
+      <p id="confirm-message" style="color:var(--text-secondary); font-size:0.9rem; line-height:1.5; margin-bottom:1.5rem;">Are you sure?</p>
+      <div class="modal-actions" style="justify-content:center; gap:1rem;">
+        <button class="btn btn-secondary" onclick="closeConfirmDialog(false)" style="flex:1;">Cancel</button>
+        <button class="btn btn-danger" id="confirm-delete-btn" onclick="closeConfirmDialog(true)" style="flex:1;">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Input Prompt Dialog Modal -->
+  <div id="modal-prompt-dialog" class="modal-overlay">
+    <div class="modal-card" style="max-width:380px; padding:1.5rem;">
+      <form onsubmit="closePromptDialog(true); return false;">
+        <h3 id="prompt-title" style="margin-bottom:0.75rem;">Enter Value</h3>
+        <div class="input-group" style="margin-bottom:1.5rem;">
+          <label id="prompt-label" for="prompt-input">Amount (₹)</label>
+          <input type="number" id="prompt-input" class="input-field" min="1" required>
+        </div>
+        <div class="modal-actions" style="gap:1rem;">
+          <button type="button" class="btn btn-secondary" onclick="closePromptDialog(false)" style="flex:1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex:1;">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

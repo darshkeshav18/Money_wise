@@ -86,7 +86,7 @@ class OverlayService : Service() {
     private fun saveCategory(id: Long, category: String) {
         scope.launch {
             val dao = AppDatabase.getInstance(applicationContext).transactionDao()
-            TransactionRepository(dao).updateCategory(id, category)
+            TransactionRepository(dao).updateCategory(applicationContext, id, category)
         }
     }
 

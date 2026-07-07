@@ -49,7 +49,7 @@ class NotifListenerService : NotificationListenerService() {
         scope.launch {
             val dao = AppDatabase.getInstance(applicationContext).transactionDao()
             val repo = TransactionRepository(dao)
-            when (val action = repo.handleIncomingTransaction(txn)) {
+            when (val action = repo.handleIncomingTransaction(applicationContext, txn)) {
                 is PendingAction.NeedsCategorization -> {
                     OverlayService.launch(
                         applicationContext,

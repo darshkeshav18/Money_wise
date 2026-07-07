@@ -13,16 +13,17 @@ class TransactionRepository(private val dao: TransactionDao) {
     // Reasons that should skip the categorization popup entirely
     private val autoSkipPatterns = listOf("interest", "refund", "reversal", "cashback")
 
-    suspend fun handleIncomingTransaction(txn: Transaction): PendingAction {
+    suspend fun handleIncomingTransaction(context: android.content.Context, txn: Transaction): PendingAction {
         val key = buildDedupeKey(txn.amount, txn.type, txn.timestamp)
         val existing = dao.findByDedupeKey(key)
         if (existing != null) return PendingAction.Duplicate
 
+        val isCredit = txn.type.equals("credit", ignoreCase = true)
         val autoCategory = txn.reason?.let { reason ->
             autoSkipPatterns.firstOrNull { reason.contains(it, ignoreCase = true) }
         }
 
-        val category = if (autoCategory != null) "Other Income" else "Uncategorized"
+        val category = if (isCredit || autoCategory != null) "Other Income" else "Uncategorized"
 
         val entity = TransactionEntity(
             amount = txn.amount,
@@ -37,17 +38,85 @@ class TransactionRepository(private val dao: TransactionDao) {
         )
         val id = dao.insert(entity)
 
-        return if (autoCategory != null) {
-            PendingAction.AutoFiled(id)       // no popup needed
-        } else {
-            PendingAction.NeedsCategorization(id, txn.amount, txn.type)  // show overlay
+        if (!isCredit) {
+            checkSavingsWarning(context)
+        }
+
+        return when {
+            isCredit -> PendingAction.AutoFiled(id)
+            autoCategory != null -> PendingAction.AutoFiled(id)
+            else -> PendingAction.NeedsCategorization(id, txn.amount, txn.type)
         }
     }
 
-    suspend fun updateCategory(id: Long, category: String) {
+    suspend fun updateCategory(context: android.content.Context, id: Long, category: String) {
         val all = dao.getAll()
         val entity = all.firstOrNull { it.id == id } ?: return
         dao.update(entity.copy(category = category, synced = false))
+
+        if (!entity.type.equals("credit", ignoreCase = true)) {
+            checkSavingsWarning(context)
+        }
+    }
+
+    private suspend fun checkSavingsWarning(context: android.content.Context) {
+        val prefs = context.getSharedPreferences("MoneyWisePrefs", android.content.Context.MODE_PRIVATE)
+        val income = prefs.getInt("income", 0)
+        val savingsTarget = prefs.getInt("savingsTarget", 0)
+        val phoneNumber = prefs.getString("phoneNumber", "") ?: ""
+
+        if (income <= 0 || savingsTarget <= 0 || phoneNumber.isEmpty()) {
+            return
+        }
+
+        // Current month tracker e.g. "2026-06"
+        val sdf = java.text.SimpleDateFormat("yyyy-MM", java.util.Locale.getDefault())
+        val currentMonth = sdf.format(java.util.Date())
+
+        val lastWarnedMonth = prefs.getString("lastWarnedMonth", "")
+        if (lastWarnedMonth == currentMonth) {
+            return
+        }
+
+        val allTxns = dao.getAll()
+        val calendar = java.util.Calendar.getInstance()
+        val currentYear = calendar.get(java.util.Calendar.YEAR)
+        val currentMonthInt = calendar.get(java.util.Calendar.MONTH)
+
+        var totalDebits = 0.0
+        var totalCredits = 0.0
+
+        for (t in allTxns) {
+            calendar.timeInMillis = t.timestamp
+            if (calendar.get(java.util.Calendar.YEAR) == currentYear &&
+                calendar.get(java.util.Calendar.MONTH) == currentMonthInt) {
+                if (t.type.equals("credit", ignoreCase = true)) {
+                    totalCredits += t.amount
+                } else {
+                    totalDebits += t.amount
+                }
+            }
+        }
+
+        val remainingBalance = (income + totalCredits) - totalDebits
+        if (remainingBalance < savingsTarget) {
+            try {
+                val smsManager = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    context.getSystemService(android.telephony.SmsManager::class.java)
+                } else {
+                    @Suppress("DEPRECATION")
+                    android.telephony.SmsManager.getDefault()
+                }
+                val message = "MoneyWise Alert: Your remaining balance (₹${remainingBalance.toInt()}) has fallen below your monthly savings threshold (₹$savingsTarget). Please manage your spends!"
+                smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+                android.util.Log.d("TransactionRepository", "Overspend warning SMS sent to: $phoneNumber")
+
+                // Mark warned for this month
+                prefs.edit().putString("lastWarnedMonth", currentMonth).apply()
+            } catch (e: Exception) {
+                android.util.Log.e("TransactionRepository", "Failed to send warning SMS", e)
+            }
+        }
     }
 }
 

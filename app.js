@@ -53,6 +53,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initTheme();
   setupEventListeners();
   startSMSTimer();
+  initPullToRefresh();
   lucide.createIcons();
 });
 
@@ -374,18 +375,20 @@ function continueAsGuest() {
 }
 
 function handleLogout() {
-  if (confirm('Are you sure you want to log out? Local session variables will be cleared.')) {
-    if (window.AndroidBridge) {
-      window.AndroidBridge.onLogout();
+  showConfirmDialog('Confirm Logout', 'Are you sure you want to log out? Local session variables will be cleared.', (confirmed) => {
+    if (confirmed) {
+      if (window.AndroidBridge) {
+        window.AndroidBridge.onLogout();
+      }
+      localStorage.removeItem('mw_user');
+      localStorage.removeItem('mw_profile');
+      localStorage.removeItem('mw_expenses');
+      localStorage.removeItem('mw_subscriptions');
+      localStorage.removeItem('mw_goals');
+      localStorage.removeItem('mw_preferences');
+      window.location.reload();
     }
-    localStorage.removeItem('mw_user');
-    localStorage.removeItem('mw_profile');
-    localStorage.removeItem('mw_expenses');
-    localStorage.removeItem('mw_subscriptions');
-    localStorage.removeItem('mw_goals');
-    localStorage.removeItem('mw_preferences');
-    window.location.reload();
-  }
+  });
 }
 
 // MULTI-STEP ONBOARDING
@@ -436,55 +439,7 @@ function goToOnboardStep(step) {
   }
 }
 
-// 50/30/20 Sliders Onboarding & Settings Lock-Step Logic
-function balanceSliders(changed, sliderIds) {
-  const [idN, idW, idS] = sliderIds;
-  let n = parseInt(document.getElementById(idN).value) || 0;
-  let w = parseInt(document.getElementById(idW).value) || 0;
-  let s = parseInt(document.getElementById(idS).value) || 0;
-
-  let total = n + w + s;
-  let diff = 100 - total;
-
-  if (diff !== 0) {
-    if (changed === 'needs') {
-      // Adjust Wants first, then Savings
-      let wAdj = Math.min(100, Math.max(0, w + diff));
-      diff -= (wAdj - w);
-      w = wAdj;
-      if (diff !== 0) {
-        let sAdj = Math.min(100, Math.max(0, s + diff));
-        s = sAdj;
-      }
-    } else if (changed === 'wants') {
-      // Adjust Savings first, then Needs
-      let sAdj = Math.min(100, Math.max(0, s + diff));
-      diff -= (sAdj - s);
-      s = sAdj;
-      if (diff !== 0) {
-        let nAdj = Math.min(100, Math.max(0, n + diff));
-        n = nAdj;
-      }
-    } else if (changed === 'savings') {
-      // Adjust Needs first, then Wants
-      let nAdj = Math.min(100, Math.max(0, n + diff));
-      diff -= (nAdj - n);
-      n = nAdj;
-      if (diff !== 0) {
-        let wAdj = Math.min(100, Math.max(0, w + diff));
-        w = wAdj;
-      }
-    }
-  }
-
-  // Update slider DOM values
-  document.getElementById(idN).value = n;
-  document.getElementById(idW).value = w;
-  document.getElementById(idS).value = s;
-
-  return { needs: n, wants: w, savings: s };
-}
-
+// 50/30/20 Sliders Onboarding & Settings Lock-Step Logic (Disabled in favor of free sliding + total validation)
 function resetToDefaultSplits() {
   document.getElementById('slider-needs').value = 50;
   document.getElementById('slider-wants').value = 30;
@@ -492,23 +447,27 @@ function resetToDefaultSplits() {
   updateSplitSliders();
 }
 
-function updateSplitSliders(changed) {
-  if (changed) {
-    balanceSliders(changed, ['slider-needs', 'slider-wants', 'slider-savings']);
-  }
-
-  let needs = parseInt(document.getElementById('slider-needs').value);
-  let wants = parseInt(document.getElementById('slider-wants').value);
-  let savings = parseInt(document.getElementById('slider-savings').value);
+function updateSplitSliders() {
+  let needs = parseInt(document.getElementById('slider-needs').value) || 0;
+  let wants = parseInt(document.getElementById('slider-wants').value) || 0;
+  let savings = parseInt(document.getElementById('slider-savings').value) || 0;
   
   document.getElementById('label-needs').textContent = needs + '%';
   document.getElementById('label-wants').textContent = wants + '%';
   document.getElementById('label-savings').textContent = savings + '%';
 
+  const total = needs + wants + savings;
   const badge = document.getElementById('split-total-badge');
-  badge.textContent = `100% (Valid)`;
-  badge.className = 'split-total-badge valid';
-  document.getElementById('onboard-submit-1').disabled = false;
+  
+  if (total === 100) {
+    badge.textContent = `100% (Valid)`;
+    badge.className = 'split-total-badge valid';
+    document.getElementById('onboard-submit-1').disabled = false;
+  } else {
+    badge.textContent = `${total}% (Must equal 100%)`;
+    badge.className = 'split-total-badge invalid';
+    document.getElementById('onboard-submit-1').disabled = true;
+  }
 }
 
 function submitOnboardStep1(e) {
@@ -655,7 +614,11 @@ function syncAppProfileUI() {
     
     const renewalEl = document.getElementById('pref-alert-renewal');
     if (renewalEl) renewalEl.checked = !!state.preferences.notifications.renewal;
+
+    const phoneEl = document.getElementById('settings-phone');
+    if (phoneEl) phoneEl.value = state.preferences.notifications.phoneNumber || '';
   }
+  syncSavingsThresholdToAndroid();
 
   // Sync walkthrough tooltips preferences
   const showTooltips = state.preferences && state.preferences.showTooltips !== false;
@@ -804,12 +767,17 @@ function updateAlertsBanner() {
 function renderDashboard() {
   if (!state.profile) return;
 
-  const income = state.profile.income;
+  const baseIncome = state.profile.income;
+  const credits = getMonthlyCredits();
+  const income = baseIncome + credits;
+
   const spent = computeMonthlySpent();
   const totalSpent = (spent.Needs || 0) + (spent.Wants || 0);
   const totalSaved = spent.Savings || 0;
   const remaining = income - (totalSpent + totalSaved);
 
+  document.getElementById('dash-monthly-income').textContent = `₹${formatNumber(income)}`;
+  document.getElementById('dash-base-income').textContent = `Base: ₹${formatNumber(baseIncome)}`;
   document.getElementById('dash-total-saved').textContent = `₹${formatNumber(totalSaved)}`;
   document.getElementById('dash-total-spent').textContent = `₹${formatNumber(totalSpent)}`;
   
@@ -1106,12 +1074,17 @@ function renderExpenses() {
   const filterB = document.getElementById('filter-bucket').value;
   const filterC = document.getElementById('filter-subcategory').value;
 
-  let list = getCurrentMonthExpenses();
-  if (filterB !== 'all') list = list.filter(x => x.bucket === filterB);
+  let list = getCurrentMonthTransactions();
+  if (filterB !== 'all') {
+    if (filterB === 'Savings') {
+      list = list.filter(x => x.bucket === 'Savings' && x.type !== 'credit');
+    } else {
+      list = list.filter(x => x.bucket === filterB);
+    }
+  }
   
   if (filterC !== 'all') {
     list = list.filter(x => {
-      // Direct match or if filterC is 'Other Needs/Wants/Savings', match any custom category not in default configuration
       const defaults = CATEGORIES_MAPPING[x.bucket] || [];
       if (filterC === 'Other Needs' || filterC === 'Other Wants' || filterC === 'Other Savings') {
         return !defaults.includes(x.category) || x.category === filterC;
@@ -1132,16 +1105,21 @@ function renderExpenses() {
 
   list.forEach(exp => {
     const tr = document.createElement('tr');
-    const bClass = `category-${exp.bucket.toLowerCase()}-badge`;
+    const isCredit = exp.type === 'credit';
+    const bClass = isCredit ? 'category-needs-badge' : `category-${exp.bucket.toLowerCase()}-badge`;
     const rec = exp.isRecurring ? '<span class="recurring-indicator" title="Recurring"><i data-lucide="repeat" style="width:10px;"></i></span>' : '';
     const inv = exp.isInvestment ? '<span class="recurring-indicator" style="color:var(--color-investments)" title="Investment Asset"><i data-lucide="trending-up" style="width:10px;"></i></span>' : '';
     
+    const amtSign = isCredit ? '+' : '-';
+    const amtColor = isCredit ? 'var(--color-needs)' : 'var(--text-primary)';
+    const bucketLabel = isCredit ? 'Income' : exp.bucket;
+
     tr.innerHTML = `
       <td data-label="Date">${formatDate(exp.date)}</td>
-      <td data-label="Bucket"><span class="category-badge ${bClass}">${exp.bucket}</span></td>
+      <td data-label="Bucket"><span class="category-badge ${bClass}">${bucketLabel}</span></td>
       <td data-label="Category">${exp.category} ${rec} ${inv}</td>
       <td data-label="Note" style="color:var(--text-secondary); max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${exp.note || '-'}</td>
-      <td data-label="Amount" style="font-weight:700;">₹${formatNumber(exp.amount)}</td>
+      <td data-label="Amount" style="font-weight:700; color:${amtColor};">${amtSign}₹${formatNumber(exp.amount)}</td>
       <td data-label="Actions">
         <div class="table-actions">
           <button class="btn-table btn-table-edit" onclick="openExpenseModal('${exp.id}')"><i data-lucide="edit-3"></i></button>
@@ -1155,13 +1133,15 @@ function renderExpenses() {
 }
 
 function deleteExpense(id) {
-  if (confirm('Delete transaction permanently?')) {
-    state.expenses = state.expenses.filter(x => x.id !== id);
-    saveStateToStorage();
-    renderExpenses();
-    renderDashboard();
-    showToast('Transaction removed', 'warning');
-  }
+  showConfirmDialog('Delete Transaction', 'Are you sure you want to delete this transaction permanently?', (confirmed) => {
+    if (confirmed) {
+      state.expenses = state.expenses.filter(x => x.id !== id);
+      saveStateToStorage();
+      renderExpenses();
+      renderDashboard();
+      showToast('Transaction removed', 'warning');
+    }
+  });
 }
 
 // SUBSCRIPTIONS MODALS & CRUD
@@ -1362,13 +1342,15 @@ function logSubActivity(id) {
 }
 
 function deleteSub(id) {
-  if (confirm('Stop tracking subscription?')) {
-    state.subscriptions = state.subscriptions.filter(s => s.id !== id);
-    saveStateToStorage();
-    renderSubscriptions();
-    renderDashboard();
-    showToast('Subscription removed', 'warning');
-  }
+  showConfirmDialog('Delete Subscription', 'Are you sure you want to stop tracking this subscription?', (confirmed) => {
+    if (confirmed) {
+      state.subscriptions = state.subscriptions.filter(s => s.id !== id);
+      saveStateToStorage();
+      renderSubscriptions();
+      renderDashboard();
+      showToast('Subscription removed', 'warning');
+    }
+  });
 }
 
 // SAVINGS GOALS MODALS & CRUD
@@ -1507,35 +1489,37 @@ function renderGoals() {
 function addGoalContribution(id) {
   const goal = state.goals.find(g => g.id === id);
   if (!goal) return;
-  const input = prompt(`Enter extra savings amount for "${goal.name}" (₹):`);
-  const amt = parseInt(input);
-  if (isNaN(amt) || amt <= 0) return;
+  showPromptDialog('Add Extra Saving', `Enter extra savings amount for "${goal.name}" (₹):`, (amt) => {
+    if (isNaN(amt) || amt <= 0) return;
 
-  state.expenses.push({
-    id: generateId(), 
-    amount: amt, 
-    bucket: 'Savings', 
-    category: 'Emergency Fund',
-    date: new Date().toISOString().split('T')[0], 
-    note: `Goal Injection: ${goal.name}`, 
-    isRecurring: false,
-    isInvestment: false
-  });
+    state.expenses.push({
+      id: generateId(), 
+      amount: amt, 
+      bucket: 'Savings', 
+      category: 'Emergency Fund',
+      date: new Date().toISOString().split('T')[0], 
+      note: `Goal Injection: ${goal.name}`, 
+      isRecurring: false,
+      isInvestment: false
+    });
 
-  saveStateToStorage();
-  renderGoals();
-  renderDashboard();
-  showToast(`Contribution of ₹${formatNumber(amt)} saved`, 'success');
-}
-
-function deleteGoal(id) {
-  if (confirm('Delete savings target?')) {
-    state.goals = state.goals.filter(g => g.id !== id);
     saveStateToStorage();
     renderGoals();
     renderDashboard();
-    showToast('Goal removed', 'warning');
-  }
+    showToast(`Contribution of ₹${formatNumber(amt)} saved`, 'success');
+  });
+}
+
+function deleteGoal(id) {
+  showConfirmDialog('Delete Savings Target', 'Are you sure you want to delete this savings goal?', (confirmed) => {
+    if (confirmed) {
+      state.goals = state.goals.filter(g => g.id !== id);
+      saveStateToStorage();
+      renderGoals();
+      renderDashboard();
+      showToast('Goal removed', 'warning');
+    }
+  });
 }
 
 // INVESTMENTS tab logic
@@ -2191,40 +2175,61 @@ function saveSettingsSplits() {
   showToast('Personal budget limits re-allocated', 'success');
 }
 
-function updateSettingsSliders(changed) {
-  if (changed) {
-    balanceSliders(changed, ['slider-settings-needs', 'slider-settings-wants', 'slider-settings-savings']);
-  }
-
-  let n = parseInt(document.getElementById('slider-settings-needs').value);
-  let w = parseInt(document.getElementById('slider-settings-wants').value);
-  let s = parseInt(document.getElementById('slider-settings-savings').value);
+function updateSettingsSliders() {
+  let n = parseInt(document.getElementById('slider-settings-needs').value) || 0;
+  let w = parseInt(document.getElementById('slider-settings-wants').value) || 0;
+  let s = parseInt(document.getElementById('slider-settings-savings').value) || 0;
 
   document.getElementById('label-settings-needs').textContent = n + '%';
   document.getElementById('label-settings-wants').textContent = w + '%';
   document.getElementById('label-settings-savings').textContent = s + '%';
 
+  const total = n + w + s;
   const badge = document.getElementById('settings-split-total');
-  badge.textContent = `100% (Valid)`;
-  badge.className = 'split-total-badge valid';
+  const saveBtn = document.querySelector('button[onclick="saveSettingsSplits()"]');
+
+  if (total === 100) {
+    badge.textContent = `100% (Valid)`;
+    badge.className = 'split-total-badge valid';
+    if (saveBtn) saveBtn.disabled = false;
+  } else {
+    badge.textContent = `${total}% (Must equal 100%)`;
+    badge.className = 'split-total-badge invalid';
+    if (saveBtn) saveBtn.disabled = true;
+  }
 }
 
 function saveNotificationPreferences() {
+  const phone = document.getElementById('settings-phone').value.trim();
   state.preferences.notifications = {
     overspend: document.getElementById('pref-alert-overspend').checked,
     renewal: document.getElementById('pref-alert-renewal').checked,
-    goals: state.preferences.notifications.goals // carry over
+    goals: (state.preferences.notifications && state.preferences.notifications.goals) || false,
+    phoneNumber: phone
   };
   saveStateToStorage();
   updateAlertsBanner();
+  syncSavingsThresholdToAndroid();
   showToast('Alert preferences saved', 'success');
 }
 
-function triggerLedgerReset() {
-  if (confirm('CAUTION: This will delete ALL data history. Proceed?')) {
-    localStorage.clear();
-    window.location.reload();
+function syncSavingsThresholdToAndroid() {
+  if (window.AndroidBridge && state.profile) {
+    const income = state.profile.income || 0;
+    const splitPct = state.profile.budgetSplits ? state.profile.budgetSplits.savings : 20;
+    const savingsTarget = Math.round(income * (splitPct / 100));
+    const phone = (state.preferences.notifications && state.preferences.notifications.phoneNumber) || '';
+    window.AndroidBridge.updateSavingsThreshold(income, savingsTarget, phone);
   }
+}
+
+function triggerLedgerReset() {
+  showConfirmDialog('Reset Database', 'CAUTION: This will permanently delete ALL registration data and history. Proceed?', (confirmed) => {
+    if (confirmed) {
+      localStorage.clear();
+      window.location.reload();
+    }
+  });
 }
 
 // MATH HELPERS
@@ -2247,6 +2252,22 @@ function computeMonthlySpentByCategory() {
 }
 
 function getCurrentMonthExpenses() {
+  const today = new Date();
+  return state.expenses.filter(x => {
+    const d = new Date(x.date);
+    return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && x.type !== 'credit';
+  });
+}
+
+function getMonthlyCredits() {
+  const today = new Date();
+  return state.expenses.filter(x => {
+    const d = new Date(x.date);
+    return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && x.type === 'credit';
+  }).reduce((acc, x) => acc + x.amount, 0);
+}
+
+function getCurrentMonthTransactions() {
   const today = new Date();
   return state.expenses.filter(x => {
     const d = new Date(x.date);
@@ -2855,5 +2876,93 @@ function simulateWorkManagerSync(txn) {
   setTimeout(() => {
     console.log(`[WorkManager SyncWorker] Sync successfully completed for transaction ID: ${txn.id}.`);
   }, 3000);
+}
+
+// CUSTOM MODAL DIALOGS HELPERS
+let confirmCallback = null;
+function showConfirmDialog(title, message, callback) {
+  confirmCallback = callback;
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-message').textContent = message;
+  document.getElementById('modal-confirm-dialog').classList.add('active');
+}
+
+function closeConfirmDialog(result) {
+  document.getElementById('modal-confirm-dialog').classList.remove('active');
+  if (confirmCallback) {
+    confirmCallback(result);
+    confirmCallback = null;
+  }
+}
+
+let promptCallback = null;
+function showPromptDialog(title, label, callback) {
+  promptCallback = callback;
+  document.getElementById('prompt-title').textContent = title;
+  document.getElementById('prompt-label').textContent = label;
+  document.getElementById('prompt-input').value = '';
+  document.getElementById('modal-prompt-dialog').classList.add('active');
+}
+
+function closePromptDialog(submitted) {
+  document.getElementById('modal-prompt-dialog').classList.remove('active');
+  if (promptCallback) {
+    if (submitted) {
+      const val = parseInt(document.getElementById('prompt-input').value);
+      promptCallback(val);
+    } else {
+      promptCallback(null);
+    }
+    promptCallback = null;
+  }
+}
+
+// PULL TO REFRESH INITIATOR
+let touchStartY = 0;
+let touchMoveY = 0;
+let isPTRActive = false;
+
+function initPullToRefresh() {
+  const container = document.getElementById('tab-dashboard');
+  const indicator = document.getElementById('pull-to-refresh-indicator');
+  if (!container || !indicator) return;
+
+  container.addEventListener('touchstart', (e) => {
+    if (container.scrollTop === 0) {
+      touchStartY = e.touches[0].pageY;
+      isPTRActive = true;
+    } else {
+      isPTRActive = false;
+    }
+  }, { passive: true });
+
+  container.addEventListener('touchmove', (e) => {
+    if (!isPTRActive) return;
+    touchMoveY = e.touches[0].pageY;
+    const moveDist = touchMoveY - touchStartY;
+    
+    if (moveDist > 50) {
+      indicator.classList.add('active');
+      indicator.querySelector('span').textContent = 'Release to refresh...';
+    }
+  }, { passive: true });
+
+  container.addEventListener('touchend', () => {
+    if (!isPTRActive) return;
+    const moveDist = touchMoveY - touchStartY;
+    
+    if (moveDist > 50) {
+      indicator.querySelector('span').textContent = 'Syncing...';
+      fetchDataFromBackend();
+      setTimeout(() => {
+        indicator.classList.remove('active');
+        touchStartY = 0;
+        touchMoveY = 0;
+      }, 1000);
+    } else {
+      indicator.classList.remove('active');
+    }
+    isPTRActive = false;
+  });
 }
 

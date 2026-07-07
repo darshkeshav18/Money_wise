@@ -60,6 +60,17 @@ class MainActivity : AppCompatActivity() {
             prefs.edit().remove("username").apply()
             android.util.Log.d("MoneyWiseBridge", "User logged out. Cleared username.")
         }
+
+        @android.webkit.JavascriptInterface
+        fun updateSavingsThreshold(income: Int, savingsTarget: Int, phoneNumber: String) {
+            val prefs = activity.getSharedPreferences("MoneyWisePrefs", android.content.Context.MODE_PRIVATE)
+            prefs.edit()
+                .putInt("income", income)
+                .putInt("savingsTarget", savingsTarget)
+                .putString("phoneNumber", phoneNumber)
+                .apply()
+            android.util.Log.d("MoneyWiseBridge", "Updated savings threshold: Income=$income, Target=$savingsTarget, Phone=$phoneNumber")
+        }
     }
 
     private fun requestAppPermissions() {
@@ -76,9 +87,10 @@ class MainActivity : AppCompatActivity() {
         // 3. SMS Permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val hasReceiveSms = checkSelfPermission(Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED
-            if (!hasReceiveSms) {
+            val hasSendSms = checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
+            if (!hasReceiveSms || !hasSendSms) {
                 requestPermissions(
-                    arrayOf(Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS),
+                    arrayOf(Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS),
                     101
                 )
             }

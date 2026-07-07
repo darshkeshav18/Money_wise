@@ -49,7 +49,7 @@ class SmsReceiver : BroadcastReceiver() {
                 val dao = AppDatabase.getInstance(context.applicationContext).transactionDao()
                 val repo = TransactionRepository(dao)
                 
-                when (val action = repo.handleIncomingTransaction(txn)) {
+                when (val action = repo.handleIncomingTransaction(context.applicationContext, txn)) {
                     is PendingAction.NeedsCategorization -> {
                         OverlayService.launch(
                             context.applicationContext,
