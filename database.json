@@ -88,15 +88,7 @@
         }
       ],
       "subscriptions": [],
-      "goals": [
-        {
-          "id": "ava4oyg",
-          "name": "clothes",
-          "target": 2000,
-          "linkedSplitPercent": 5,
-          "createdAt": "2026-07-06"
-        }
-      ],
+      "goals": [],
       "preferences": {
         "notifications": {
           "overspend": true,
