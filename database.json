@@ -28,7 +28,18 @@
         "bankingConnected": false,
         "smsConsent": true
       },
-      "expenses": [],
+      "expenses": [
+        {
+          "id": "r6106dr",
+          "amount": 500,
+          "bucket": "Savings",
+          "category": "Emergency Fund",
+          "date": "2026-07-07",
+          "note": "Goal Injection: Trip",
+          "isRecurring": false,
+          "isInvestment": false
+        }
+      ],
       "subscriptions": [],
       "goals": [
         {
