@@ -160,9 +160,26 @@
           "isRecurring": true,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "yix4zkf",
+          "amount": 286,
+          "bucket": "Wants",
+          "category": "OTT Subscriptions",
+          "date": "2026-07-05",
+          "note": "Subscription: Prime Video",
+          "isRecurring": true
         }
       ],
-      "subscriptions": [],
+      "subscriptions": [
+        {
+          "id": "j3geb93",
+          "name": "Prime Video",
+          "cost": 286,
+          "billingDate": 5,
+          "lastUsedDate": "2026-07-10"
+        }
+      ],
       "goals": [],
       "preferences": {
         "notifications": {
