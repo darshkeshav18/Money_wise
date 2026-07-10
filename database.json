@@ -136,7 +136,7 @@
           "savings": 20
         },
         "bankingConnected": false,
-        "smsConsent": false
+        "smsConsent": true
       },
       "expenses": [
         {
