@@ -206,7 +206,7 @@
           "goals": true,
           "phoneNumber": ""
         },
-        "darkMode": true,
+        "darkMode": false,
         "showTooltips": true,
         "tourCompleted": true,
         "hideBalance": true
