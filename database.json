@@ -20,6 +20,13 @@
       "email": "user123@gmail.com",
       "passwordHash": "056e84183058806ca077b74bbf0aeeb544c30c8a0dd800295a87b7054a1afc6a",
       "createdAt": "2026-07-10T06:46:13.691Z"
+    },
+    {
+      "id": "hljn3y0",
+      "username": "sanchita",
+      "email": "sanchitaiyer28@gmail.com",
+      "passwordHash": "8c668ed944bed9d151739ac80b40bd4cc3b06026268d728859496e66f9794001",
+      "createdAt": "2026-07-10T06:58:06.752Z"
     }
   ],
   "userData": {
