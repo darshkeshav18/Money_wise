@@ -218,6 +218,20 @@
         "tourCompleted": true,
         "hideBalance": true
       }
+    },
+    "sanchita": {
+      "profile": null,
+      "expenses": [],
+      "subscriptions": [],
+      "goals": [],
+      "preferences": {
+        "notifications": {
+          "overspend": true,
+          "renewal": true,
+          "goals": true
+        },
+        "darkMode": true
+      }
     }
   }
 }
