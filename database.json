@@ -13,6 +13,13 @@
       "email": "bhuvanagirisamhita@gmail.com",
       "passwordHash": "24c6bbf0a6a8bc329dcbe8edf0bb1b202c31e67dff1d6a5c1949091e3ef886ed",
       "createdAt": "2026-07-06T03:30:03.601Z"
+    },
+    {
+      "id": "6scmoh6",
+      "username": "user123",
+      "email": "user123@gmail.com",
+      "passwordHash": "056e84183058806ca077b74bbf0aeeb544c30c8a0dd800295a87b7054a1afc6a",
+      "createdAt": "2026-07-10T06:46:13.691Z"
     }
   ],
   "userData": {
