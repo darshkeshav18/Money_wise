@@ -88,7 +88,15 @@
         }
       ],
       "subscriptions": [],
-      "goals": [],
+      "goals": [
+        {
+          "id": "uqo7p4h",
+          "name": "teip",
+          "target": 500,
+          "linkedSplitPercent": 48,
+          "createdAt": "2026-07-10"
+        }
+      ],
       "preferences": {
         "notifications": {
           "overspend": true,
