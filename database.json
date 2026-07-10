@@ -127,7 +127,17 @@
       }
     },
     "user123": {
-      "profile": null,
+      "profile": {
+        "profession": "Student",
+        "income": 15000,
+        "budgetSplits": {
+          "needs": 50,
+          "wants": 30,
+          "savings": 20
+        },
+        "bankingConnected": false,
+        "smsConsent": true
+      },
       "expenses": [],
       "subscriptions": [],
       "goals": [],
