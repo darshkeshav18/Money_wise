@@ -220,7 +220,17 @@
       }
     },
     "sanchita": {
-      "profile": null,
+      "profile": {
+        "profession": "Student",
+        "income": 10000,
+        "budgetSplits": {
+          "needs": 50,
+          "wants": 30,
+          "savings": 20
+        },
+        "bankingConnected": false,
+        "smsConsent": true
+      },
       "expenses": [],
       "subscriptions": [],
       "goals": [],
