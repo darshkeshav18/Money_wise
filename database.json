@@ -136,7 +136,7 @@
           "savings": 20
         },
         "bankingConnected": false,
-        "smsConsent": true
+        "smsConsent": false
       },
       "expenses": [
         {
@@ -166,7 +166,7 @@
       "goals": [],
       "preferences": {
         "notifications": {
-          "overspend": false,
+          "overspend": true,
           "renewal": true,
           "goals": true,
           "phoneNumber": ""
