@@ -238,7 +238,8 @@
         "notifications": {
           "overspend": true,
           "renewal": true,
-          "goals": true
+          "goals": true,
+          "phoneNumber": "8762089095"
         },
         "darkMode": true,
         "showTooltips": true,
