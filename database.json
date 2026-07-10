@@ -85,6 +85,16 @@
           "isRecurring": true,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "p7azzwm",
+          "amount": 50,
+          "bucket": "Savings",
+          "category": "Emergency Fund",
+          "date": "2026-07-10",
+          "note": "Goal Injection: teip",
+          "isRecurring": false,
+          "isInvestment": false
         }
       ],
       "subscriptions": [],
