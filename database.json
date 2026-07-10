@@ -125,6 +125,20 @@
         "tourCompleted": true,
         "hideBalance": false
       }
+    },
+    "user123": {
+      "profile": null,
+      "expenses": [],
+      "subscriptions": [],
+      "goals": [],
+      "preferences": {
+        "notifications": {
+          "overspend": true,
+          "renewal": true,
+          "goals": true
+        },
+        "darkMode": true
+      }
     }
   }
 }
