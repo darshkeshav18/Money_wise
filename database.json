@@ -169,6 +169,16 @@
           "date": "2026-07-05",
           "note": "Subscription: Prime Video",
           "isRecurring": true
+        },
+        {
+          "id": "uzq7afv",
+          "amount": 1000,
+          "bucket": "Savings",
+          "category": "Emergency Fund",
+          "date": "2026-07-10",
+          "note": "Goal Injection: Vacation",
+          "isRecurring": false,
+          "isInvestment": false
         }
       ],
       "subscriptions": [
