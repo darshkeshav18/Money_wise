@@ -149,6 +149,17 @@
           "isRecurring": false,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "jlt6ano",
+          "amount": 199,
+          "bucket": "Wants",
+          "category": "OTT Subscriptions",
+          "date": "2026-07-10",
+          "note": "Netflix",
+          "isRecurring": true,
+          "isInvestment": false,
+          "assetType": ""
         }
       ],
       "subscriptions": [],
