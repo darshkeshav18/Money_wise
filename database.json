@@ -180,7 +180,15 @@
           "lastUsedDate": "2026-07-10"
         }
       ],
-      "goals": [],
+      "goals": [
+        {
+          "id": "471j5n5",
+          "name": "Vacation",
+          "target": 6000,
+          "linkedSplitPercent": 20,
+          "createdAt": "2026-07-10"
+        }
+      ],
       "preferences": {
         "notifications": {
           "overspend": true,
