@@ -193,6 +193,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784090543150
+        },
+        {
+          "id": "q81vg5d",
+          "amount": 100,
+          "note": "7975530278@superyes",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784091589836
         }
       ],
       "subscriptions": [],
