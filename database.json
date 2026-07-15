@@ -44,68 +44,14 @@
       },
       "expenses": [
         {
-          "id": "r6106dr",
-          "amount": 500,
+          "id": "q3bp52l",
+          "amount": 100,
+          "note": "Credit alert received",
+          "date": "2026-07-15",
           "bucket": "Savings",
-          "category": "Emergency Fund",
-          "date": "2026-07-07",
-          "note": "Goal Injection: Trip",
-          "isRecurring": false,
-          "isInvestment": false
-        },
-        {
-          "id": "vo0ts75",
-          "amount": 50,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-15",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit"
-        },
-        {
-          "id": "hadzs1y",
-          "amount": 50,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-15",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit"
-        },
-        {
-          "id": "1jeq2ep",
-          "amount": 50,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-15",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit"
-        },
-        {
-          "id": "45ufbtd",
-          "amount": 50,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-15",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit"
-        },
-        {
-          "id": "164d5pv",
-          "amount": 100,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-15",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit"
-        },
-        {
-          "id": "716xs4b",
-          "amount": 100,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-15",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit"
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784089728139
         }
       ],
       "subscriptions": [],
@@ -217,6 +163,26 @@
           "bucket": "Needs",
           "category": "Other Needs",
           "type": "debit"
+        },
+        {
+          "id": "ael1lei",
+          "amount": 100,
+          "note": "7975530278@superyes",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784089609455
+        },
+        {
+          "id": "muw8fcl",
+          "amount": 100,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-15",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784089706091
         }
       ],
       "subscriptions": [],
