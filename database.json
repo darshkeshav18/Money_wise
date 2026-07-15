@@ -44,24 +44,6 @@
       },
       "expenses": [
         {
-          "id": "vo0ts75",
-          "amount": 50,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-15",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit"
-        },
-        {
-          "id": "hadzs1y",
-          "amount": 50,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-15",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit"
-        },
-        {
           "id": "42z0j44",
           "amount": 100,
           "note": "SAMHITA BHUV",
