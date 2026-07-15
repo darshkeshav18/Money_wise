@@ -88,6 +88,15 @@
           "bucket": "Needs",
           "category": "Other Needs",
           "type": "debit"
+        },
+        {
+          "id": "164d5pv",
+          "amount": 100,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-15",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit"
         }
       ],
       "subscriptions": [],
