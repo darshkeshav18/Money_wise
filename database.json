@@ -52,6 +52,15 @@
           "note": "Goal Injection: Trip",
           "isRecurring": false,
           "isInvestment": false
+        },
+        {
+          "id": "vo0ts75",
+          "amount": 50,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-15",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit"
         }
       ],
       "subscriptions": [],
