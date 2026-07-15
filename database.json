@@ -169,17 +169,8 @@
           "amount": 200,
           "note": "DARSH  KESHAV",
           "date": "2026-07-15",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
-          "type": "debit"
-        },
-        {
-          "id": "wsp592o",
-          "amount": 200,
-          "note": "DARSH  KESHAV",
-          "date": "2026-07-15",
-          "bucket": "Wants",
-          "category": "Other Wants",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit"
         }
       ],
