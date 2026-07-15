@@ -52,6 +52,60 @@
           "note": "Goal Injection: Trip",
           "isRecurring": false,
           "isInvestment": false
+        },
+        {
+          "id": "vo0ts75",
+          "amount": 50,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-15",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit"
+        },
+        {
+          "id": "hadzs1y",
+          "amount": 50,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-15",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit"
+        },
+        {
+          "id": "1jeq2ep",
+          "amount": 50,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-15",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit"
+        },
+        {
+          "id": "45ufbtd",
+          "amount": 50,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-15",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit"
+        },
+        {
+          "id": "164d5pv",
+          "amount": 100,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-15",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit"
+        },
+        {
+          "id": "716xs4b",
+          "amount": 100,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-15",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit"
         }
       ],
       "subscriptions": [],
@@ -109,6 +163,60 @@
           "note": "Goal Injection: teip",
           "isRecurring": false,
           "isInvestment": false
+        },
+        {
+          "id": "zdd6dqa",
+          "amount": 50,
+          "note": "7975530278@superyes",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit"
+        },
+        {
+          "id": "8cepl1c",
+          "amount": 50,
+          "note": "7975530278@superyes",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit"
+        },
+        {
+          "id": "x03ktzz",
+          "amount": 200,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-15",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit"
+        },
+        {
+          "id": "5qpawp7",
+          "amount": 100,
+          "note": "7975530278@superyes",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit"
+        },
+        {
+          "id": "8rlj0cy",
+          "amount": 200,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Savings",
+          "type": "debit"
+        },
+        {
+          "id": "wtghrih",
+          "amount": 200,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-15",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit"
         }
       ],
       "subscriptions": [],
