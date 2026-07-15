@@ -13,6 +13,20 @@
       "email": "bhuvanagirisamhita@gmail.com",
       "passwordHash": "24c6bbf0a6a8bc329dcbe8edf0bb1b202c31e67dff1d6a5c1949091e3ef886ed",
       "createdAt": "2026-07-06T03:30:03.601Z"
+    },
+    {
+      "id": "6scmoh6",
+      "username": "user123",
+      "email": "user123@gmail.com",
+      "passwordHash": "056e84183058806ca077b74bbf0aeeb544c30c8a0dd800295a87b7054a1afc6a",
+      "createdAt": "2026-07-10T06:46:13.691Z"
+    },
+    {
+      "id": "hljn3y0",
+      "username": "sanchita",
+      "email": "sanchitaiyer28@gmail.com",
+      "passwordHash": "8c668ed944bed9d151739ac80b40bd4cc3b06026268d728859496e66f9794001",
+      "createdAt": "2026-07-10T06:58:06.752Z"
     }
   ],
   "userData": {
@@ -28,9 +42,28 @@
         "bankingConnected": false,
         "smsConsent": true
       },
-      "expenses": [],
+      "expenses": [
+        {
+          "id": "r6106dr",
+          "amount": 500,
+          "bucket": "Savings",
+          "category": "Emergency Fund",
+          "date": "2026-07-07",
+          "note": "Goal Injection: Trip",
+          "isRecurring": false,
+          "isInvestment": false
+        }
+      ],
       "subscriptions": [],
-      "goals": [],
+      "goals": [
+        {
+          "id": "g358mg3",
+          "name": "Trip",
+          "target": 5000,
+          "linkedSplitPercent": 20,
+          "createdAt": "2026-07-07"
+        }
+      ],
       "preferences": {
         "notifications": {
           "overspend": true,
@@ -66,23 +99,26 @@
           "isRecurring": true,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "p7azzwm",
+          "amount": 50,
+          "bucket": "Savings",
+          "category": "Emergency Fund",
+          "date": "2026-07-10",
+          "note": "Goal Injection: teip",
+          "isRecurring": false,
+          "isInvestment": false
         }
       ],
       "subscriptions": [],
       "goals": [
         {
-          "id": "lloltp6",
-          "name": "Birthday",
-          "target": 2000,
-          "linkedSplitPercent": 20,
-          "createdAt": "2026-07-06"
-        },
-        {
-          "id": "ava4oyg",
-          "name": "clothes",
-          "target": 2000,
-          "linkedSplitPercent": 5,
-          "createdAt": "2026-07-06"
+          "id": "uqo7p4h",
+          "name": "teip",
+          "target": 500,
+          "linkedSplitPercent": 48,
+          "createdAt": "2026-07-10"
         }
       ],
       "preferences": {
@@ -94,7 +130,120 @@
         "darkMode": true,
         "showTooltips": true,
         "tourCompleted": true,
+        "hideBalance": false
+      }
+    },
+    "user123": {
+      "profile": {
+        "profession": "Student",
+        "income": 15000,
+        "budgetSplits": {
+          "needs": 50,
+          "wants": 30,
+          "savings": 20
+        },
+        "bankingConnected": false,
+        "smsConsent": true
+      },
+      "expenses": [
+        {
+          "id": "eiadbsw",
+          "amount": 200,
+          "bucket": "Needs",
+          "category": "Groceries",
+          "date": "2026-07-10",
+          "note": "",
+          "isRecurring": false,
+          "isInvestment": false,
+          "assetType": ""
+        },
+        {
+          "id": "jlt6ano",
+          "amount": 199,
+          "bucket": "Wants",
+          "category": "OTT Subscriptions",
+          "date": "2026-07-10",
+          "note": "Netflix",
+          "isRecurring": true,
+          "isInvestment": false,
+          "assetType": ""
+        },
+        {
+          "id": "yix4zkf",
+          "amount": 286,
+          "bucket": "Wants",
+          "category": "OTT Subscriptions",
+          "date": "2026-07-05",
+          "note": "Subscription: Prime Video",
+          "isRecurring": true
+        },
+        {
+          "id": "uzq7afv",
+          "amount": 1000,
+          "bucket": "Savings",
+          "category": "Emergency Fund",
+          "date": "2026-07-10",
+          "note": "Goal Injection: Vacation",
+          "isRecurring": false,
+          "isInvestment": false
+        }
+      ],
+      "subscriptions": [
+        {
+          "id": "j3geb93",
+          "name": "Prime Video",
+          "cost": 286,
+          "billingDate": 5,
+          "lastUsedDate": "2026-07-10"
+        }
+      ],
+      "goals": [
+        {
+          "id": "471j5n5",
+          "name": "Vacation",
+          "target": 6000,
+          "linkedSplitPercent": 20,
+          "createdAt": "2026-07-10"
+        }
+      ],
+      "preferences": {
+        "notifications": {
+          "overspend": true,
+          "renewal": true,
+          "goals": true,
+          "phoneNumber": ""
+        },
+        "darkMode": false,
+        "showTooltips": true,
+        "tourCompleted": true,
         "hideBalance": true
+      }
+    },
+    "sanchita": {
+      "profile": {
+        "profession": "Student",
+        "income": 10000,
+        "budgetSplits": {
+          "needs": 50,
+          "wants": 30,
+          "savings": 20
+        },
+        "bankingConnected": false,
+        "smsConsent": true
+      },
+      "expenses": [],
+      "subscriptions": [],
+      "goals": [],
+      "preferences": {
+        "notifications": {
+          "overspend": true,
+          "renewal": true,
+          "goals": true,
+          "phoneNumber": "8762089095"
+        },
+        "darkMode": true,
+        "showTooltips": true,
+        "tourCompleted": false
       }
     }
   }
