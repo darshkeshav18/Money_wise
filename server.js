@@ -418,6 +418,26 @@ app.post('/api/transaction/add', async (req, res) => {
       }
     }
 
+    // Check if an existing transaction matches the same amount, type, and timestamp (within 2-minute window)
+    if (timestamp) {
+      const targetTime = Number(timestamp);
+      const existing = currentData.expenses.find(x => 
+        x.amount === Number(amount) && 
+        x.type === (isCredit ? 'credit' : 'debit') && 
+        x.timestamp && Math.abs(Number(x.timestamp) - targetTime) < 120000
+      );
+
+      if (existing) {
+        existing.bucket = bucket;
+        existing.category = subCategory;
+        if (reason) {
+          existing.note = reason;
+        }
+        await saveUserData(username, currentData);
+        return res.status(200).json({ success: true, message: 'Transaction updated successfully', expense: existing });
+      }
+    }
+
     // Create expense object matching dashboard schema
     const newExpense = {
       id: Math.random().toString(36).substring(2, 9),
@@ -426,7 +446,8 @@ app.post('/api/transaction/add', async (req, res) => {
       date: new Date(Number(timestamp || Date.now())).toISOString().split('T')[0],
       bucket: bucket,
       category: subCategory,
-      type: isCredit ? 'credit' : 'debit'
+      type: isCredit ? 'credit' : 'debit',
+      timestamp: timestamp ? Number(timestamp) : Date.now()
     };
 
     currentData.expenses.push(newExpense);
