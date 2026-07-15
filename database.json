@@ -62,15 +62,6 @@
           "type": "debit"
         },
         {
-          "id": "1jeq2ep",
-          "amount": 50,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-15",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit"
-        },
-        {
           "id": "42z0j44",
           "amount": 100,
           "note": "SAMHITA BHUV",
