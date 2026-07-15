@@ -205,21 +205,12 @@
           "amount": 200,
           "note": "DARSH  KESHAV",
           "date": "2026-07-15",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Savings",
+          "category": "Other Savings",
           "type": "debit"
         },
         {
           "id": "wtghrih",
-          "amount": 200,
-          "note": "DARSH  KESHAV",
-          "date": "2026-07-15",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit"
-        },
-        {
-          "id": "76xw8lv",
           "amount": 200,
           "note": "DARSH  KESHAV",
           "date": "2026-07-15",
