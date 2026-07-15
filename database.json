@@ -44,16 +44,6 @@
       },
       "expenses": [
         {
-          "id": "q3bp52l",
-          "amount": 100,
-          "note": "Credit alert received",
-          "date": "2026-07-15",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "type": "credit",
-          "timestamp": 1784089728139
-        },
-        {
           "id": "gwhxcbf",
           "amount": 100,
           "note": "SAMHITA BHUV",
