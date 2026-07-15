@@ -42,18 +42,7 @@
         "bankingConnected": false,
         "smsConsent": true
       },
-      "expenses": [
-        {
-          "id": "42z0j44",
-          "amount": 100,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-15",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784089614865
-        }
-      ],
+      "expenses": [],
       "subscriptions": [],
       "goals": [
         {
