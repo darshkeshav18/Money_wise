@@ -172,6 +172,15 @@
           "bucket": "Needs",
           "category": "Other Needs",
           "type": "debit"
+        },
+        {
+          "id": "5qpawp7",
+          "amount": 100,
+          "note": "7975530278@superyes",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit"
         }
       ],
       "subscriptions": [],
