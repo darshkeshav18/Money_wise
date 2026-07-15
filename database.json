@@ -263,6 +263,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784099389720
+        },
+        {
+          "id": "cq23og7",
+          "amount": 30,
+          "note": "Liza Butani",
+          "date": "2026-07-15",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784117261196
         }
       ],
       "subscriptions": [],
