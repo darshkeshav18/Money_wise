@@ -6,7 +6,7 @@ import com.moneywise.data.local.TransactionEntity
 class TransactionRepository(private val dao: TransactionDao) {
 
     fun buildDedupeKey(amount: Double, type: String, timestamp: Long): String {
-        val bucket = timestamp / 120_000 // 2-minute window absorbs SMS+notification duplicates
+        val bucket = timestamp / 20_000 // 20-second window absorbs SMS+notification duplicates but allows back-to-back payments
         return "$amount-$type-$bucket"
     }
 

@@ -20,7 +20,8 @@ class NotifListenerService : NotificationListenerService() {
     private val bankPackages = mapOf(
         "com.sbi.SBIFreedomPlus" to "SBI",
         "com.snapwork.hdfc" to "HDFC",
-        "com.canarabank.mobility" to "Canara"
+        "com.canarabank.mobility" to "Canara",
+        "money.super.payments" to "SuperMoney"
     )
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
