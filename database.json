@@ -183,6 +183,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784089706091
+        },
+        {
+          "id": "93noj3i",
+          "amount": 15,
+          "note": "NAVEEN K G",
+          "date": "2026-07-15",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784090543150
         }
       ],
       "subscriptions": [],
