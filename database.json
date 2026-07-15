@@ -253,6 +253,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784091719153
+        },
+        {
+          "id": "n2jyrqr",
+          "amount": 30,
+          "note": "VANAJAKSHI K G",
+          "date": "2026-07-15",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784099389720
         }
       ],
       "subscriptions": [],
