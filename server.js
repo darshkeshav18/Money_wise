@@ -403,9 +403,19 @@ app.post('/api/transaction/add', async (req, res) => {
       subCategory = 'Other Income';
     } else {
       const cleanCategory = category ? category.toLowerCase().trim() : '';
-      if (cleanCategory.startsWith('need')) { bucket = 'Needs'; subCategory = 'Other Needs'; }
-      else if (cleanCategory.startsWith('want')) { bucket = 'Wants'; subCategory = 'Other Wants'; }
-      else if (cleanCategory.startsWith('saving')) { bucket = 'Savings'; subCategory = 'Other Savings'; }
+      if (cleanCategory === 'uncategorized') {
+        bucket = 'Uncategorized';
+        subCategory = 'Uncategorized';
+      } else if (cleanCategory.startsWith('need')) {
+        bucket = 'Needs';
+        subCategory = 'Other Needs';
+      } else if (cleanCategory.startsWith('want')) {
+        bucket = 'Wants';
+        subCategory = 'Other Wants';
+      } else if (cleanCategory.startsWith('saving')) {
+        bucket = 'Savings';
+        subCategory = 'Other Savings';
+      }
     }
 
     // Create expense object matching dashboard schema

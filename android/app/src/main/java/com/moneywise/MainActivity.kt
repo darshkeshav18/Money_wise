@@ -17,6 +17,15 @@ class MainActivity : AppCompatActivity() {
     // Replace this with your Vercel deployment URL
     private val DASHBOARD_URL = "https://money-wise-henna.vercel.app/"
 
+    private val reloadReceiver = object : android.content.BroadcastReceiver() {
+        override fun onReceive(context: android.content.Context?, intent: android.content.Intent?) {
+            runOnUiThread {
+                android.util.Log.d("MainActivity", "Reload broadcast received. Force reloading dashboard WebView.")
+                webView.evaluateJavascript("javascript:forceReloadDashboard();", null)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,6 +52,13 @@ class MainActivity : AppCompatActivity() {
 
         // Request permissions on app launch
         requestAppPermissions()
+
+        // Register reload broadcast receiver
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(reloadReceiver, android.content.IntentFilter("com.moneywise.ACTION_RELOAD_DASHBOARD"), RECEIVER_NOT_EXPORTED)
+        } else {
+            registerReceiver(reloadReceiver, android.content.IntentFilter("com.moneywise.ACTION_RELOAD_DASHBOARD"))
+        }
     }
 
     // JavaScript Interface to receive login updates from WebView
@@ -103,5 +119,14 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy() {
+        try {
+            unregisterReceiver(reloadReceiver)
+        } catch (e: Exception) {
+            // ignore
+        }
+        super.onDestroy()
     }
 }

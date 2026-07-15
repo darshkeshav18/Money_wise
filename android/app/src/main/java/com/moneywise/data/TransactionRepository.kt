@@ -42,6 +42,9 @@ class TransactionRepository(private val dao: TransactionDao) {
             checkSavingsWarning(context)
         }
 
+        triggerImmediateSync(context)
+        broadcastReload(context)
+
         return when {
             isCredit -> PendingAction.AutoFiled(id)
             autoCategory != null -> PendingAction.AutoFiled(id)
@@ -56,6 +59,31 @@ class TransactionRepository(private val dao: TransactionDao) {
 
         if (!entity.type.equals("credit", ignoreCase = true)) {
             checkSavingsWarning(context)
+        }
+
+        triggerImmediateSync(context)
+        broadcastReload(context)
+    }
+
+    private fun triggerImmediateSync(context: android.content.Context) {
+        try {
+            val syncRequest = androidx.work.OneTimeWorkRequestBuilder<com.moneywise.sync.SyncWorker>().build()
+            androidx.work.WorkManager.getInstance(context.applicationContext).enqueue(syncRequest)
+            android.util.Log.d("TransactionRepository", "Enqueued SyncWorker for immediate sync.")
+        } catch (e: Exception) {
+            android.util.Log.e("TransactionRepository", "Failed to enqueue SyncWorker", e)
+        }
+    }
+
+    private fun broadcastReload(context: android.content.Context) {
+        try {
+            val intent = android.content.Intent("com.moneywise.ACTION_RELOAD_DASHBOARD").apply {
+                setPackage(context.packageName)
+            }
+            context.sendBroadcast(intent)
+            android.util.Log.d("TransactionRepository", "Dispatched ACTION_RELOAD_DASHBOARD broadcast.")
+        } catch (e: Exception) {
+            android.util.Log.e("TransactionRepository", "Failed to dispatch reload broadcast", e)
         }
     }
 

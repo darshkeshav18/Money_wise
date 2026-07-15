@@ -724,6 +724,19 @@ function updateAlertsBanner() {
   
   if (!state.profile) return;
 
+  // Uncategorized alert banner
+  const uncatList = state.expenses.filter(x => x.bucket === 'Uncategorized' || x.category === 'Uncategorized');
+  if (uncatList.length > 0) {
+    const card = document.createElement('div');
+    card.className = 'alert-card alert-card-warning';
+    card.style.cursor = 'pointer';
+    card.style.borderColor = 'var(--color-wants)';
+    card.style.background = 'rgba(244, 63, 94, 0.08)';
+    card.onclick = () => openUncategorizedModal();
+    card.innerHTML = `<i data-lucide="help-circle" style="color:var(--color-wants);"></i> <div class="alert-card-content"><strong>Uncategorized Spend:</strong> You have ${uncatList.length} transaction(s) requiring allocation. Tap here to categorize.</div>`;
+    container.appendChild(card);
+  }
+
   // 50/30/20 Warning banner calculations
   const income = state.profile.income;
   const splits = state.profile.budgetSplits;
@@ -2964,5 +2977,55 @@ function initPullToRefresh() {
     }
     isPTRActive = false;
   });
+}
+
+let activeUncatTxnId = null;
+
+function openUncategorizedModal() {
+  const uncatList = state.expenses.filter(x => x.bucket === 'Uncategorized' || x.category === 'Uncategorized');
+  if (uncatList.length === 0) {
+    closeUncategorizedModal();
+    return;
+  }
+  const item = uncatList[0];
+  activeUncatTxnId = item.id;
+
+  document.getElementById('uncat-amount').textContent = `₹${formatNumber(item.amount)}`;
+  document.getElementById('uncat-bank').textContent = item.bank || 'SMS/Notification';
+  document.getElementById('uncat-note').textContent = item.note || 'Unlabeled Transaction';
+  document.getElementById('uncat-date').textContent = formatDate(item.date);
+
+  document.getElementById('modal-uncategorized-resolver').classList.add('active');
+}
+
+function closeUncategorizedModal() {
+  document.getElementById('modal-uncategorized-resolver').classList.remove('active');
+  activeUncatTxnId = null;
+}
+
+function resolveUncategorized(bucket) {
+  if (!activeUncatTxnId) return;
+  const item = state.expenses.find(x => x.id === activeUncatTxnId);
+  if (item) {
+    item.bucket = bucket;
+    if (bucket === 'Needs') item.category = 'Other Needs';
+    else if (bucket === 'Wants') item.category = 'Other Wants';
+    else if (bucket === 'Savings') item.category = 'Other Savings';
+    
+    saveStateToStorage();
+    showToast(`Transaction categorized as ${bucket}`, 'success');
+  }
+  
+  const uncatList = state.expenses.filter(x => x.bucket === 'Uncategorized' || x.category === 'Uncategorized');
+  if (uncatList.length > 0) {
+    openUncategorizedModal();
+  } else {
+    closeUncategorizedModal();
+  }
+  renderAll();
+}
+
+function forceReloadDashboard() {
+  fetchDataFromBackend();
 }
 
