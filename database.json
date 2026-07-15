@@ -44,16 +44,6 @@
       },
       "expenses": [
         {
-          "id": "vpxww4m",
-          "amount": 200,
-          "note": "Credit alert received",
-          "date": "2026-07-15",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "type": "credit",
-          "timestamp": 1784091744331
-        },
-        {
           "id": "5wbbtxw",
           "amount": 200,
           "note": "Credit alert received",
