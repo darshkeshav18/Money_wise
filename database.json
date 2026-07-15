@@ -33,7 +33,7 @@
     "darsh_keshav": {
       "profile": {
         "profession": "Student",
-        "income": 50000,
+        "income": 5000,
         "budgetSplits": {
           "needs": 50,
           "wants": 30,
@@ -52,6 +52,46 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784089728139
+        },
+        {
+          "id": "gwhxcbf",
+          "amount": 100,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-15",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784091620778
+        },
+        {
+          "id": "vpxww4m",
+          "amount": 200,
+          "note": "Credit alert received",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784091744331
+        },
+        {
+          "id": "5wbbtxw",
+          "amount": 200,
+          "note": "Credit alert received",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784096222659
+        },
+        {
+          "id": "3uudrlw",
+          "amount": 100,
+          "note": "Credit alert received",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784096304595
         }
       ],
       "subscriptions": [],
@@ -183,6 +223,56 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784089706091
+        },
+        {
+          "id": "93noj3i",
+          "amount": 15,
+          "note": "NAVEEN K G",
+          "date": "2026-07-15",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784090543150
+        },
+        {
+          "id": "q81vg5d",
+          "amount": 100,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784091589836
+        },
+        {
+          "id": "q72fbxb",
+          "amount": 200,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-15",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784091719153
+        },
+        {
+          "id": "n2jyrqr",
+          "amount": 30,
+          "note": "VANAJAKSHI K G",
+          "date": "2026-07-15",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784099389720
+        },
+        {
+          "id": "cq23og7",
+          "amount": 30,
+          "note": "Liza Butani",
+          "date": "2026-07-15",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784117261196
         }
       ],
       "subscriptions": [],
