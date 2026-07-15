@@ -163,6 +163,15 @@
           "bucket": "Savings",
           "category": "Other Income",
           "type": "credit"
+        },
+        {
+          "id": "x03ktzz",
+          "amount": 200,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-15",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit"
         }
       ],
       "subscriptions": [],
