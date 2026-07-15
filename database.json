@@ -62,6 +62,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784091620778
+        },
+        {
+          "id": "vpxww4m",
+          "amount": 200,
+          "note": "Credit alert received",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784091744331
         }
       ],
       "subscriptions": [],
