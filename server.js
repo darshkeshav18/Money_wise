@@ -424,7 +424,7 @@ app.post('/api/transaction/add', async (req, res) => {
       const existing = currentData.expenses.find(x => 
         x.amount === Number(amount) && 
         x.type === (isCredit ? 'credit' : 'debit') && 
-        x.timestamp && Math.abs(Number(x.timestamp) - targetTime) < 120000
+        x.timestamp && Math.abs(Number(x.timestamp) - targetTime) < 5000
       );
 
       if (existing) {

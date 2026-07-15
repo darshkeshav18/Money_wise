@@ -55,6 +55,13 @@ class SyncWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     dao.markSynced(txn.id)
                     Log.d("SyncWorker", "Transaction ${txn.id} synced successfully with Vercel backend.")
+                    
+                    // Dispatch reload broadcast to WebView after successful sync
+                    val intent = android.content.Intent("com.moneywise.ACTION_RELOAD_DASHBOARD").apply {
+                        setPackage(applicationContext.packageName)
+                    }
+                    applicationContext.sendBroadcast(intent)
+                    Log.d("SyncWorker", "Dispatched ACTION_RELOAD_DASHBOARD broadcast after successful sync.")
                 } else {
                     Log.e("SyncWorker", "Failed to sync transaction ${txn.id}: HTTP $responseCode")
                     hasFailure = true

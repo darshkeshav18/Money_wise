@@ -6,7 +6,7 @@ import com.moneywise.data.local.TransactionEntity
 class TransactionRepository(private val dao: TransactionDao) {
 
     fun buildDedupeKey(amount: Double, type: String, timestamp: Long): String {
-        val bucket = timestamp / 20_000 // 20-second window absorbs SMS+notification duplicates but allows back-to-back payments
+        val bucket = timestamp / 5_000 // 5-second window absorbs SMS+notification duplicates but allows back-to-back payments
         return "$amount-$type-$bucket"
     }
 
@@ -43,7 +43,6 @@ class TransactionRepository(private val dao: TransactionDao) {
         }
 
         triggerImmediateSync(context)
-        broadcastReload(context)
 
         return when {
             isCredit -> PendingAction.AutoFiled(id)
@@ -62,7 +61,6 @@ class TransactionRepository(private val dao: TransactionDao) {
         }
 
         triggerImmediateSync(context)
-        broadcastReload(context)
     }
 
     private fun triggerImmediateSync(context: android.content.Context) {

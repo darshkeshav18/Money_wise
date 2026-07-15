@@ -409,9 +409,9 @@ main {
 
 /* ==================== DASHBOARD RESTRUCTURED LAYOUT ==================== */
 .dashboard-top-grid {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   align-items: stretch;
 }
 
@@ -486,12 +486,24 @@ main {
 /* Metrics side grid panel */
 .metrics-side-grid {
   display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
 }
 
 .metrics-side-grid .metric-card {
-  padding: 1.15rem 1.5rem;
+  padding: 0.75rem 0.85rem;
+}
+
+.metrics-side-grid .metric-value {
+  font-size: 1.25rem !important;
+}
+
+.metrics-side-grid .metric-label {
+  font-size: 0.75rem;
+}
+
+.metrics-side-grid .metric-subtext {
+  font-size: 0.65rem;
 }
 
 .metric-card {

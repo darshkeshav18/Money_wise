@@ -428,7 +428,7 @@
             <h1 class="balance-amount" id="dash-remaining-balance">₹0</h1>
             <p class="account-number">Account no: ••• ••• xxxx</p>
             <div class="balance-actions">
-              <button class="btn balance-btn" style="width: 100%;" onclick="openAddGoalModal()"><i data-lucide="plus" style="width:14px;"></i> Add Money</button>
+              <button class="btn balance-btn" style="width: 100%;" onclick="openAddIncomeModal()"><i data-lucide="plus" style="width:14px;"></i> Add Money</button>
             </div>
             <!-- Onboarding Walkthrough Tooltip -->
             <div id="tour-step-1" class="tour-tooltip-card tooltip-bottom">
@@ -652,6 +652,12 @@
             
             <div class="ledger-controls">
               <button class="btn btn-primary" onclick="openExpenseModal()"><i data-lucide="plus" style="width:16px;"></i> Log Transaction</button>
+              
+              <select id="filter-transaction-type" class="select-filter" onchange="toggleLedgerFilters(); renderExpenses();">
+                <option value="all">All Txn Types</option>
+                <option value="expense">Expenses Only</option>
+                <option value="income">Income Only</option>
+              </select>
               
               <select id="filter-bucket" class="select-filter" onchange="renderExpenses()">
                 <option value="all">All Buckets</option>
@@ -1443,6 +1449,26 @@
         <button class="btn btn-secondary" style="flex:1;" onclick="resolveUncategorized('Wants')">Want</button>
         <button class="btn btn-secondary" style="flex:1;" onclick="resolveUncategorized('Savings')">Savings</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Add Income Modal -->
+  <div id="modal-add-income" class="modal-overlay">
+    <div class="modal-card" style="max-width:360px; padding:1.5rem;">
+      <form id="add-income-form" onsubmit="handleAddIncomeSubmit(event)">
+        <h3 style="margin-bottom:0.75rem;">Add Base Income</h3>
+        <p style="color:var(--text-secondary); font-size:0.85rem; line-height:1.5; margin-bottom:1.25rem;">
+          Enter the amount of income to add directly to your available balance.
+        </p>
+        <div class="input-group" style="margin-bottom:1.5rem;">
+          <label for="add-income-amount">Income Amount (₹)</label>
+          <input type="number" id="add-income-amount" class="input-field" min="1" placeholder="e.g. 10000" required>
+        </div>
+        <div class="modal-actions" style="gap:1rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeAddIncomeModal()" style="flex:1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex:1;">Add Income</button>
+        </div>
+      </form>
     </div>
   </div>
 

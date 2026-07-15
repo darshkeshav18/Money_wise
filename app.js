@@ -54,6 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   startSMSTimer();
   initPullToRefresh();
+  updateCurrentDateDisplay();
   lucide.createIcons();
 });
 
@@ -447,27 +448,79 @@ function resetToDefaultSplits() {
   updateSplitSliders();
 }
 
-function updateSplitSliders() {
-  let needs = parseInt(document.getElementById('slider-needs').value) || 0;
-  let wants = parseInt(document.getElementById('slider-wants').value) || 0;
-  let savings = parseInt(document.getElementById('slider-savings').value) || 0;
+function updateSplitSliders(activeSlider = 'needs') {
+  let needsEl = document.getElementById('slider-needs');
+  let wantsEl = document.getElementById('slider-wants');
+  let savingsEl = document.getElementById('slider-savings');
   
+  let needs = parseInt(needsEl.value) || 0;
+  let wants = parseInt(wantsEl.value) || 0;
+  let savings = parseInt(savingsEl.value) || 0;
+
+  if (activeSlider === 'needs') {
+    let remaining = 100 - needs;
+    let otherSum = wants + savings;
+    if (otherSum === 0) {
+      wants = Math.round(remaining / 2);
+      savings = remaining - wants;
+    } else {
+      wants = Math.round(remaining * (wants / otherSum));
+      savings = remaining - wants;
+    }
+  } else if (activeSlider === 'wants') {
+    let remaining = 100 - wants;
+    let otherSum = needs + savings;
+    if (otherSum === 0) {
+      needs = Math.round(remaining / 2);
+      savings = remaining - needs;
+    } else {
+      needs = Math.round(remaining * (needs / otherSum));
+      savings = remaining - needs;
+    }
+  } else if (activeSlider === 'savings') {
+    let remaining = 100 - savings;
+    let otherSum = needs + wants;
+    if (otherSum === 0) {
+      needs = Math.round(remaining / 2);
+      wants = remaining - needs;
+    } else {
+      needs = Math.round(remaining * (needs / otherSum));
+      wants = remaining - needs;
+    }
+  }
+
+  // Clamp
+  if (needs < 0) needs = 0;
+  if (wants < 0) wants = 0;
+  if (savings < 0) savings = 0;
+
+  // Guarantee exactly 100%
+  const total = needs + wants + savings;
+  if (total !== 100) {
+    const diff = 100 - total;
+    if (activeSlider === 'needs') {
+      if (wants + diff >= 0) wants += diff; else savings += diff;
+    } else if (activeSlider === 'wants') {
+      if (needs + diff >= 0) needs += diff; else savings += diff;
+    } else {
+      if (needs + diff >= 0) needs += diff; else wants += diff;
+    }
+  }
+
+  needsEl.value = needs;
+  wantsEl.value = wants;
+  savingsEl.value = savings;
+
   document.getElementById('label-needs').textContent = needs + '%';
   document.getElementById('label-wants').textContent = wants + '%';
   document.getElementById('label-savings').textContent = savings + '%';
 
-  const total = needs + wants + savings;
   const badge = document.getElementById('split-total-badge');
+  badge.textContent = `100% (Valid)`;
+  badge.className = 'split-total-badge valid';
   
-  if (total === 100) {
-    badge.textContent = `100% (Valid)`;
-    badge.className = 'split-total-badge valid';
-    document.getElementById('onboard-submit-1').disabled = false;
-  } else {
-    badge.textContent = `${total}% (Must equal 100%)`;
-    badge.className = 'split-total-badge invalid';
-    document.getElementById('onboard-submit-1').disabled = true;
-  }
+  const onboardBtn = document.getElementById('onboard-submit-1');
+  if (onboardBtn) onboardBtn.disabled = false;
 }
 
 function submitOnboardStep1(e) {
@@ -1078,32 +1131,55 @@ function handleExpenseSubmit(e) {
   renderDashboard();
 }
 
+function toggleLedgerFilters() {
+  const filterType = document.getElementById('filter-transaction-type').value;
+  const bucketFilter = document.getElementById('filter-bucket');
+  const subcatFilter = document.getElementById('filter-subcategory');
+  if (filterType === 'income') {
+    bucketFilter.style.display = 'none';
+    subcatFilter.style.display = 'none';
+  } else {
+    bucketFilter.style.display = 'inline-block';
+    subcatFilter.style.display = 'inline-block';
+  }
+}
+
 function renderExpenses() {
   const tbody = document.getElementById('expenses-table-body');
   const empty = document.getElementById('expenses-empty-state');
   const table = document.getElementById('expenses-table');
   tbody.innerHTML = '';
 
+  const filterType = document.getElementById('filter-transaction-type').value;
   const filterB = document.getElementById('filter-bucket').value;
   const filterC = document.getElementById('filter-subcategory').value;
 
   let list = getCurrentMonthTransactions();
-  if (filterB !== 'all') {
-    if (filterB === 'Savings') {
-      list = list.filter(x => x.bucket === 'Savings' && x.type !== 'credit');
-    } else {
-      list = list.filter(x => x.bucket === filterB);
-    }
+
+  if (filterType === 'expense') {
+    list = list.filter(x => x.type !== 'credit');
+  } else if (filterType === 'income') {
+    list = list.filter(x => x.type === 'credit');
   }
-  
-  if (filterC !== 'all') {
-    list = list.filter(x => {
-      const defaults = CATEGORIES_MAPPING[x.bucket] || [];
-      if (filterC === 'Other Needs' || filterC === 'Other Wants' || filterC === 'Other Savings') {
-        return !defaults.includes(x.category) || x.category === filterC;
+
+  if (filterType !== 'income') {
+    if (filterB !== 'all') {
+      if (filterB === 'Savings') {
+        list = list.filter(x => x.bucket === 'Savings' && x.type !== 'credit');
+      } else {
+        list = list.filter(x => x.bucket === filterB);
       }
-      return x.category === filterC;
-    });
+    }
+    
+    if (filterC !== 'all') {
+      list = list.filter(x => {
+        const defaults = CATEGORIES_MAPPING[x.bucket] || [];
+        if (filterC === 'Other Needs' || filterC === 'Other Wants' || filterC === 'Other Savings') {
+          return !defaults.includes(x.category) || x.category === filterC;
+        }
+        return x.category === filterC;
+      });
+    }
   }
   list.sort((a,b) => new Date(b.date) - new Date(a.date));
 
@@ -2188,28 +2264,79 @@ function saveSettingsSplits() {
   showToast('Personal budget limits re-allocated', 'success');
 }
 
-function updateSettingsSliders() {
-  let n = parseInt(document.getElementById('slider-settings-needs').value) || 0;
-  let w = parseInt(document.getElementById('slider-settings-wants').value) || 0;
-  let s = parseInt(document.getElementById('slider-settings-savings').value) || 0;
+function updateSettingsSliders(activeSlider = 'needs') {
+  let nEl = document.getElementById('slider-settings-needs');
+  let wEl = document.getElementById('slider-settings-wants');
+  let sEl = document.getElementById('slider-settings-savings');
+  
+  let n = parseInt(nEl.value) || 0;
+  let w = parseInt(wEl.value) || 0;
+  let s = parseInt(sEl.value) || 0;
+
+  if (activeSlider === 'needs') {
+    let remaining = 100 - n;
+    let otherSum = w + s;
+    if (otherSum === 0) {
+      w = Math.round(remaining / 2);
+      s = remaining - w;
+    } else {
+      w = Math.round(remaining * (w / otherSum));
+      s = remaining - w;
+    }
+  } else if (activeSlider === 'wants') {
+    let remaining = 100 - w;
+    let otherSum = n + s;
+    if (otherSum === 0) {
+      n = Math.round(remaining / 2);
+      s = remaining - n;
+    } else {
+      n = Math.round(remaining * (n / otherSum));
+      s = remaining - n;
+    }
+  } else if (activeSlider === 'savings') {
+    let remaining = 100 - s;
+    let otherSum = n + w;
+    if (otherSum === 0) {
+      n = Math.round(remaining / 2);
+      w = remaining - n;
+    } else {
+      n = Math.round(remaining * (n / otherSum));
+      w = remaining - n;
+    }
+  }
+
+  // Clamp
+  if (n < 0) n = 0;
+  if (w < 0) w = 0;
+  if (s < 0) s = 0;
+
+  // Guarantee exactly 100%
+  const total = n + w + s;
+  if (total !== 100) {
+    const diff = 100 - total;
+    if (activeSlider === 'needs') {
+      if (w + diff >= 0) w += diff; else s += diff;
+    } else if (activeSlider === 'wants') {
+      if (n + diff >= 0) n += diff; else s += diff;
+    } else {
+      if (n + diff >= 0) n += diff; else w += diff;
+    }
+  }
+
+  nEl.value = n;
+  wEl.value = w;
+  sEl.value = s;
 
   document.getElementById('label-settings-needs').textContent = n + '%';
   document.getElementById('label-settings-wants').textContent = w + '%';
   document.getElementById('label-settings-savings').textContent = s + '%';
 
-  const total = n + w + s;
   const badge = document.getElementById('settings-split-total');
+  badge.textContent = `100% (Valid)`;
+  badge.className = 'split-total-badge valid';
+  
   const saveBtn = document.querySelector('button[onclick="saveSettingsSplits()"]');
-
-  if (total === 100) {
-    badge.textContent = `100% (Valid)`;
-    badge.className = 'split-total-badge valid';
-    if (saveBtn) saveBtn.disabled = false;
-  } else {
-    badge.textContent = `${total}% (Must equal 100%)`;
-    badge.className = 'split-total-badge invalid';
-    if (saveBtn) saveBtn.disabled = true;
-  }
+  if (saveBtn) saveBtn.disabled = false;
 }
 
 function saveNotificationPreferences() {
@@ -3027,5 +3154,47 @@ function resolveUncategorized(bucket) {
 
 function forceReloadDashboard() {
   fetchDataFromBackend();
+}
+
+function openAddIncomeModal() {
+  document.getElementById('add-income-amount').value = '';
+  document.getElementById('modal-add-income').classList.add('active');
+}
+
+function closeAddIncomeModal() {
+  document.getElementById('modal-add-income').classList.remove('active');
+}
+
+function handleAddIncomeSubmit(e) {
+  e.preventDefault();
+  const amt = parseInt(document.getElementById('add-income-amount').value);
+  if (isNaN(amt) || amt <= 0) return;
+  
+  state.expenses.push({
+    id: generateId(),
+    amount: amt,
+    type: 'credit',
+    bucket: 'Savings',
+    category: 'Other Income',
+    date: new Date().toISOString().split('T')[0],
+    note: 'Manual Income Injection',
+    isRecurring: false,
+    isInvestment: false
+  });
+  
+  saveStateToStorage();
+  closeAddIncomeModal();
+  renderAll();
+  showToast(`₹${formatNumber(amt)} added to Available Balance`, 'success');
+}
+
+function updateCurrentDateDisplay() {
+  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-IN', options);
+  const el = document.getElementById('current-date-text');
+  if (el) {
+    el.textContent = dateStr;
+  }
 }
 
