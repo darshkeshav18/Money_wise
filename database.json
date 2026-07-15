@@ -94,8 +94,8 @@
           "amount": 100,
           "note": "SAMHITA BHUV",
           "date": "2026-07-15",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit"
         },
         {
