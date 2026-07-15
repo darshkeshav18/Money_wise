@@ -127,6 +127,15 @@
           "note": "Goal Injection: teip",
           "isRecurring": false,
           "isInvestment": false
+        },
+        {
+          "id": "zdd6dqa",
+          "amount": 50,
+          "note": "7975530278@superyes",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit"
         }
       ],
       "subscriptions": [],
