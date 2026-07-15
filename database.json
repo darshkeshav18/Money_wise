@@ -217,6 +217,16 @@
           "bucket": "Needs",
           "category": "Other Needs",
           "type": "debit"
+        },
+        {
+          "id": "ael1lei",
+          "amount": 100,
+          "note": "7975530278@superyes",
+          "date": "2026-07-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784089609455
         }
       ],
       "subscriptions": [],
