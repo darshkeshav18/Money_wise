@@ -42,18 +42,7 @@
         "bankingConnected": false,
         "smsConsent": true
       },
-      "expenses": [
-        {
-          "id": "3uudrlw",
-          "amount": 100,
-          "note": "Credit alert received",
-          "date": "2026-07-15",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "type": "credit",
-          "timestamp": 1784096304595
-        }
-      ],
+      "expenses": [],
       "subscriptions": [],
       "goals": [
         {
