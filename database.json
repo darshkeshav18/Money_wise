@@ -70,6 +70,15 @@
           "bucket": "Uncategorized",
           "category": "Uncategorized",
           "type": "debit"
+        },
+        {
+          "id": "1jeq2ep",
+          "amount": 50,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-15",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit"
         }
       ],
       "subscriptions": [],
