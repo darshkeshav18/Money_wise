@@ -52,6 +52,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784199046112
+        },
+        {
+          "id": "6poabb9",
+          "amount": 10,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-16",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784199070093
         }
       ],
       "subscriptions": [],
