@@ -222,6 +222,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784117261196
+        },
+        {
+          "id": "sqa1nwp",
+          "amount": 119,
+          "note": "G K SIVA GANGADHAR",
+          "date": "2026-07-16",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784172242518
         }
       ],
       "subscriptions": [],
