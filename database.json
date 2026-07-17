@@ -33,7 +33,7 @@
     "darsh_keshav": {
       "profile": {
         "profession": "Student",
-        "income": 15699,
+        "income": 500,
         "budgetSplits": {
           "needs": 50,
           "wants": 30,
@@ -58,8 +58,8 @@
           "amount": 10,
           "note": "SAMHITA BHUV",
           "date": "2026-07-16",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Wants",
+          "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784199070093
         }
