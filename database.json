@@ -293,6 +293,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784257748668
+        },
+        {
+          "id": "alugkg1",
+          "amount": 10,
+          "note": "7975530278@superyes",
+          "date": "2026-07-17",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784269238505
         }
       ],
       "subscriptions": [],
