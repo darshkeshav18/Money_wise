@@ -1341,12 +1341,58 @@ function handleSubSubmit(e) {
   renderDashboard();
 }
 
+function openEditExpenseFromSub(id) {
+  switchTab('expenses');
+  openEditExpenseModal(id);
+}
+
+function deleteExpenseFromSub(id) {
+  showConfirmDialog('Delete Expense', 'Are you sure you want to delete this auto-tracked ledger expense?', (confirmed) => {
+    if (confirmed) {
+      state.expenses = state.expenses.filter(x => x.id !== id);
+      saveStateToStorage();
+      renderSubscriptions();
+      renderExpenses();
+      renderDashboard();
+      showToast('Ledger subscription deleted', 'success');
+    }
+  });
+}
+
 function renderSubscriptions() {
   const container = document.getElementById('subscriptions-container');
   const empty = document.getElementById('subscriptions-empty-state');
   container.innerHTML = '';
 
-  if (state.subscriptions.length === 0) {
+  // Compile merged subscriptions list
+  const subs = [...state.subscriptions];
+  const today = new Date();
+  
+  state.expenses.forEach(x => {
+    // Only current month expenses that are recurring or subscription categories
+    const d = new Date(x.date);
+    if (d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth()) {
+      if (x.isRecurring || x.category === 'OTT Subscriptions' || (x.note && x.note.toLowerCase().includes('subscription'))) {
+        let name = x.note || x.category;
+        if (name.startsWith('Subscription: ')) name = name.replace('Subscription: ', '');
+        if (name.startsWith('AutoSMS: ')) name = name.replace('AutoSMS: ', '');
+        
+        const exists = subs.some(s => s.name.toLowerCase() === name.toLowerCase());
+        if (!exists) {
+          subs.push({
+            id: x.id,
+            name: name,
+            cost: x.amount,
+            billingDate: new Date(x.date).getDate(),
+            lastUsedDate: x.date,
+            isFromExpenses: true
+          });
+        }
+      }
+    }
+  });
+
+  if (subs.length === 0) {
     empty.style.display = 'flex';
     document.getElementById('sub-stat-total').textContent = '₹0/mo';
     document.getElementById('sub-stat-forgotten').textContent = '0';
@@ -1357,17 +1403,26 @@ function renderSubscriptions() {
   empty.style.display = 'none';
 
   // Stats
-  const total = state.subscriptions.reduce((acc, s) => acc + s.cost, 0);
+  const total = subs.reduce((acc, s) => acc + s.cost, 0);
   document.getElementById('sub-stat-total').textContent = `₹${formatNumber(total)}/mo`;
   
   // Forgotten check (not used for > 30 days)
-  const forgotten = state.subscriptions.filter(s => {
+  const forgotten = subs.filter(s => {
     const diff = Math.abs(new Date() - new Date(s.lastUsedDate));
     return Math.ceil(diff / (1000 * 60 * 60 * 24)) > 30;
   });
   document.getElementById('sub-stat-forgotten').textContent = forgotten.length;
 
-  const upcoming = getUpcomingSubscriptionRenewals(30);
+  // Renewals using the merged list
+  const daysInM = getDaysInCurrentMonth();
+  const day = today.getDate();
+  const upcoming = subs.map(s => {
+    let daysLeft = 0;
+    if (s.billingDate >= day) daysLeft = s.billingDate - day;
+    else daysLeft = (daysInM - day) + s.billingDate;
+    return { ...s, daysLeft };
+  }).sort((a, b) => a.daysLeft - b.daysLeft);
+
   if (upcoming.length > 0) {
     document.getElementById('sub-stat-renewal').textContent = upcoming[0].name;
     document.getElementById('sub-stat-renewal-countdown').textContent = `₹${formatNumber(upcoming[0].cost)} due in ${upcoming[0].daysLeft} days`;
@@ -1376,7 +1431,7 @@ function renderSubscriptions() {
     document.getElementById('sub-stat-renewal-countdown').textContent = 'No bills in next 30 days';
   }
 
-  state.subscriptions.forEach(sub => {
+  subs.forEach(sub => {
     const card = document.createElement('div');
     card.className = 'card subscription-card';
     let lClass = 'logo-custom', sl = sub.name.substring(0,2).toUpperCase();
@@ -1389,29 +1444,41 @@ function renderSubscriptions() {
 
     const isForg = Math.ceil(Math.abs(new Date() - new Date(sub.lastUsedDate))/(1000*60*60*24)) > 30;
     const badge = isForg ? `<span class="forgotten-badge"><i data-lucide="ghost" style="width:10px;"></i> Forgotten?</span>` : '';
+    
+    // Add ledger tracker badge
+    const originBadge = sub.isFromExpenses 
+      ? `<span class="forgotten-badge" style="background:rgba(99,102,241,0.12); color:var(--color-accent); border:1px solid rgba(99,102,241,0.2);"><i data-lucide="receipt" style="width:10px; height:10px;"></i> Ledger Auto</span>`
+      : '';
+
+    // If it is from expenses, edit/delete applies to the ledger expense item
+    const editClick = sub.isFromExpenses ? `openEditExpenseFromSub('${sub.id}')` : `openEditSubModal('${sub.id}')`;
+    const deleteClick = sub.isFromExpenses ? `deleteExpenseFromSub('${sub.id}')` : `deleteSub('${sub.id}')`;
 
     card.innerHTML = `
       <div class="sub-header">
         <div class="sub-logo-title">
           <div class="sub-logo ${lClass}">${sl}</div>
           <div class="sub-title">
-            <h4>${sub.name}</h4>
+            <h4 style="display:flex; align-items:center; gap:0.4rem;">${sub.name}</h4>
             <span>Billing Day: ${ordinalSuffixOf(sub.billingDate)}</span>
           </div>
         </div>
         <div class="table-actions">
-          <button class="btn-table btn-table-edit" onclick="openEditSubModal('${sub.id}')"><i data-lucide="edit-3" style="width:16px;"></i></button>
-          <button class="btn-table btn-table-delete" onclick="deleteSub('${sub.id}')"><i data-lucide="trash-2" style="width:16px;"></i></button>
+          <button class="btn-table btn-table-edit" onclick="${editClick}"><i data-lucide="edit-3" style="width:16px;"></i></button>
+          <button class="btn-table btn-table-delete" onclick="${deleteClick}"><i data-lucide="trash-2" style="width:16px;"></i></button>
         </div>
       </div>
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <span class="sub-cost">₹${formatNumber(sub.cost)}<span style="font-size:0.75rem; font-weight:normal; color:var(--text-muted);">/mo</span></span>
-        ${badge}
+        <div style="display:flex; gap:0.25rem;">
+          ${badge}
+          ${originBadge}
+        </div>
       </div>
       <div class="sub-meta">
         <div style="display:flex; justify-content:space-between;"><span>Last Accessed:</span><span>${formatDate(sub.lastUsedDate)}</span></div>
       </div>
-      <button class="btn btn-secondary" style="padding:0.4rem; font-size:0.75rem; margin-top:0.25rem;" onclick="logSubActivity('${sub.id}')">
+      <button class="btn btn-secondary" style="padding:0.4rem; font-size:0.75rem; margin-top:0.25rem;" onclick="logSubActivity('${sub.id}', ${!!sub.isFromExpenses})">
         <i data-lucide="check" style="width:12px;"></i> Mark Used Today
       </button>
     `;
@@ -1420,13 +1487,24 @@ function renderSubscriptions() {
   lucide.createIcons();
 }
 
-function logSubActivity(id) {
-  const sub = state.subscriptions.find(s => s.id === id);
-  if (sub) {
-    sub.lastUsedDate = new Date().toISOString().split('T')[0];
-    saveStateToStorage();
-    renderSubscriptions();
-    showToast(`Access logged for ${sub.name}`, 'success');
+function logSubActivity(id, isFromExpenses = false) {
+  if (isFromExpenses) {
+    const exp = state.expenses.find(x => x.id === id);
+    if (exp) {
+      exp.date = new Date().toISOString().split('T')[0];
+      saveStateToStorage();
+      renderSubscriptions();
+      renderExpenses();
+      showToast(`Access logged for ${exp.note || exp.category} (Ledger)`, 'success');
+    }
+  } else {
+    const sub = state.subscriptions.find(s => s.id === id);
+    if (sub) {
+      sub.lastUsedDate = new Date().toISOString().split('T')[0];
+      saveStateToStorage();
+      renderSubscriptions();
+      showToast(`Access logged for ${sub.name}`, 'success');
+    }
   }
 }
 
@@ -1960,22 +2038,30 @@ function renderCharts() {
   if (personalCharts.subcat) personalCharts.subcat.destroy();
   if (personalCharts.mom) personalCharts.mom.destroy();
 
-  // 1. Target vs Spent Doughnut
+  // 1. Target vs Spent Grouped Bar Chart
   const splits = state.profile.budgetSplits;
   personalCharts.allocation = new Chart(document.getElementById('chart-allocation').getContext('2d'), {
-    type: 'doughnut',
+    type: 'bar',
     data: {
-      labels: ['Needs (Spent)', 'Wants (Spent)', 'Savings (Invested)'],
+      labels: ['Needs', 'Wants', 'Savings'],
       datasets: [
         {
-          data: [spent.Needs, spent.Wants, spent.Savings],
-          backgroundColor: [needsColor, wantsColor, savingsColor],
-          borderWidth: 2, borderColor: theme === 'dark' ? '#05070f' : '#ffffff'
+          label: 'Target Limit (₹)',
+          data: [
+            Math.round(income * (splits.needs / 100)),
+            Math.round(income * (splits.wants / 100)),
+            Math.round(income * (splits.savings / 100))
+          ],
+          backgroundColor: [needsColorLight, wantsColorLight, savingsColorLight],
+          borderColor: [needsColor, wantsColor, savingsColor],
+          borderWidth: 1.5,
+          borderRadius: 4
         },
         {
-          data: [income * (splits.needs/100), income * (splits.wants/100), income * (splits.savings/100)],
-          backgroundColor: [needsColorLight, wantsColorLight, savingsColorLight],
-          borderWidth: 1, borderColor: theme === 'dark' ? '#05070f' : '#ffffff'
+          label: 'Actual Spent (₹)',
+          data: [spent.Needs, spent.Wants, spent.Savings],
+          backgroundColor: [needsColor, wantsColor, savingsColor],
+          borderRadius: 4
         }
       ]
     },
@@ -1984,6 +2070,10 @@ function renderCharts() {
       maintainAspectRatio: false,
       plugins: { 
         legend: { position: 'bottom', labels: { color: labelColor, font: { size: 11 } } } 
+      },
+      scales: {
+        x: { ticks: { color: labelColor }, grid: { display: false } },
+        y: { ticks: { color: labelColor }, grid: { color: gridColor } }
       }
     }
   });
@@ -3196,5 +3286,13 @@ function updateCurrentDateDisplay() {
   if (el) {
     el.textContent = dateStr;
   }
+}
+
+function exportReportToPPTX() {
+  if (!state.user || !state.user.loggedIn) return;
+  const username = state.user.username || '';
+  const url = `/api/report/pptx?username=${encodeURIComponent(username)}`;
+  window.open(url, '_blank');
+  showToast('Downloading PowerPoint report...', 'success');
 }
 

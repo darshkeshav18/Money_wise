@@ -388,8 +388,8 @@
       <a class="mobile-nav-item" id="mob-nav-expenses" onclick="switchTab('expenses')">
         <i data-lucide="receipt"></i><span>Ledger</span>
       </a>
-      <a class="mobile-nav-item" id="mob-nav-investments" onclick="switchTab('investments')">
-        <i data-lucide="trending-up"></i><span>Assets</span>
+      <a class="mobile-nav-item" id="mob-nav-insights" onclick="switchTab('insights')">
+        <i data-lucide="pie-chart"></i><span>Analytics</span>
       </a>
       <a class="mobile-nav-item" id="mob-nav-settings" onclick="switchTab('settings')">
         <i data-lucide="settings"></i><span>Settings</span>
@@ -488,9 +488,9 @@
               <div class="quick-action-icon" style="background: rgba(6, 182, 212, 0.1); color: var(--color-savings);"><i data-lucide="piggy-bank"></i></div>
               <span>Add Goal</span>
             </div>
-            <div class="quick-action-card" onclick="switchTab('investments')">
-              <div class="quick-action-icon" style="background: rgba(249, 115, 22, 0.1); color: var(--color-investments);"><i data-lucide="credit-card"></i></div>
-              <span>Assets</span>
+            <div class="quick-action-card" onclick="switchTab('insights')">
+              <div class="quick-action-icon" style="background: rgba(249, 115, 22, 0.1); color: var(--color-investments);"><i data-lucide="pie-chart"></i></div>
+              <span>Analytics</span>
             </div>
           </div>
         </div>
@@ -918,10 +918,10 @@
           <div>
             <div style="display:flex; align-items:center; gap:0.75rem;">
               <i data-lucide="chef-hat" style="font-size:1.5rem;"></i>
-              <h3>Zomato & Swiggy Aggregate Tracker</h3>
+              <h3>Food Delivery Aggregate Tracker</h3>
             </div>
             <p style="color: var(--text-secondary); font-size:0.85rem; margin-top:0.5rem;">
-              Looking at Swiggy and Zomato spending under the Wants bucket.
+              Looking at Food Delivery spending under the Wants bucket.
             </p>
             
             <div class="food-details">
@@ -997,7 +997,10 @@
       <div id="tab-report" class="tab-content">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <h3>Monthly Wealth Audit</h3>
-          <button class="btn btn-primary" onclick="exportReportToPDF()"><i data-lucide="download" style="width:16px;"></i> Export PDF</button>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn btn-secondary" onclick="exportReportToPPTX()"><i data-lucide="presentation" style="width:16px;"></i> Export PPTX</button>
+            <button class="btn btn-primary" onclick="exportReportToPDF()"><i data-lucide="download" style="width:16px;"></i> Export PDF</button>
+          </div>
         </div>
 
         <div class="report-frame has-tour-tooltip" id="monthly-report-frame">

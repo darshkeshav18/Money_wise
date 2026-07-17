@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
+const PptxGenJS = require('pptxgenjs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -543,6 +544,206 @@ app.get('/api/admin/analytics', async (req, res) => {
   } catch (err) {
     console.error("Analytics Endpoint Error:", err);
     res.status(500).json({ error: 'Internal server error generating analytics report' });
+  }
+});
+
+// ==================== PPTX POWERPOINT AUDIT GENERATOR ====================
+
+app.get('/api/report/pptx', async (req, res) => {
+  try {
+    const username = req.query.username ? req.query.username.toLowerCase().trim() : '';
+    if (!username) {
+      return res.status(400).json({ error: 'Username query parameter is required' });
+    }
+
+    const data = await getUserData(username);
+    if (!data) {
+      return res.status(404).json({ error: 'User database record not found' });
+    }
+
+    const pptx = new PptxGenJS();
+    pptx.layout = 'LAYOUT_16x9';
+
+    // Slide 1: Welcome Slide
+    let slide1 = pptx.addSlide();
+    slide1.background = { color: '0F172A' }; // Slate 900
+    slide1.addText('MONEYWISE WEALTH AUDIT', {
+      x: 1.0, y: 2.0, w: 10, h: 0.8,
+      fontSize: 36, bold: true, color: '38BDF8', // Sky 400
+      fontFace: 'Arial'
+    });
+    slide1.addText('Monthly Personal Wealth & Budget Compliance Audit', {
+      x: 1.0, y: 2.8, w: 10, h: 0.5,
+      fontSize: 18, color: '94A3B8', // Slate 400
+      fontFace: 'Arial'
+    });
+    slide1.addText(`Audited User: ${username.toUpperCase()}\nGenerated On: ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}`, {
+      x: 1.0, y: 4.5, w: 8, h: 1.0,
+      fontSize: 14, color: '64748B', // Slate 500
+      fontFace: 'Arial'
+    });
+
+    // Helper data math
+    const income = (data.profile && Number(data.profile.income)) || 50000;
+    const splits = (data.profile && data.profile.budgetSplits) || { needs: 50, wants: 30, savings: 20 };
+    
+    const spent = { Needs: 0, Wants: 0, Savings: 0 };
+    const today = new Date();
+    const currentMonthExpenses = (data.expenses || []).filter(x => {
+      const d = new Date(x.date);
+      return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && x.type !== 'credit';
+    });
+    
+    currentMonthExpenses.forEach(x => {
+      if (spent[x.bucket] !== undefined) spent[x.bucket] += x.amount;
+    });
+
+    const totalSpent = spent.Needs + spent.Wants;
+    const remaining = income - (totalSpent + spent.Savings);
+
+    // Slide 2: Allocation & Spend Performance
+    let slide2 = pptx.addSlide();
+    slide2.background = { color: 'F8FAFC' }; // Slate 50
+    slide2.addText('BUDGET ALLOCATION PERFORMANCE', {
+      x: 0.5, y: 0.4, w: 12, h: 0.6,
+      fontSize: 24, bold: true, color: '1E293B',
+      fontFace: 'Arial'
+    });
+
+    // Add Table comparing Target vs Actual
+    const rows = [
+      [
+        { text: 'Budget Split', options: { bold: true, color: 'FFFFFF', fill: '1E293B' } },
+        { text: 'Target Limit', options: { bold: true, color: 'FFFFFF', fill: '1E293B' } },
+        { text: 'Actual Spent', options: { bold: true, color: 'FFFFFF', fill: '1E293B' } },
+        { text: 'Compliance Status', options: { bold: true, color: 'FFFFFF', fill: '1E293B' } }
+      ],
+      [
+        'Needs (50% Standard)',
+        `₹${Math.round(income * (splits.needs / 100)).toLocaleString('en-IN')} (${splits.needs}%)`,
+        `₹${spent.Needs.toLocaleString('en-IN')}`,
+        spent.Needs > income * (splits.needs / 100) ? 'Over limit (Alert)' : 'Under limit (Healthy)'
+      ],
+      [
+        'Wants (30% Standard)',
+        `₹${Math.round(income * (splits.wants / 100)).toLocaleString('en-IN')} (${splits.wants}%)`,
+        `₹${spent.Wants.toLocaleString('en-IN')}`,
+        spent.Wants > income * (splits.wants / 100) ? 'Over limit (Alert)' : 'Under limit (Healthy)'
+      ],
+      [
+        'Savings (20% Standard)',
+        `₹${Math.round(income * (splits.savings / 100)).toLocaleString('en-IN')} (${splits.savings}%)`,
+        `₹${spent.Savings.toLocaleString('en-IN')}`,
+        'Logged & Saved'
+      ]
+    ];
+    slide2.addTable(rows, {
+      x: 0.5, y: 1.2, w: 7.5,
+      colW: [2.0, 1.8, 1.7, 2.0],
+      border: { type: 'solid', color: 'E2E8F0', size: 1 },
+      fontSize: 12,
+      fontFace: 'Arial'
+    });
+
+    // Financial Health Summary Card on the right
+    slide2.addText('FINANCIAL HEALTH SUMMARY', {
+      x: 8.4, y: 1.2, w: 4.4, h: 0.4,
+      fontSize: 14, bold: true, color: '0F172A'
+    });
+    
+    let summaryText = 
+      `• Total Take-home Income: ₹${income.toLocaleString('en-IN')}\n\n` +
+      `• Total Outflow Spent: ₹${totalSpent.toLocaleString('en-IN')}\n\n` +
+      `• Total Saved / Invested: ₹${spent.Savings.toLocaleString('en-IN')}\n\n` +
+      `• Available Balance left: ₹${remaining.toLocaleString('en-IN')}`;
+    
+    slide2.addText(summaryText, {
+      x: 8.4, y: 1.8, w: 4.4, h: 3.5,
+      fontSize: 12,
+      color: '334155',
+      fontFace: 'Arial',
+      lineSpacing: 18
+    });
+
+    // Slide 3: Category Outlays & Recommendations
+    let slide3 = pptx.addSlide();
+    slide3.background = { color: 'F8FAFC' };
+    slide3.addText('SPENDING CATEGORIES & AUDIT ACTION PLAN', {
+      x: 0.5, y: 0.4, w: 12, h: 0.6,
+      fontSize: 24, bold: true, color: '1E293B',
+      fontFace: 'Arial'
+    });
+
+    // Compute top categories
+    const spentByCat = {};
+    currentMonthExpenses.forEach(x => {
+      spentByCat[x.category] = (spentByCat[x.category] || 0) + x.amount;
+    });
+    const sortedCats = Object.keys(spentByCat)
+      .map(k => ({ name: k, amt: spentByCat[k] }))
+      .sort((a, b) => b.amt - a.amt)
+      .slice(0, 3);
+
+    let catText = 'Top Expenditures:\n';
+    if (sortedCats.length > 0) {
+      sortedCats.forEach((c, idx) => {
+        catText += `${idx + 1}. ${c.name}: ₹${c.amt.toLocaleString('en-IN')}\n`;
+      });
+    } else {
+      catText += 'No transactions logged this month.';
+    }
+
+    // Food delivery stats
+    const foodList = currentMonthExpenses.filter(x => x.category === 'Food Delivery');
+    const foodTotal = foodList.reduce((acc, x) => acc + x.amount, 0);
+    catText += `\nFood Delivery Aggregate: ₹${foodTotal.toLocaleString('en-IN')} (${foodList.length} orders)`;
+
+    slide3.addText(catText, {
+      x: 0.5, y: 1.4, w: 6.0, h: 4.0,
+      fontSize: 13,
+      color: '334155',
+      fontFace: 'Arial',
+      lineSpacing: 20
+    });
+
+    // Audit Recommendations on the right
+    slide3.addText('AUDIT RECOMMENDATIONS', {
+      x: 7.0, y: 1.4, w: 5.8, h: 0.4,
+      fontSize: 16, bold: true, color: '0F172A'
+    });
+
+    let recText = '';
+    const needsLimit = income * (splits.needs / 100);
+    const wantsLimit = income * (splits.wants / 100);
+    
+    if (spent.Needs > needsLimit) {
+      recText += `• Needs are over target by ₹${Math.round(spent.Needs - needsLimit).toLocaleString('en-IN')}. Audit fixed utility bills, rent settings, or EMIs to cut down essential costs.\n\n`;
+    }
+    if (spent.Wants > wantsLimit) {
+      recText += `• Wants are over target by ₹${Math.round(spent.Wants - wantsLimit).toLocaleString('en-IN')}. Pause sub-categories like OTT Subscriptions or Food Delivery ordering.\n\n`;
+    }
+    if (spent.Savings < income * (splits.savings / 100)) {
+      recText += `• Savings are below your set goal of ₹${Math.round(income * (splits.savings / 100)).toLocaleString('en-IN')}. Automate mutual fund SIP injections or equity deposits.\n\n`;
+    }
+    if (!recText) {
+      recText = '🎉 Excellent job! You are perfectly compliant with your target allocations. Continue maintaining this healthy saving discipline to grow your long-term assets!';
+    }
+
+    slide3.addText(recText, {
+      x: 7.0, y: 2.0, w: 5.8, h: 3.5,
+      fontSize: 12,
+      color: '059669', // Emerald 600 style for positive/actionable items
+      fontFace: 'Arial',
+      lineSpacing: 18
+    });
+
+    const buffer = await pptx.write('nodebuffer');
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
+    res.setHeader('Content-Disposition', `attachment; filename=MoneyWise_Audit_${username}.pptx`);
+    res.send(buffer);
+  } catch (err) {
+    console.error('PPTX generation error:', err);
+    res.status(500).json({ error: 'Failed to generate PPTX report slide deck' });
   }
 });
 
