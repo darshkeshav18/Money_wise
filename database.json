@@ -283,6 +283,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784257746863
+        },
+        {
+          "id": "3rjegzn",
+          "amount": 130,
+          "note": "Mr VINEESH  B",
+          "date": "2026-07-17",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784257748668
         }
       ],
       "subscriptions": [],
