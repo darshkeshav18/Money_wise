@@ -343,6 +343,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784288675794
+        },
+        {
+          "id": "7mmybx4",
+          "amount": 30,
+          "note": "Liza Butani",
+          "date": "2026-07-17",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784288731835
         }
       ],
       "subscriptions": [],
