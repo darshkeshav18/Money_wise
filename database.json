@@ -313,6 +313,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784269247953
+        },
+        {
+          "id": "j1zpcxt",
+          "amount": 700,
+          "note": "9980404300@superyes",
+          "date": "2026-07-17",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784284953065
         }
       ],
       "subscriptions": [],
