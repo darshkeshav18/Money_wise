@@ -323,6 +323,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784284953065
+        },
+        {
+          "id": "uv1989r",
+          "amount": 60,
+          "note": "BMTC",
+          "date": "2026-07-17",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784288543896
         }
       ],
       "subscriptions": [],
