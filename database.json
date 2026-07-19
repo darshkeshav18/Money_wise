@@ -82,6 +82,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784440422009
+        },
+        {
+          "id": "rm2hjgy",
+          "amount": 460,
+          "note": "MMUNIRAJU",
+          "date": "2026-07-19",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784441207422
         }
       ],
       "subscriptions": [],
