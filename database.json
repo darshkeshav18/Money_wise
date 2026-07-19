@@ -72,6 +72,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784384163599
+        },
+        {
+          "id": "sqikwv7",
+          "amount": 600,
+          "note": "Credit alert received",
+          "date": "2026-07-19",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784440422009
         }
       ],
       "subscriptions": [],
