@@ -423,6 +423,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784538929955
+        },
+        {
+          "id": "bsi04wh",
+          "amount": 104,
+          "note": "Liza Butani",
+          "date": "2026-07-20",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784553486091
         }
       ],
       "subscriptions": [],
