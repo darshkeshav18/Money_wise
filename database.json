@@ -413,6 +413,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784538161587
+        },
+        {
+          "id": "9hyepg3",
+          "amount": 20,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-20",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784538929955
         }
       ],
       "subscriptions": [],
