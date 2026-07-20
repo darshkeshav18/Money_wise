@@ -393,6 +393,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784517705245
+        },
+        {
+          "id": "c89sywv",
+          "amount": 140,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-20",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784529456133
         }
       ],
       "subscriptions": [],
