@@ -433,6 +433,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784553486091
+        },
+        {
+          "id": "sa9u4iy",
+          "amount": 208,
+          "note": "MALEPALLI KURUBA LAKSHMI",
+          "date": "2026-07-20",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784554195220
         }
       ],
       "subscriptions": [],
