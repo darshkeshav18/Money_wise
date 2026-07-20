@@ -403,6 +403,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784529456133
+        },
+        {
+          "id": "fq2ezzv",
+          "amount": 40,
+          "note": "SHARAVAN KUMAR Y",
+          "date": "2026-07-20",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784538161587
         }
       ],
       "subscriptions": [],
