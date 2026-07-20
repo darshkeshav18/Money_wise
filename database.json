@@ -383,6 +383,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784288731835
+        },
+        {
+          "id": "2a2le8j",
+          "amount": 142,
+          "note": "MADHU B H",
+          "date": "2026-07-20",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784517705245
         }
       ],
       "subscriptions": [],
