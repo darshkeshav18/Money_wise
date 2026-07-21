@@ -409,8 +409,8 @@
           "amount": 40,
           "note": "SHARAVAN KUMAR Y",
           "date": "2026-07-20",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784538161587
         },
