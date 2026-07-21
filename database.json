@@ -443,6 +443,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784554195220
+        },
+        {
+          "id": "9dt6873",
+          "amount": 135,
+          "note": "UDAYANITHI SUBRAMANIYAN",
+          "date": "2026-07-21",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784605296652
         }
       ],
       "subscriptions": [],
