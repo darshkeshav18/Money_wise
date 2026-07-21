@@ -469,8 +469,8 @@
           "amount": 15,
           "note": "NAVEEN K G",
           "date": "2026-07-21",
-          "bucket": "Needs",
-          "category": "Other Needs",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784614399725
         }
