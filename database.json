@@ -513,6 +513,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784617339638
+        },
+        {
+          "id": "fgqkznk",
+          "amount": 104,
+          "note": "7862968869@fam",
+          "date": "2026-07-21",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784639551395
         }
       ],
       "subscriptions": [],
