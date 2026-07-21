@@ -493,6 +493,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784614668248
+        },
+        {
+          "id": "21qwc9s",
+          "amount": 149,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-21",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784617339638
         }
       ],
       "subscriptions": [],
