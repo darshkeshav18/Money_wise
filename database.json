@@ -573,6 +573,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784726118374
+        },
+        {
+          "id": "h5acaw5",
+          "amount": 123,
+          "note": "Venkateshappa S M",
+          "date": "2026-07-22",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784726899312
         }
       ],
       "subscriptions": [],
