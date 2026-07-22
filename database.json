@@ -579,8 +579,8 @@
           "amount": 123,
           "note": "Venkateshappa S M",
           "date": "2026-07-22",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784726899312
         }
