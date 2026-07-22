@@ -533,6 +533,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784690135683
+        },
+        {
+          "id": "k39017k",
+          "amount": 187,
+          "note": "Mr SHASHIDHARA",
+          "date": "2026-07-22",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784690209597
         }
       ],
       "subscriptions": [],
