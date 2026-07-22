@@ -563,6 +563,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784704669904
+        },
+        {
+          "id": "phxbwvl",
+          "amount": 69,
+          "note": "HDFC transaction",
+          "date": "2026-07-22",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784726118374
         }
       ],
       "subscriptions": [],
