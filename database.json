@@ -603,6 +603,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784776359116
+        },
+        {
+          "id": "4ixnpxd",
+          "amount": 15,
+          "note": "NAVEEN K G",
+          "date": "2026-07-23",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784777753967
         }
       ],
       "subscriptions": [],
