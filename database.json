@@ -593,6 +593,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784726899312
+        },
+        {
+          "id": "qlq1ho6",
+          "amount": 217,
+          "note": "MOHAMMED IBRAHIM KHA",
+          "date": "2026-07-23",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784776359116
         }
       ],
       "subscriptions": [],
