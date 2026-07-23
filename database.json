@@ -663,6 +663,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784797862034
+        },
+        {
+          "id": "x8m2tkm",
+          "amount": 138,
+          "note": "Liza Butani",
+          "date": "2026-07-23",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784811697204
         }
       ],
       "subscriptions": [],
