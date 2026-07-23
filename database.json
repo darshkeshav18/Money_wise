@@ -132,6 +132,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784731534719
+        },
+        {
+          "id": "otji3qq",
+          "amount": 30,
+          "note": "NAVEEN K G",
+          "date": "2026-07-23",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784798290496
         }
       ],
       "subscriptions": [],
