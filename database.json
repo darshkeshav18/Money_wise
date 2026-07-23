@@ -633,6 +633,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784778669446
+        },
+        {
+          "id": "943o7f9",
+          "amount": 140,
+          "note": "MURTHY KRISHNA",
+          "date": "2026-07-23",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784789447433
         }
       ],
       "subscriptions": [],
