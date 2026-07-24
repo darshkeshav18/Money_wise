@@ -683,6 +683,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784864521782
+        },
+        {
+          "id": "86xbybc",
+          "amount": 15,
+          "note": "VANAJAKSHI K G",
+          "date": "2026-07-24",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784866309636
         }
       ],
       "subscriptions": [],
