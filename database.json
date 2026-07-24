@@ -693,6 +693,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784866309636
+        },
+        {
+          "id": "5tfop24",
+          "amount": 40,
+          "note": "Shri Vinayaka Condiments",
+          "date": "2026-07-24",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784878610365
         }
       ],
       "subscriptions": [],
