@@ -733,6 +733,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784888037440
+        },
+        {
+          "id": "spam8yn",
+          "amount": 209,
+          "note": "MADHU P",
+          "date": "2026-07-24",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784894549919
         }
       ],
       "subscriptions": [],
