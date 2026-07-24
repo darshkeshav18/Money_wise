@@ -673,6 +673,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784811697204
+        },
+        {
+          "id": "zm9ezs4",
+          "amount": 205,
+          "note": "YAHIYA  BASHA",
+          "date": "2026-07-24",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784864521782
         }
       ],
       "subscriptions": [],
