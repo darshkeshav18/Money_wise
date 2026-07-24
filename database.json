@@ -703,6 +703,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784878610365
+        },
+        {
+          "id": "zy0f1n9",
+          "amount": 500,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-24",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784888037440
         }
       ],
       "subscriptions": [],
