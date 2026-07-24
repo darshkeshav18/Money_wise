@@ -152,6 +152,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784888039366
+        },
+        {
+          "id": "fbzis0d",
+          "amount": 500,
+          "note": "Credit alert received",
+          "date": "2026-07-24",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784888050823
         }
       ],
       "subscriptions": [],
