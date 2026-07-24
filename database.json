@@ -142,6 +142,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784798290496
+        },
+        {
+          "id": "nzikjkb",
+          "amount": 500,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-24",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784888039366
         }
       ],
       "subscriptions": [],
@@ -709,8 +719,8 @@
           "amount": 500,
           "note": "DARSH  KESHAV",
           "date": "2026-07-24",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Wants",
+          "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784888037440
         }
