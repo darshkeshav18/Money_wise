@@ -162,6 +162,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784888050823
+        },
+        {
+          "id": "7wf841z",
+          "amount": 10,
+          "note": "RKODANDARAMA",
+          "date": "2026-07-25",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1784964106271
         }
       ],
       "subscriptions": [],
