@@ -182,6 +182,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1785039511592
+        },
+        {
+          "id": "011qstn",
+          "amount": 170,
+          "note": "MURTHY KRISH",
+          "date": "2026-07-26",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785052313344
         }
       ],
       "subscriptions": [],
