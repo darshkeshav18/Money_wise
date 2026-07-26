@@ -178,8 +178,8 @@
           "amount": 15,
           "note": "KAVITHA  E",
           "date": "2026-07-26",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785039511592
         },
