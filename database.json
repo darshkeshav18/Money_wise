@@ -172,6 +172,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784964106271
+        },
+        {
+          "id": "hqfcbph",
+          "amount": 15,
+          "note": "KAVITHA  E",
+          "date": "2026-07-26",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785039511592
         }
       ],
       "subscriptions": [],
