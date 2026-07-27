@@ -603,21 +603,6 @@
               <!-- Dynamically populated in app.js -->
             </div>
           </div>
-
-          <div class="card" style="display:flex; flex-direction:column; gap:1.25rem; justify-content: center;">
-            <h3 style="display:flex; align-items:center; gap:0.5rem;"><i data-lucide="heart-pulse" style="color:var(--color-needs)"></i> 50/30/20 Advisor</h3>
-            <p id="dash-status-paragraph" style="font-size:0.9rem; line-height:1.5; color:var(--text-secondary);"></p>
-            <div style="border-top:1px solid var(--border-color); padding-top:1rem; display:flex; gap:1rem;">
-              <div style="flex:1;">
-                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600; display:block;">Active Goals</span>
-                <span style="font-size:1.25rem; font-weight:800; color:var(--color-savings);" id="dash-active-goals-count">0 Goals</span>
-              </div>
-              <div style="flex:1;">
-                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600; display:block;">Subscription Drain</span>
-                <span style="font-size:1.25rem; font-weight:800; color:var(--color-wants);" id="dash-sub-drain-cost">₹0/mo</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -827,56 +812,48 @@
             </div>
           </div>
 
-          <!-- Compound Interest Advisor Card -->
-          <div class="card has-tour-tooltip" style="display:flex; flex-direction:column; justify-content:space-between; gap:1rem;">
-            <!-- Onboarding Walkthrough Tooltip -->
-            <div id="tour-step-6" class="tour-tooltip-card tooltip-bottom">
-              <div class="tooltip-arrow"></div>
-              <span class="tooltip-header">Investment CAGRs</span>
-              <span class="tooltip-body-text">Project your long-term compound growth (5 and 10 years) at a standard 12% return based on your monthly contribution rate.</span>
-              <div class="tooltip-footer">
-                <div class="tooltip-dots">
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                  <span class="dot active"></span>
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                </div>
-                <button class="tooltip-btn" onclick="dismissWalkthroughTooltip(event)">Got It</button>
-              </div>
+          <!-- Log Investment Card -->
+          <div class="card" style="display:flex; flex-direction:column; gap:1rem;">
+            <div style="display:flex; align-items:center; gap:0.5rem; color:var(--color-warning);">
+              <i data-lucide="trending-up"></i>
+              <h3 style="font-size:1.25rem;">Log Investment Asset</h3>
             </div>
-            <div>
-              <div style="display:flex; align-items:center; gap:0.5rem; color:var(--color-warning);">
-                <i data-lucide="trending-up"></i>
-                <h3 style="font-size:1.2rem;">CAGR Compound Advisor</h3>
+            <p style="color:var(--text-secondary); font-size:0.8rem;">Add stocks, mutual funds, gold, or other assets to your portfolio.</p>
+            <form id="add-investment-form" onsubmit="handleInvestSubmit(event)" style="display:flex; flex-direction:column; gap:0.75rem;">
+              <div class="input-group">
+                <label for="invest-name">Asset Name (e.g. HDFC Index Fund)</label>
+                <input type="text" id="invest-name" class="input-field" placeholder="e.g. Parag Parikh Flexi Cap" required>
               </div>
-              <p style="font-size:0.9rem; line-height:1.5; color:var(--text-secondary); margin-top:0.75rem;">
-                Compound interest is the 8th wonder of the world. By consistently maintaining your monthly investment rate of <strong id="cagr-monthly-contrib" style="color:var(--text-primary);">₹0</strong>, you will accumulate:
-              </p>
-              
-              <div style="display:flex; flex-direction:column; gap:0.75rem; margin-top:1.25rem;">
-                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:0.5rem;">
-                  <span>Valuation in 5 Years (12% CAGR):</span>
-                  <strong id="cagr-5yr" style="color:var(--color-success);">₹0</strong>
+              <div style="display:flex; gap:0.75rem;">
+                <div class="input-group" style="flex:1;">
+                  <label for="invest-type">Asset Type</label>
+                  <select id="invest-type" class="input-field" required>
+                    <option value="Mutual Funds">Mutual Funds</option>
+                    <option value="Stocks">Stocks</option>
+                    <option value="Gold">Gold</option>
+                    <option value="Fixed Deposit">Fixed Deposit</option>
+                    <option value="PPF / EPF">PPF / EPF</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Others">Others</option>
+                  </select>
                 </div>
-                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:0.5rem;">
-                  <span>Valuation in 10 Years (12% CAGR):</span>
-                  <strong id="cagr-10yr" style="color:var(--color-success);">₹0</strong>
-                </div>
-                <div style="display:flex; justify-content:space-between;">
-                  <span>Estimated Total Capital Invested:</span>
-                  <strong id="cagr-total-principal">₹0</strong>
+                <div class="input-group" style="flex:1;">
+                  <label for="invest-amount">Amount (₹)</label>
+                  <input type="number" id="invest-amount" class="input-field" min="1" placeholder="5000" required>
                 </div>
               </div>
-            </div>
-            
-            <div style="background:rgba(59, 130, 246, 0.05); border:1px dashed rgba(59,130,246,0.2); padding:0.85rem; border-radius:10px; font-size:0.75rem; color:var(--text-secondary); line-height:1.4;">
-              💡 <strong>Asset Allocation Advice:</strong> Based on your profile, consider maintaining a healthy split of 60% Equity (Mutual Funds/Stocks) and 40% Debt (Fixed Deposits, PPF, Gold) for balanced risk hedging.
-            </div>
+              <div style="display:flex; gap:0.75rem; align-items:center;">
+                <div class="input-group" style="flex:1;">
+                  <label for="invest-date">Date Invested</label>
+                  <input type="date" id="invest-date" class="input-field" required>
+                </div>
+                <div style="display:flex; align-items:center; gap:0.5rem; margin-top:1.1rem; flex:1;">
+                  <input type="checkbox" id="invest-recurring" style="width:18px; height:18px; cursor:pointer;">
+                  <label for="invest-recurring" style="font-size:0.85rem; cursor:pointer; font-weight:normal; margin:0;">Is Monthly SIP</label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary" style="margin-top:0.5rem; width:100%;"><i data-lucide="plus" style="width:16px;"></i> Log Investment Asset</button>
+            </form>
           </div>
         </div>
 

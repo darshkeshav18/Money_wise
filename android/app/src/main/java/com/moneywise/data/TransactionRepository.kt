@@ -42,13 +42,17 @@ class TransactionRepository(private val dao: TransactionDao) {
             checkSavingsWarning(context)
         }
 
-        triggerImmediateSync(context)
-
-        return when {
+        val action = when {
             isCredit -> PendingAction.AutoFiled(id)
             autoCategory != null -> PendingAction.AutoFiled(id)
             else -> PendingAction.NeedsCategorization(id, txn.amount, txn.type)
         }
+
+        if (action is PendingAction.AutoFiled) {
+            triggerImmediateSync(context)
+        }
+
+        return action
     }
 
     suspend fun updateCategory(context: android.content.Context, id: Long, category: String) {
