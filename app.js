@@ -2622,11 +2622,31 @@ function getUpcomingSubscriptionRenewals(threshold) {
 function generateId() { return Math.random().toString(36).substring(2, 9); }
 
 function formatNumber(n) {
-  const x = n.toString();
-  let lastThree = x.substring(x.length - 3);
-  const rest = x.substring(0, x.length - 3);
+  if (n === null || n === undefined || isNaN(n)) return '0';
+  
+  const num = Number(n);
+  
+  // Format integers without decimals
+  if (num % 1 === 0) {
+    const x = num.toString();
+    let lastThree = x.substring(x.length - 3);
+    const rest = x.substring(0, x.length - 3);
+    if (rest !== '') lastThree = ',' + lastThree;
+    return rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+  }
+  
+  // Format floats with exactly 2 decimal places
+  const rounded = num.toFixed(2);
+  const parts = rounded.split('.');
+  const intPart = parts[0];
+  const decPart = parts[1];
+
+  let lastThree = intPart.substring(intPart.length - 3);
+  const rest = intPart.substring(0, intPart.length - 3);
   if (rest !== '') lastThree = ',' + lastThree;
-  return rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+  const formattedInt = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+
+  return formattedInt + '.' + decPart;
 }
 
 function formatDate(dStr) {
