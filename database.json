@@ -213,6 +213,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785144474899
+        },
+        {
+          "id": "h3sbclz",
+          "amount": 1,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-27",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785144511711
         }
       ],
       "subscriptions": [],
