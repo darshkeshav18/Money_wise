@@ -805,6 +805,17 @@
           "note": "Manual Income Injection",
           "isRecurring": false,
           "isInvestment": false
+        },
+        {
+          "id": "icej380",
+          "amount": 6000,
+          "bucket": "Wants",
+          "category": "Food Delivery",
+          "date": "2026-07-27",
+          "note": "",
+          "isRecurring": false,
+          "isInvestment": false,
+          "assetType": ""
         }
       ],
       "subscriptions": [],
