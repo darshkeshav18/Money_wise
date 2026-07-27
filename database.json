@@ -917,6 +917,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785145839272
+        },
+        {
+          "id": "lu9p0nw",
+          "amount": 10,
+          "note": "harsitathapa5@okaxis",
+          "date": "2026-07-27",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785147727118
         }
       ],
       "subscriptions": [],
