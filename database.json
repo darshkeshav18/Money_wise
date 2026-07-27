@@ -719,8 +719,8 @@
           "amount": 138,
           "note": "Liza Butani",
           "date": "2026-07-23",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784811697204
         },
@@ -729,8 +729,8 @@
           "amount": 205,
           "note": "YAHIYA  BASHA",
           "date": "2026-07-24",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Wants",
+          "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784864521782
         },
