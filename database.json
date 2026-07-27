@@ -826,6 +826,16 @@
           "isRecurring": false,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "q1josip",
+          "amount": 1,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-27",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785144473060
         }
       ],
       "subscriptions": [],
