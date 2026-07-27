@@ -937,6 +937,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785147942481
+        },
+        {
+          "id": "nptu96u",
+          "amount": 10,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-27",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785154420793
         }
       ],
       "subscriptions": [],
