@@ -957,6 +957,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1785155500816
+        },
+        {
+          "id": "u7algew",
+          "amount": 30,
+          "note": "7862968869@fam",
+          "date": "2026-07-27",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785155513015
         }
       ],
       "subscriptions": [],
