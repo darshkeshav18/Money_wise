@@ -823,7 +823,7 @@
           "renewal": true,
           "goals": true
         },
-        "darkMode": false,
+        "darkMode": true,
         "showTooltips": true,
         "tourCompleted": true,
         "hideBalance": false
