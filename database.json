@@ -856,6 +856,17 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785144681708
+        },
+        {
+          "id": "csmrjp5",
+          "amount": 5000,
+          "bucket": "Needs",
+          "category": "Transport",
+          "date": "2026-07-27",
+          "note": "",
+          "isRecurring": false,
+          "isInvestment": false,
+          "assetType": ""
         }
       ],
       "subscriptions": [],
