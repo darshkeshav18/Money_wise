@@ -773,6 +773,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1784894549919
+        },
+        {
+          "id": "2xjps1t",
+          "amount": 239,
+          "note": "RAJU   B",
+          "date": "2026-07-27",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785121585333
         }
       ],
       "subscriptions": [],
