@@ -232,9 +232,9 @@
         "profession": "Student",
         "income": 10000,
         "budgetSplits": {
-          "needs": 17,
-          "wants": 35,
-          "savings": 48
+          "needs": 42,
+          "wants": 40,
+          "savings": 18
         },
         "bankingConnected": false,
         "smsConsent": true
@@ -805,6 +805,17 @@
           "note": "Manual Income Injection",
           "isRecurring": false,
           "isInvestment": false
+        },
+        {
+          "id": "icej380",
+          "amount": 6000,
+          "bucket": "Wants",
+          "category": "Food Delivery",
+          "date": "2026-07-27",
+          "note": "",
+          "isRecurring": false,
+          "isInvestment": false,
+          "assetType": ""
         }
       ],
       "subscriptions": [],
