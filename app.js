@@ -2275,45 +2275,11 @@ function renderMonthlyReport() {
 }
 
 function exportReportToPDF() {
-  const element = document.getElementById('monthly-report-frame');
-  
-  if (typeof html2pdf === 'undefined') {
-    showToast('Initializing local PDF rendering engine...', 'info');
-    setTimeout(() => {
-      showToast('Compiling financial metrics and category ledgers...', 'info');
-      setTimeout(() => {
-        // Trigger a simulated browser download of a PDF text file
-        const reportText = `MoneyWise Personal Wealth Audit Report\nGenerated on: ${new Date().toLocaleDateString()}\n\nMonthly Income: ₹${formatNumber(state.profile ? state.profile.income : 0)}\nTotal Saved: ₹${formatNumber(getCurrentMonthSavings())}\nTotal Spent: ₹${formatNumber(getCurrentMonthExpenses().reduce((a,b)=>a+b.amount,0))}`;
-        const blob = new Blob([reportText], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `MoneyWise_Personal_Audit_${new Date().toISOString().substring(0,7)}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        showToast('PDF Statement downloaded successfully (Simulation)', 'success');
-      }, 1000);
-    }, 1000);
-    return;
-  }
-
-  showToast('Compiling financial PDF document...', 'info');
-
-  const opt = {
-    margin: [0.5, 0.5],
-    filename: `MoneyWise_Personal_Audit_${new Date().toISOString().substring(0,7)}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#05070f' },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-  };
-
-  html2pdf().set(opt).from(element).save().then(() => {
-    showToast('PDF Statement downloaded', 'success');
-  }).catch(() => {
-    showToast('PDF Statement downloaded (Fallback)', 'success');
-  });
+  if (!state.user || !state.user.loggedIn) return;
+  const username = state.user.username || '';
+  const url = `/api/report/pdf?username=${encodeURIComponent(username)}`;
+  window.open(url, '_blank');
+  showToast('Downloading personal wealth audit PDF...', 'success');
 }
 
 // INJECT MOCK PREVIEW DATASETS

@@ -45,6 +45,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Enable file downloads
+        webView.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
+            try {
+                val request = android.app.DownloadManager.Request(android.net.Uri.parse(url)).apply {
+                    setMimeType(mimetype)
+                    addRequestHeader("User-Agent", userAgent)
+                    setDescription("Downloading MoneyWise Report...")
+                    val fileName = android.webkit.URLUtil.guessFileName(url, contentDisposition, mimetype)
+                    setTitle(fileName)
+                    setNotificationVisibility(android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                    setDestinationInExternalPublicDir(android.os.Environment.DIRECTORY_DOWNLOADS, fileName)
+                }
+                val dm = getSystemService(DOWNLOAD_SERVICE) as android.app.DownloadManager
+                dm.enqueue(request)
+                android.widget.Toast.makeText(applicationContext, "Downloading report...", android.widget.Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                android.util.Log.e("MainActivity", "Failed to download file", e)
+                android.widget.Toast.makeText(applicationContext, "Download failed: ${e.message}", android.widget.Toast.LENGTH_LONG).show()
+            }
+        }
+
         // Register JavaScript interface bridge
         webView.addJavascriptInterface(WebAppInterface(this), "AndroidBridge")
 

@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 const PptxGenJS = require('pptxgenjs');
+const PDFDocument = require('pdfkit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -744,6 +745,185 @@ app.get('/api/report/pptx', async (req, res) => {
   } catch (err) {
     console.error('PPTX generation error:', err);
     res.status(500).json({ error: 'Failed to generate PPTX report slide deck' });
+  }
+});
+
+// ==================== PDF personal wealth audit generator ====================
+app.get('/api/report/pdf', async (req, res) => {
+  try {
+    const username = req.query.username ? req.query.username.toLowerCase().trim() : '';
+    if (!username) {
+      return res.status(400).json({ error: 'Username query parameter is required' });
+    }
+
+    const data = await getUserData(username);
+    if (!data) {
+      return res.status(404).json({ error: 'User database record not found' });
+    }
+
+    // Helper data math
+    const income = (data.profile && Number(data.profile.income)) || 50000;
+    const splits = (data.profile && data.profile.budgetSplits) || { needs: 50, wants: 30, savings: 20 };
+    
+    const spent = { Needs: 0, Wants: 0, Savings: 0 };
+    const today = new Date();
+    const currentMonthExpenses = (data.expenses || []).filter(x => {
+      const d = new Date(x.date);
+      return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && x.type !== 'credit';
+    });
+    
+    currentMonthExpenses.forEach(x => {
+      if (spent[x.bucket] !== undefined) spent[x.bucket] += x.amount;
+    });
+
+    const totalSpent = spent.Needs + spent.Wants;
+    const totalSaved = spent.Savings;
+
+    // Determine compliance score
+    let score = 100;
+    const targetNeeds = income * (splits.needs / 100);
+    const targetWants = income * (splits.wants / 100);
+    const targetSavings = income * (splits.savings / 100);
+
+    if (spent.Needs > targetNeeds) score -= Math.round(((spent.Needs - targetNeeds) / targetNeeds) * 30);
+    if (spent.Wants > targetWants) score -= Math.round(((spent.Wants - targetWants) / targetWants) * 30);
+    if (spent.Savings < targetSavings) score -= Math.round(((targetSavings - spent.Savings) / targetSavings) * 20);
+    score = Math.max(0, Math.min(100, score));
+
+    let status = 'COMPLIANT';
+    let statusColor = '#a3e635'; // green-yellow
+    let recMsg = 'Financial allocations strictly align with the 50/30/20 guidelines. Savings rate targets are fully met.';
+    if (score < 70) {
+      status = 'NON-COMPLIANT';
+      statusColor = '#ef4444'; // red
+      recMsg = 'Severe budget overruns in operating accounts. Review fixed costs and lower discretionary spend.';
+    } else if (score < 90) {
+      status = 'WARNING';
+      statusColor = '#f97316'; // orange
+      recMsg = 'Minor slippage in lifestyle allocations. Prune subscription drains to balance savings.';
+    }
+
+    // Set Response Headers
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=MoneyWise_Personal_Audit_${today.toISOString().substring(0, 7)}.pdf`);
+
+    // Create PDF Document
+    const doc = new PDFDocument({ margin: 50 });
+    doc.pipe(res);
+
+    // Color Palette
+    const bgDark = '#05070f';
+    const textPrimary = '#ffffff';
+    const textSecondary = '#94a3b8';
+    const accentColor = '#3b82f6';
+    const borderDark = '#1e293b';
+
+    // Draw background
+    doc.rect(0, 0, doc.page.width, doc.page.height).fill(bgDark);
+
+    // Document Header
+    doc.fillColor(accentColor).fontSize(20).text('MoneyWise Personal Financial Statement', 50, 50);
+    doc.fillColor(textSecondary).fontSize(10).text(`Audit Period: ${today.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}`, 50, 75);
+    doc.text(`Audited User: ${username.toUpperCase()}`, 50, 90);
+
+    // Compliance Badge
+    doc.save();
+    doc.fillColor(statusColor).rect(doc.page.width - 180, 50, 130, 30).fill();
+    doc.fillColor('#000000').fontSize(12).text(status, doc.page.width - 170, 58, { width: 110, align: 'center' });
+    doc.restore();
+
+    // Divider
+    doc.strokeColor(borderDark).moveTo(50, 115).lineTo(doc.page.width - 50, 115).stroke();
+
+    // Financial Metrics Summary Box
+    doc.fillColor(textPrimary).fontSize(14).text('Financial Summary', 50, 135);
+    doc.rect(50, 155, doc.page.width - 100, 70).strokeColor(borderDark).stroke();
+    
+    // Summary values
+    const colWidth = (doc.page.width - 100) / 3;
+    doc.fillColor(textSecondary).fontSize(9).text('MONTHLY INCOME', 65, 170);
+    doc.fillColor(textPrimary).fontSize(14).text(`INR ${income.toLocaleString('en-IN')}`, 65, 185);
+
+    doc.fillColor(textSecondary).fontSize(9).text('TOTAL SPENT', 65 + colWidth, 170);
+    doc.fillColor(textPrimary).fontSize(14).text(`INR ${totalSpent.toLocaleString('en-IN')}`, 65 + colWidth, 185);
+
+    doc.fillColor(textSecondary).fontSize(9).text('TOTAL SAVED', 65 + colWidth * 2, 170);
+    doc.fillColor(textPrimary).fontSize(14).text(`INR ${totalSaved.toLocaleString('en-IN')}`, 65 + colWidth * 2, 185);
+
+    // Divider
+    doc.strokeColor(borderDark).moveTo(50, 245).lineTo(doc.page.width - 50, 245).stroke();
+
+    // Budget Allocations Table
+    doc.fillColor(textPrimary).fontSize(14).text('Budget Allocations Performance', 50, 265);
+    
+    const tableTop = 295;
+    const tableHeaderHeight = 25;
+    const tableRowHeight = 25;
+
+    // Headers
+    doc.rect(50, tableTop, doc.page.width - 100, tableHeaderHeight).fillColor('#0f172a').fill();
+    doc.fillColor(textPrimary).fontSize(9);
+    doc.text('BUDGET CATEGORY', 60, tableTop + 8);
+    doc.text('TARGET SPLIT', 200, tableTop + 8);
+    doc.text('TARGET BUDGET', 300, tableTop + 8);
+    doc.text('ACTUAL SPENT', 400, tableTop + 8);
+    doc.text('VARIANCE STATUS', 500, tableTop + 8);
+
+    // Rows data
+    const budgetRows = [
+      { name: 'Needs', split: `${splits.needs}%`, target: targetNeeds, actual: spent.Needs, type: 'debit' },
+      { name: 'Wants', split: `${splits.wants}%`, target: targetWants, actual: spent.Wants, type: 'debit' },
+      { name: 'Savings', split: `${splits.savings}%`, target: targetSavings, actual: spent.Savings, type: 'credit' }
+    ];
+
+    budgetRows.forEach((row, idx) => {
+      const y = tableTop + tableHeaderHeight + idx * tableRowHeight;
+      // Alternate row backgrounds
+      if (idx % 2 === 1) {
+        doc.rect(50, y, doc.page.width - 100, tableRowHeight).fillColor('#090d16').fill();
+      }
+      doc.fillColor(textPrimary).fontSize(9);
+      doc.text(row.name, 60, y + 8);
+      doc.text(row.split, 200, y + 8);
+      doc.text(`INR ${row.target.toLocaleString('en-IN')}`, 300, y + 8);
+      doc.text(`INR ${row.actual.toLocaleString('en-IN')}`, 400, y + 8);
+
+      const variance = row.actual - row.target;
+      let varText = '';
+      let varColor = textPrimary;
+      if (variance > 0 && row.type === 'debit') {
+        varText = `+INR ${variance.toLocaleString('en-IN')} Over`;
+        varColor = '#ef4444';
+      } else if (variance < 0 && row.name === 'Savings') {
+        varText = `-INR ${Math.abs(variance).toLocaleString('en-IN')} Short`;
+        varColor = '#f97316';
+      } else if (variance < 0 && row.type === 'debit') {
+        varText = `-INR ${Math.abs(variance).toLocaleString('en-IN')} Saved`;
+        varColor = '#a3e635';
+      } else {
+        varText = 'On Target';
+        varColor = '#a3e635';
+      }
+
+      doc.fillColor(varColor).text(varText, 500, y + 8);
+    });
+
+    // Divider
+    doc.strokeColor(borderDark).moveTo(50, 400).lineTo(doc.page.width - 50, 400).stroke();
+
+    // Compliance Recommendations
+    doc.fillColor(textPrimary).fontSize(14).text('Strategic Compliance Advisory', 50, 420);
+    doc.fillColor(accentColor).fontSize(12).text(`Compliance Score: ${score}/100`, 50, 445);
+    doc.fillColor(textSecondary).fontSize(10).text(recMsg, 50, 465, { width: doc.page.width - 100, lineGap: 4 });
+
+    // Footer
+    doc.fillColor(textSecondary).fontSize(8).text('MoneyWise Wealth Advisor Platform • Secured PDF Document', 50, doc.page.height - 50, { align: 'center' });
+
+    doc.end();
+
+  } catch (err) {
+    console.error("PDF Generator Error:", err);
+    res.status(500).json({ error: 'Internal server error generating PDF' });
   }
 });
 
