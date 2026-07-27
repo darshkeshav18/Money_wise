@@ -877,6 +877,16 @@
           "isRecurring": false,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "df25iw9",
+          "amount": 1,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-27",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785145800721
         }
       ],
       "subscriptions": [],
