@@ -33,7 +33,7 @@
     "darsh_keshav": {
       "profile": {
         "profession": "Student",
-        "income": 15699,
+        "income": 5000,
         "budgetSplits": {
           "needs": 50,
           "wants": 30,
@@ -48,8 +48,8 @@
           "amount": 10,
           "note": "SAMHITA BHUV",
           "date": "2026-07-16",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Wants",
+          "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784199046112
         },
@@ -58,10 +58,140 @@
           "amount": 10,
           "note": "SAMHITA BHUV",
           "date": "2026-07-16",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Wants",
+          "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784199070093
+        },
+        {
+          "id": "ojqywdg",
+          "amount": 325,
+          "note": "AMRUTH SAGAR",
+          "date": "2026-07-18",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784384163599
+        },
+        {
+          "id": "sqikwv7",
+          "amount": 600,
+          "note": "Credit alert received",
+          "date": "2026-07-19",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784440422009
+        },
+        {
+          "id": "rm2hjgy",
+          "amount": 460,
+          "note": "MMUNIRAJU",
+          "date": "2026-07-19",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784441207422
+        },
+        {
+          "id": "1bdid6k",
+          "amount": 10,
+          "note": "Credit alert received",
+          "date": "2026-07-21",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784614655868
+        },
+        {
+          "id": "80yspvi",
+          "amount": 149,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-21",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784617341372
+        },
+        {
+          "id": "v27lwbi",
+          "amount": 25,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-22",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784704671684
+        },
+        {
+          "id": "5c2q4zi",
+          "amount": 240,
+          "note": "Credit alert received",
+          "date": "2026-07-22",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784731534719
+        },
+        {
+          "id": "otji3qq",
+          "amount": 30,
+          "note": "NAVEEN K G",
+          "date": "2026-07-23",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784798290496
+        },
+        {
+          "id": "nzikjkb",
+          "amount": 500,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-24",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784888039366
+        },
+        {
+          "id": "fbzis0d",
+          "amount": 500,
+          "note": "Credit alert received",
+          "date": "2026-07-24",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784888050823
+        },
+        {
+          "id": "7wf841z",
+          "amount": 10,
+          "note": "RKODANDARAMA",
+          "date": "2026-07-25",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784964106271
+        },
+        {
+          "id": "hqfcbph",
+          "amount": 15,
+          "note": "KAVITHA  E",
+          "date": "2026-07-26",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785039511592
+        },
+        {
+          "id": "011qstn",
+          "amount": 170,
+          "note": "MURTHY KRISH",
+          "date": "2026-07-26",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785052313344
         }
       ],
       "subscriptions": [],
@@ -289,8 +419,8 @@
           "amount": 130,
           "note": "Mr VINEESH  B",
           "date": "2026-07-17",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784257748668
         },
@@ -313,6 +443,346 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784269247953
+        },
+        {
+          "id": "j1zpcxt",
+          "amount": 700,
+          "note": "9980404300@superyes",
+          "date": "2026-07-17",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784284953065
+        },
+        {
+          "id": "uv1989r",
+          "amount": 60,
+          "note": "BMTC",
+          "date": "2026-07-17",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784288543896
+        },
+        {
+          "id": "txtftng",
+          "amount": 35,
+          "note": "8951707016@axl",
+          "date": "2026-07-17",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784288675794
+        },
+        {
+          "id": "7mmybx4",
+          "amount": 30,
+          "note": "Liza Butani",
+          "date": "2026-07-17",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784288731835
+        },
+        {
+          "id": "2a2le8j",
+          "amount": 142,
+          "note": "MADHU B H",
+          "date": "2026-07-20",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784517705245
+        },
+        {
+          "id": "c89sywv",
+          "amount": 140,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-20",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784529456133
+        },
+        {
+          "id": "fq2ezzv",
+          "amount": 40,
+          "note": "SHARAVAN KUMAR Y",
+          "date": "2026-07-20",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784538161587
+        },
+        {
+          "id": "9hyepg3",
+          "amount": 20,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-20",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784538929955
+        },
+        {
+          "id": "bsi04wh",
+          "amount": 104,
+          "note": "Liza Butani",
+          "date": "2026-07-20",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784553486091
+        },
+        {
+          "id": "sa9u4iy",
+          "amount": 208,
+          "note": "MALEPALLI KURUBA LAKSHMI",
+          "date": "2026-07-20",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784554195220
+        },
+        {
+          "id": "9dt6873",
+          "amount": 135,
+          "note": "UDAYANITHI SUBRAMANIYAN",
+          "date": "2026-07-21",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784605296652
+        },
+        {
+          "id": "ehqs6su",
+          "amount": 10,
+          "note": "NAVEEN K G",
+          "date": "2026-07-21",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784613895851
+        },
+        {
+          "id": "vep0e05",
+          "amount": 15,
+          "note": "NAVEEN K G",
+          "date": "2026-07-21",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784614399725
+        },
+        {
+          "id": "u5lzp2a",
+          "amount": 10,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-21",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784614668248
+        },
+        {
+          "id": "21qwc9s",
+          "amount": 149,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-21",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784617339638
+        },
+        {
+          "id": "fgqkznk",
+          "amount": 104,
+          "note": "7862968869@fam",
+          "date": "2026-07-21",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784639551395
+        },
+        {
+          "id": "wflsd0i",
+          "amount": 3000,
+          "note": "7090932154@ptyes",
+          "date": "2026-07-22",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784690135683
+        },
+        {
+          "id": "k39017k",
+          "amount": 187,
+          "note": "Mr SHASHIDHARA",
+          "date": "2026-07-22",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784690209597
+        },
+        {
+          "id": "k4wugdq",
+          "amount": 25,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-22",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784704669904
+        },
+        {
+          "id": "phxbwvl",
+          "amount": 69,
+          "note": "HDFC transaction",
+          "date": "2026-07-22",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784726118374
+        },
+        {
+          "id": "h5acaw5",
+          "amount": 123,
+          "note": "Venkateshappa S M",
+          "date": "2026-07-22",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784726899312
+        },
+        {
+          "id": "qlq1ho6",
+          "amount": 217,
+          "note": "MOHAMMED IBRAHIM KHA",
+          "date": "2026-07-23",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784776359116
+        },
+        {
+          "id": "4ixnpxd",
+          "amount": 15,
+          "note": "NAVEEN K G",
+          "date": "2026-07-23",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784777753967
+        },
+        {
+          "id": "xdbwov3",
+          "amount": 40,
+          "note": "KIRAN KUMAR P S",
+          "date": "2026-07-23",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784778005581
+        },
+        {
+          "id": "fx8t2rc",
+          "amount": 15,
+          "note": "NAVEEN K G",
+          "date": "2026-07-23",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784778669446
+        },
+        {
+          "id": "943o7f9",
+          "amount": 140,
+          "note": "MURTHY KRISHNA",
+          "date": "2026-07-23",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784789447433
+        },
+        {
+          "id": "2c866cu",
+          "amount": 100,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-23",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784797862034
+        },
+        {
+          "id": "x8m2tkm",
+          "amount": 138,
+          "note": "Liza Butani",
+          "date": "2026-07-23",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784811697204
+        },
+        {
+          "id": "zm9ezs4",
+          "amount": 205,
+          "note": "YAHIYA  BASHA",
+          "date": "2026-07-24",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784864521782
+        },
+        {
+          "id": "86xbybc",
+          "amount": 15,
+          "note": "VANAJAKSHI K G",
+          "date": "2026-07-24",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784866309636
+        },
+        {
+          "id": "5tfop24",
+          "amount": 40,
+          "note": "Shri Vinayaka Condiments",
+          "date": "2026-07-24",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1784878610365
+        },
+        {
+          "id": "zy0f1n9",
+          "amount": 500,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-24",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784888037440
+        },
+        {
+          "id": "spam8yn",
+          "amount": 209,
+          "note": "MADHU P",
+          "date": "2026-07-24",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784894549919
+        },
+        {
+          "id": "2xjps1t",
+          "amount": 239,
+          "note": "RAJU   B",
+          "date": "2026-07-27",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1785121585333
         }
       ],
       "subscriptions": [],
