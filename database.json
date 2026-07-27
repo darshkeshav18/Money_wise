@@ -739,8 +739,8 @@
           "amount": 15,
           "note": "VANAJAKSHI K G",
           "date": "2026-07-24",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784866309636
         },
@@ -749,8 +749,8 @@
           "amount": 40,
           "note": "Shri Vinayaka Condiments",
           "date": "2026-07-24",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784878610365
         },
