@@ -192,6 +192,17 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785052313344
+        },
+        {
+          "id": "9r5kz6f",
+          "amount": 10,
+          "type": "credit",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "date": "2026-07-27",
+          "note": "Manual Income Injection",
+          "isRecurring": false,
+          "isInvestment": false
         }
       ],
       "subscriptions": [],
