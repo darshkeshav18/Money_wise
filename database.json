@@ -232,9 +232,9 @@
         "profession": "Student",
         "income": 10000,
         "budgetSplits": {
-          "needs": 17,
-          "wants": 35,
-          "savings": 48
+          "needs": 40,
+          "wants": 39,
+          "savings": 21
         },
         "bankingConnected": false,
         "smsConsent": true
