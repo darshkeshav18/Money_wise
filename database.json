@@ -589,8 +589,8 @@
           "amount": 149,
           "note": "DARSH  KESHAV",
           "date": "2026-07-21",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784617339638
         },
@@ -619,8 +619,8 @@
           "amount": 187,
           "note": "Mr SHASHIDHARA",
           "date": "2026-07-22",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Wants",
+          "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784690209597
         },
@@ -629,8 +629,8 @@
           "amount": 25,
           "note": "DARSH  KESHAV",
           "date": "2026-07-22",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1784704669904
         },
