@@ -33,7 +33,7 @@
     "darsh_keshav": {
       "profile": {
         "profession": "Student",
-        "income": 5000,
+        "income": 500,
         "budgetSplits": {
           "needs": 50,
           "wants": 30,
@@ -192,6 +192,17 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785052313344
+        },
+        {
+          "id": "9r5kz6f",
+          "amount": 10,
+          "type": "credit",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "date": "2026-07-27",
+          "note": "Manual Income Injection",
+          "isRecurring": false,
+          "isInvestment": false
         }
       ],
       "subscriptions": [],
@@ -783,6 +794,17 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1785121585333
+        },
+        {
+          "id": "e3byy6o",
+          "amount": 1000,
+          "type": "credit",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "date": "2026-07-27",
+          "note": "Manual Income Injection",
+          "isRecurring": false,
+          "isInvestment": false
         }
       ],
       "subscriptions": [],
