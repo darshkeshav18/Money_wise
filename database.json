@@ -815,7 +815,7 @@
         "darkMode": true,
         "showTooltips": true,
         "tourCompleted": true,
-        "hideBalance": false
+        "hideBalance": true
       }
     },
     "user123": {
