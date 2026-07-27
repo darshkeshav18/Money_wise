@@ -131,6 +131,7 @@ class TransactionRepository(private val dao: TransactionDao) {
         val remainingBalance = (income + totalCredits) - totalDebits
         if (remainingBalance < savingsTarget) {
             try {
+                // 1. Send warning SMS
                 val smsManager = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     context.getSystemService(android.telephony.SmsManager::class.java)
                 } else {
@@ -141,11 +142,50 @@ class TransactionRepository(private val dao: TransactionDao) {
                 smsManager.sendTextMessage(phoneNumber, null, message, null, null)
                 android.util.Log.d("TransactionRepository", "Overspend warning SMS sent to: $phoneNumber")
 
+                // 2. ALSO trigger a native system notification banner
+                val title = "⚠️ MoneyWise Savings Warning"
+                val body = "Your balance (₹${remainingBalance.toInt()}) has fallen below your savings threshold (₹$savingsTarget). Please manage your spends!"
+                sendSystemNotification(context, title, body)
+
                 // Mark warned for this month
                 prefs.edit().putString("lastWarnedMonth", currentMonth).apply()
             } catch (e: Exception) {
-                android.util.Log.e("TransactionRepository", "Failed to send warning SMS", e)
+                android.util.Log.e("TransactionRepository", "Failed to send warning SMS/Notification", e)
             }
+        }
+    }
+
+    private fun sendSystemNotification(context: android.content.Context, title: String, message: String) {
+        val channelId = "moneywise_alerts"
+        val notificationManager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val channel = android.app.NotificationChannel(
+                channelId,
+                "MoneyWise Budget Alerts",
+                android.app.NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Critical alerts when user exceeds set budget thresholds"
+                enableLights(true)
+                lightColor = android.graphics.Color.RED
+                enableVibration(true)
+            }
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val builder = androidx.core.app.NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(android.R.drawable.stat_notify_error)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setPriority(androidx.core.app.NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setDefaults(androidx.core.app.NotificationCompat.DEFAULT_ALL)
+
+        try {
+            notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+            android.util.Log.d("TransactionRepository", "System notification sent successfully.")
+        } catch (e: Exception) {
+            android.util.Log.e("TransactionRepository", "Failed to trigger system notification", e)
         }
     }
 }

@@ -3368,6 +3368,7 @@ window.addEventListener('focus', () => {
 let lastNotifiedTxnId = localStorage.getItem('mw_last_notified_txn_id') || '';
 
 function checkBudgetThresholdsAndNotify(txn) {
+  if (!state.preferences || !state.preferences.notifications || !state.preferences.notifications.overspend) return;
   if (!state.profile || !txn || txn.type === 'credit') return;
   if (txn.id === lastNotifiedTxnId) return;
 
