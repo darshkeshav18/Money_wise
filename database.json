@@ -830,10 +830,10 @@
       ],
       "preferences": {
         "notifications": {
-          "overspend": false,
+          "overspend": true,
           "renewal": true,
           "goals": true,
-          "phoneNumber": ""
+          "phoneNumber": "7090732154"
         },
         "darkMode": true,
         "showTooltips": true,
