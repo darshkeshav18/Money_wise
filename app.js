@@ -163,6 +163,12 @@ function saveStateToStorage() {
   localStorage.setItem('mw_goals', JSON.stringify(state.goals));
   localStorage.setItem('mw_preferences', JSON.stringify(state.preferences));
 
+  // Check last transaction for overspend warning
+  if (state.expenses && state.expenses.length > 0) {
+    const lastTxn = state.expenses[state.expenses.length - 1];
+    checkBudgetThresholdsAndNotify(lastTxn);
+  }
+
   // Sync to database
   syncWithBackend();
 }
@@ -2841,8 +2847,31 @@ function toggleBalanceVisibility() {
   if (!state.preferences) state.preferences = {};
   state.preferences.hideBalance = !state.preferences.hideBalance;
   saveStateToStorage();
-  renderDashboard();
-  lucide.createIcons();
+
+  const showBalance = !state.preferences.hideBalance;
+
+  // 1. Update the balance text directly
+  const balanceEl = document.getElementById('dash-remaining-balance');
+  if (balanceEl) {
+    const income = (state.profile && Number(state.profile.income)) || 50000;
+    const spent = computeMonthlySpent();
+    const totalSpent = spent.Needs + spent.Wants;
+    const totalSaved = spent.Savings;
+    const remaining = income - (totalSpent + totalSaved);
+    balanceEl.textContent = showBalance ? `₹${formatNumber(remaining)}` : '••••••';
+  }
+
+  // 2. Update the eye icon SVG directly in-place to prevent reflow / black screen glitches
+  const eyeIcon = document.getElementById('balance-toggle-eye');
+  if (eyeIcon) {
+    if (showBalance) {
+      eyeIcon.innerHTML = `<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>`;
+      eyeIcon.setAttribute('data-lucide', 'eye');
+    } else {
+      eyeIcon.innerHTML = `<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/>`;
+      eyeIcon.setAttribute('data-lucide', 'eye-off');
+    }
+  }
 }
 
 // ==================== SIMULATED BANK APP NOTIFICATION LISTENER FEATURE ====================
@@ -3334,3 +3363,44 @@ window.addEventListener('focus', () => {
   console.log("App focused. Fetching latest data from backend...");
   fetchDataFromBackend();
 });
+
+// BUDGET THRESHOLD SYSTEM NOTIFICATION SYSTEM
+let lastNotifiedTxnId = localStorage.getItem('mw_last_notified_txn_id') || '';
+
+function checkBudgetThresholdsAndNotify(txn) {
+  if (!state.profile || !txn || txn.type === 'credit') return;
+  if (txn.id === lastNotifiedTxnId) return;
+
+  const bucket = txn.bucket;
+  if (bucket !== 'Needs' && bucket !== 'Wants') return;
+
+  const income = Number(state.profile.income) || 50000;
+  const splits = state.profile.budgetSplits || { needs: 50, wants: 30, savings: 20 };
+  
+  const limitPct = bucket === 'Needs' ? splits.needs : splits.wants;
+  const limitAmt = Math.round(income * (limitPct / 100));
+
+  const today = new Date();
+  const currentMonthExpenses = state.expenses.filter(x => {
+    const d = new Date(x.date);
+    return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && x.type !== 'credit' && x.bucket === bucket;
+  });
+
+  const totalSpent = currentMonthExpenses.reduce((sum, x) => sum + Number(x.amount), 0);
+
+  if (totalSpent > limitAmt) {
+    lastNotifiedTxnId = txn.id;
+    localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
+
+    const overrun = totalSpent - limitAmt;
+    const remaining = limitAmt - totalSpent; // will be negative
+    const title = `⚠️ Budget Limit Exceeded Warning!`;
+    const message = `Overspent on ${bucket}! Spent ₹${formatNumber(totalSpent)} / Limit ₹${formatNumber(limitAmt)}. Exceeded by ₹${formatNumber(overrun)}. Current remaining ${bucket} balance is -₹${formatNumber(Math.abs(remaining))}.`;
+
+    if (typeof AndroidBridge !== 'undefined' && typeof AndroidBridge.triggerSystemNotification === 'function') {
+      AndroidBridge.triggerSystemNotification(title, message);
+    } else {
+      console.warn("System Notification Triggered: ", title, message);
+    }
+  }
+}

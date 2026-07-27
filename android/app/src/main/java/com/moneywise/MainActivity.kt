@@ -108,6 +108,46 @@ class MainActivity : AppCompatActivity() {
                 .apply()
             android.util.Log.d("MoneyWiseBridge", "Updated savings threshold: Income=$income, Target=$savingsTarget, Phone=$phoneNumber")
         }
+
+        @android.webkit.JavascriptInterface
+        fun triggerSystemNotification(title: String, message: String) {
+            activity.runOnUiThread {
+                activity.sendSystemNotification(title, message)
+            }
+        }
+    }
+
+    fun sendSystemNotification(title: String, message: String) {
+        val channelId = "moneywise_alerts"
+        val notificationManager = getSystemService(android.content.Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val channel = android.app.NotificationChannel(
+                channelId,
+                "MoneyWise Budget Alerts",
+                android.app.NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Critical alerts when user exceeds set budget thresholds"
+                enableLights(true)
+                lightColor = android.graphics.Color.RED
+                enableVibration(true)
+            }
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val builder = androidx.core.app.NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(android.R.drawable.stat_notify_error)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setPriority(androidx.core.app.NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setDefaults(androidx.core.app.NotificationCompat.DEFAULT_ALL)
+
+        try {
+            notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+        } catch (e: Exception) {
+            android.util.Log.e("MainActivity", "Failed to trigger system notification", e)
+        }
     }
 
     private fun requestAppPermissions() {
@@ -130,6 +170,14 @@ class MainActivity : AppCompatActivity() {
                     arrayOf(Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS),
                     101
                 )
+            }
+        }
+
+        // 4. Runtime Notification Permission for Android 13+ (API 33+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val hasNotify = checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+            if (!hasNotify) {
+                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 102)
             }
         }
     }
