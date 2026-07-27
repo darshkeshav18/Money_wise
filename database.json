@@ -639,8 +639,8 @@
           "amount": 69,
           "note": "HDFC transaction",
           "date": "2026-07-22",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Wants",
+          "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784726118374
         },
