@@ -2160,9 +2160,7 @@ function renderCharts() {
   document.getElementById('food-delivery-total').textContent = `₹${formatNumber(foodData.total)}`;
   document.getElementById('food-avg-cost').textContent = `₹${formatNumber(foodData.avg)}`;
   
-  const nudge = document.getElementById('food-insights-text');
-  if (foodData.count > 8) nudge.innerHTML = `🚨 High frequency! ordering ${foodData.count} times. cooking home can save ₹${formatNumber(Math.round(foodData.total*0.45))}`;
-  else nudge.textContent = `💡 Food deliveries normal. Home cooking keeps budget healthy.`;
+
 
   renderTopCategories();
 }

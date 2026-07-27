@@ -916,7 +916,116 @@ app.get('/api/report/pdf', async (req, res) => {
     doc.fillColor(accentColor).fontSize(12).text(`Compliance Score: ${score}/100`, 50, 445);
     doc.fillColor(textSecondary).fontSize(10).text(recMsg, 50, 465, { width: doc.page.width - 100, lineGap: 4 });
 
-    // Footer
+    // Footer for page 1
+    doc.fillColor(textSecondary).fontSize(8).text('MoneyWise Wealth Advisor Platform • Page 1 of Summary', 50, doc.page.height - 50, { align: 'center' });
+
+    // ==================== PAGE 2: TRANSACTION LEDGER (PASSBOOK STYLE) ====================
+    doc.addPage();
+
+    // Draw background for page 2
+    doc.rect(0, 0, doc.page.width, doc.page.height).fill(bgDark);
+
+    // Page Title
+    doc.fillColor(accentColor).fontSize(16).text('Transaction Ledger (Passbook View)', 50, 50);
+    doc.fillColor(textSecondary).fontSize(9).text('Complete list of income and expenditures with category & timestamp details.', 50, 72);
+
+    // Divider
+    doc.strokeColor(borderDark).moveTo(50, 90).lineTo(doc.page.width - 50, 90).stroke();
+
+    // Helper to format date with time
+    const formatPdfTimestamp = (ts) => {
+      if (!ts) return '-';
+      const d = new Date(Number(ts));
+      const pad = (n) => String(n).padStart(2, '0');
+      const day = pad(d.getDate());
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const month = months[d.getMonth()];
+      const year = d.getFullYear();
+      let hours = d.getHours();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      const minutes = pad(d.getMinutes());
+      return `${day}-${month}-${year} ${pad(hours)}:${minutes} ${ampm}`;
+    };
+
+    // Draw Table Header function
+    const drawTableHeader = (yPos) => {
+      doc.rect(50, yPos, doc.page.width - 100, 20).fillColor('#0f172a').fill();
+      doc.fillColor(textPrimary).fontSize(8);
+      doc.text('DATE & TIME', 60, yPos + 6);
+      doc.text('DESCRIPTION / NOTE', 180, yPos + 6);
+      doc.text('CATEGORY', 360, yPos + 6);
+      doc.text('AMOUNT', 460, yPos + 6);
+      doc.text('TYPE', 525, yPos + 6);
+    };
+
+    // Sort transactions by date/timestamp descending
+    const ledgerList = (data.expenses || []).sort((a,b) => {
+      const timeA = a.timestamp ? Number(a.timestamp) : new Date(a.date).getTime();
+      const timeB = b.timestamp ? Number(b.timestamp) : new Date(b.date).getTime();
+      return timeB - timeA;
+    });
+
+    let currentY = 110;
+    const rowHeight = 22;
+    const pageLimitY = 700;
+
+    drawTableHeader(currentY);
+    currentY += 20;
+
+    ledgerList.forEach((exp, idx) => {
+      // If we cross the height limit, add a new page
+      if (currentY > pageLimitY) {
+        doc.addPage();
+        doc.rect(0, 0, doc.page.width, doc.page.height).fill(bgDark);
+        
+        // Draw header on new page
+        doc.fillColor(accentColor).fontSize(14).text('Transaction Ledger (Passbook View) - Continued', 50, 50);
+        doc.strokeColor(borderDark).moveTo(50, 75).lineTo(doc.page.width - 50, 75).stroke();
+        
+        currentY = 95;
+        drawTableHeader(currentY);
+        currentY += 20;
+      }
+
+      // Alternate row backgrounds
+      if (idx % 2 === 1) {
+        doc.rect(50, currentY, doc.page.width - 100, rowHeight).fillColor('#090d16').fill();
+      }
+
+      const isCredit = exp.type === 'credit';
+      const amtSign = isCredit ? '+' : '-';
+      const amtColor = isCredit ? '#10b981' : '#f3f4f6'; // Green for credit, Off-white for debit
+
+      doc.fillColor(textPrimary).fontSize(8);
+      
+      // Date & Time
+      const timeVal = exp.timestamp || new Date(exp.date).getTime();
+      const timeStr = formatPdfTimestamp(timeVal);
+      doc.text(timeStr, 60, currentY + 7);
+      
+      // Note/Merchant
+      const noteStr = exp.note || (isCredit ? 'Credit received' : `${exp.bucket} transaction`);
+      // Crop note if too long
+      const croppedNote = noteStr.length > 32 ? noteStr.substring(0, 30) + '...' : noteStr;
+      doc.text(croppedNote, 180, currentY + 7);
+      
+      // Category
+      doc.text(exp.category || '-', 360, currentY + 7);
+      
+      // Amount
+      doc.fillColor(amtColor).text(`${amtSign}INR ${Number(exp.amount).toLocaleString('en-IN')}`, 460, currentY + 7);
+      
+      // Type
+      const typeStr = isCredit ? 'CREDIT' : 'DEBIT';
+      const typeColor = isCredit ? '#10b981' : '#f43f5e'; // Green for credit, Rose/Red for debit
+      doc.fillColor(typeColor).text(typeStr, 525, currentY + 7);
+
+      currentY += rowHeight;
+    });
+
+    // Draw footer on the last page
     doc.fillColor(textSecondary).fontSize(8).text('MoneyWise Wealth Advisor Platform • Secured PDF Document', 50, doc.page.height - 50, { align: 'center' });
 
     doc.end();

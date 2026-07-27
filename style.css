@@ -1280,7 +1280,7 @@ select.input-field {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 20000;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition-fast);
@@ -1417,6 +1417,8 @@ select.input-field {
 
 .table-wrapper {
   overflow-x: auto;
+  overflow-y: auto;
+  max-height: 480px;
   border-radius: 12px;
   border: 1px solid var(--border-color);
   background: rgba(8, 10, 24, 0.2);
@@ -1426,11 +1428,11 @@ table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.85rem;
+  font-size: 0.825rem;
 }
 
 th, td {
-  padding: 0.85rem 1rem;
+  padding: 0.55rem 0.8rem;
 }
 
 th {
