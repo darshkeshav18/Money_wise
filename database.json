@@ -830,9 +830,10 @@
       ],
       "preferences": {
         "notifications": {
-          "overspend": true,
+          "overspend": false,
           "renewal": true,
-          "goals": true
+          "goals": true,
+          "phoneNumber": ""
         },
         "darkMode": true,
         "showTooltips": true,
