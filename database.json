@@ -927,6 +927,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785147727118
+        },
+        {
+          "id": "uvjxin2",
+          "amount": 10,
+          "note": "RKODANDARAMA",
+          "date": "2026-07-27",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785147942481
         }
       ],
       "subscriptions": [],
