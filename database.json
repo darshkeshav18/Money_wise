@@ -1027,6 +1027,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1785227017923
+        },
+        {
+          "id": "d6y23x9",
+          "amount": 1,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-28",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785240504654
         }
       ],
       "subscriptions": [],
