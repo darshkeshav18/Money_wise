@@ -1007,6 +1007,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785226169988
+        },
+        {
+          "id": "gn2st8n",
+          "amount": 15,
+          "note": "NAVEEN K G",
+          "date": "2026-07-28",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785226868771
         }
       ],
       "subscriptions": [],
