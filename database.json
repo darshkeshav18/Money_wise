@@ -1017,6 +1017,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785226868771
+        },
+        {
+          "id": "woslbi6",
+          "amount": 20,
+          "note": "NAVEEN K G",
+          "date": "2026-07-28",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1785227017923
         }
       ],
       "subscriptions": [],
