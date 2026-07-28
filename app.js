@@ -31,7 +31,8 @@ let state = {
     notifications: { overspend: true, renewal: true, goals: true },
     darkMode: true,
     showTooltips: true,
-    tourCompleted: false
+    tourCompleted: false,
+    warnedThresholds: {}
   }
 };
 
@@ -3382,21 +3383,79 @@ function checkBudgetThresholdsAndNotify(txn) {
   const limitAmt = Math.round(income * (limitPct / 100));
 
   const today = new Date();
+  const currentMonthStr = today.toISOString().substring(0, 7); // e.g. "2026-07"
+  
   const currentMonthExpenses = state.expenses.filter(x => {
     const d = new Date(x.date);
     return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && x.type !== 'credit' && x.bucket === bucket;
   });
 
   const totalSpent = currentMonthExpenses.reduce((sum, x) => sum + Number(x.amount), 0);
+  const remaining = limitAmt - totalSpent;
 
-  if (totalSpent > limitAmt) {
+  // Initialize warned thresholds tracking in preferences if not present
+  if (!state.preferences.warnedThresholds) {
+    state.preferences.warnedThresholds = {};
+  }
+  if (!state.preferences.warnedThresholds[currentMonthStr]) {
+    state.preferences.warnedThresholds[currentMonthStr] = {
+      Needs: { 50: false, 25: false, 10: false },
+      Wants: { 50: false, 25: false, 10: false }
+    };
+  }
+
+  const monthWarns = state.preferences.warnedThresholds[currentMonthStr][bucket];
+
+  let title = "";
+  let message = "";
+  let triggered = false;
+
+  if (remaining <= 0) {
+    // 100% Exhausted warning (triggers on every transaction once overdrawn)
     lastNotifiedTxnId = txn.id;
     localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
+    
+    title = `⚠️ Budget Limit Exceeded Warning!`;
+    const overrun = Math.abs(remaining);
+    message = `Overspent on ${bucket}! Spent ₹${formatNumber(totalSpent)} / Limit ₹${formatNumber(limitAmt)}. Exceeded by ₹${formatNumber(overrun)}. Current remaining ${bucket} balance is -₹${formatNumber(overrun)}.`;
+    triggered = true;
+  } else if (remaining <= limitAmt * 0.10) {
+    // 10% Left warning
+    if (!monthWarns['10']) {
+      monthWarns['10'] = true;
+      lastNotifiedTxnId = txn.id;
+      localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
+      
+      title = `🚨 Critical Warning: ${bucket} Budget Exhausting!`;
+      message = `Disclaimer: You have only 10% (or less) of your ${bucket} budget left! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Please tighten your belt!`;
+      triggered = true;
+    }
+  } else if (remaining <= limitAmt * 0.25) {
+    // 25% Left warning
+    if (!monthWarns['25']) {
+      monthWarns['25'] = true;
+      lastNotifiedTxnId = txn.id;
+      localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
+      
+      title = `⚠️ Warning: ${bucket} Budget Depleting!`;
+      message = `Disclaimer: You have only 25% (or less) of your ${bucket} budget left! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Spend wisely!`;
+      triggered = true;
+    }
+  } else if (remaining <= limitAmt * 0.50) {
+    // 50% Left warning
+    if (!monthWarns['50']) {
+      monthWarns['50'] = true;
+      lastNotifiedTxnId = txn.id;
+      localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
+      
+      title = `💡 MoneyWise Notification: ${bucket} Budget Halfway!`;
+      message = `Disclaimer: You have only 50% (or less) of your ${bucket} budget left! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Use it wisely!`;
+      triggered = true;
+    }
+  }
 
-    const overrun = totalSpent - limitAmt;
-    const remaining = limitAmt - totalSpent; // will be negative
-    const title = `⚠️ Budget Limit Exceeded Warning!`;
-    const message = `Overspent on ${bucket}! Spent ₹${formatNumber(totalSpent)} / Limit ₹${formatNumber(limitAmt)}. Exceeded by ₹${formatNumber(overrun)}. Current remaining ${bucket} balance is -₹${formatNumber(Math.abs(remaining))}.`;
+  if (triggered) {
+    saveStateToStorage();
 
     if (typeof AndroidBridge !== 'undefined' && typeof AndroidBridge.triggerSystemNotification === 'function') {
       AndroidBridge.triggerSystemNotification(title, message);
