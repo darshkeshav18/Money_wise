@@ -977,6 +977,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1785207828857
+        },
+        {
+          "id": "97qe8os",
+          "amount": 234,
+          "note": "SHIVU",
+          "date": "2026-07-28",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785209548554
         }
       ],
       "subscriptions": [],
