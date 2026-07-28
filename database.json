@@ -997,6 +997,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785216730362
+        },
+        {
+          "id": "ei387ni",
+          "amount": 40,
+          "note": "KIRAN KUMAR P S",
+          "date": "2026-07-28",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785226169988
         }
       ],
       "subscriptions": [],
