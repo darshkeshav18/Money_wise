@@ -967,6 +967,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785155513015
+        },
+        {
+          "id": "axyug5o",
+          "amount": 2402.6,
+          "note": "Airtel Mobile Bill",
+          "date": "2026-07-28",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785207828857
         }
       ],
       "subscriptions": [],
