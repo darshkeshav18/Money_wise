@@ -44,154 +44,64 @@
       },
       "expenses": [
         {
-          "id": "w9s5yq8",
-          "amount": 10,
+          "id": "u7w1mnc",
+          "amount": 1,
           "note": "SAMHITA BHUV",
-          "date": "2026-07-16",
+          "date": "2026-07-28",
           "bucket": "Wants",
           "category": "Other Wants",
           "type": "debit",
-          "timestamp": 1784199046112
+          "timestamp": 1785240511892
         },
         {
-          "id": "6poabb9",
-          "amount": 10,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-16",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784199070093
-        },
-        {
-          "id": "ojqywdg",
-          "amount": 325,
-          "note": "AMRUTH SAGAR",
-          "date": "2026-07-18",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784384163599
-        },
-        {
-          "id": "sqikwv7",
-          "amount": 600,
-          "note": "Credit alert received",
-          "date": "2026-07-19",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "type": "credit",
-          "timestamp": 1784440422009
-        },
-        {
-          "id": "rm2hjgy",
-          "amount": 460,
-          "note": "MMUNIRAJU",
-          "date": "2026-07-19",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784441207422
-        },
-        {
-          "id": "1bdid6k",
-          "amount": 10,
-          "note": "Credit alert received",
-          "date": "2026-07-21",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "type": "credit",
-          "timestamp": 1784614655868
-        },
-        {
-          "id": "80yspvi",
-          "amount": 149,
+          "id": "ak2x1ih",
+          "amount": 1,
           "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
-          "date": "2026-07-21",
+          "date": "2026-07-27",
           "bucket": "Savings",
           "category": "Other Income",
           "type": "credit",
-          "timestamp": 1784617341372
+          "timestamp": 1785145840706
         },
         {
-          "id": "v27lwbi",
-          "amount": 25,
-          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
-          "date": "2026-07-22",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "type": "credit",
-          "timestamp": 1784704671684
-        },
-        {
-          "id": "5c2q4zi",
-          "amount": 240,
+          "id": "w71v4s8",
+          "amount": 1,
           "note": "Credit alert received",
-          "date": "2026-07-22",
+          "date": "2026-07-27",
           "bucket": "Savings",
           "category": "Other Income",
           "type": "credit",
-          "timestamp": 1784731534719
+          "timestamp": 1785145810744
         },
         {
-          "id": "otji3qq",
-          "amount": 30,
-          "note": "NAVEEN K G",
-          "date": "2026-07-23",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784798290496
-        },
-        {
-          "id": "nzikjkb",
-          "amount": 500,
+          "id": "ts1t4ri",
+          "amount": 1,
           "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
-          "date": "2026-07-24",
+          "date": "2026-07-27",
           "bucket": "Savings",
           "category": "Other Income",
           "type": "credit",
-          "timestamp": 1784888039366
+          "timestamp": 1785144761709
         },
         {
-          "id": "fbzis0d",
-          "amount": 500,
-          "note": "Credit alert received",
-          "date": "2026-07-24",
+          "id": "h3sbclz",
+          "amount": 1,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-27",
           "bucket": "Savings",
           "category": "Other Income",
           "type": "credit",
-          "timestamp": 1784888050823
+          "timestamp": 1785144511711
         },
         {
-          "id": "7wf841z",
-          "amount": 10,
-          "note": "RKODANDARAMA",
-          "date": "2026-07-25",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784964106271
-        },
-        {
-          "id": "hqfcbph",
-          "amount": 15,
-          "note": "KAVITHA  E",
-          "date": "2026-07-26",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit",
-          "timestamp": 1785039511592
-        },
-        {
-          "id": "011qstn",
-          "amount": 170,
-          "note": "MURTHY KRISH",
-          "date": "2026-07-26",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit",
-          "timestamp": 1785052313344
+          "id": "91aep9q",
+          "amount": 1,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-27",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785144474899
         },
         {
           "id": "9r5kz6f",
@@ -205,54 +115,154 @@
           "isInvestment": false
         },
         {
-          "id": "91aep9q",
-          "amount": 1,
-          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
-          "date": "2026-07-27",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "type": "credit",
-          "timestamp": 1785144474899
+          "id": "011qstn",
+          "amount": 170,
+          "note": "MURTHY KRISH",
+          "date": "2026-07-26",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785052313344
         },
         {
-          "id": "h3sbclz",
-          "amount": 1,
-          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
-          "date": "2026-07-27",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "type": "credit",
-          "timestamp": 1785144511711
+          "id": "hqfcbph",
+          "amount": 15,
+          "note": "KAVITHA  E",
+          "date": "2026-07-26",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785039511592
         },
         {
-          "id": "ts1t4ri",
-          "amount": 1,
-          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
-          "date": "2026-07-27",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "type": "credit",
-          "timestamp": 1785144761709
+          "id": "7wf841z",
+          "amount": 10,
+          "note": "RKODANDARAMA",
+          "date": "2026-07-25",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784964106271
         },
         {
-          "id": "w71v4s8",
-          "amount": 1,
+          "id": "fbzis0d",
+          "amount": 500,
           "note": "Credit alert received",
-          "date": "2026-07-27",
+          "date": "2026-07-24",
           "bucket": "Savings",
           "category": "Other Income",
           "type": "credit",
-          "timestamp": 1785145810744
+          "timestamp": 1784888050823
         },
         {
-          "id": "ak2x1ih",
-          "amount": 1,
+          "id": "nzikjkb",
+          "amount": 500,
           "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
-          "date": "2026-07-27",
+          "date": "2026-07-24",
           "bucket": "Savings",
           "category": "Other Income",
           "type": "credit",
-          "timestamp": 1785145840706
+          "timestamp": 1784888039366
+        },
+        {
+          "id": "otji3qq",
+          "amount": 30,
+          "note": "NAVEEN K G",
+          "date": "2026-07-23",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784798290496
+        },
+        {
+          "id": "5c2q4zi",
+          "amount": 240,
+          "note": "Credit alert received",
+          "date": "2026-07-22",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784731534719
+        },
+        {
+          "id": "v27lwbi",
+          "amount": 25,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-22",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784704671684
+        },
+        {
+          "id": "80yspvi",
+          "amount": 149,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-21",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784617341372
+        },
+        {
+          "id": "1bdid6k",
+          "amount": 10,
+          "note": "Credit alert received",
+          "date": "2026-07-21",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784614655868
+        },
+        {
+          "id": "rm2hjgy",
+          "amount": 460,
+          "note": "MMUNIRAJU",
+          "date": "2026-07-19",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784441207422
+        },
+        {
+          "id": "sqikwv7",
+          "amount": 600,
+          "note": "Credit alert received",
+          "date": "2026-07-19",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1784440422009
+        },
+        {
+          "id": "ojqywdg",
+          "amount": 325,
+          "note": "AMRUTH SAGAR",
+          "date": "2026-07-18",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784384163599
+        },
+        {
+          "id": "6poabb9",
+          "amount": 10,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-16",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784199070093
+        },
+        {
+          "id": "w9s5yq8",
+          "amount": 10,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-16",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1784199046112
         }
       ],
       "subscriptions": [],
@@ -1027,6 +1037,46 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1785227017923
+        },
+        {
+          "id": "d6y23x9",
+          "amount": 1,
+          "note": "7975530278@superyes",
+          "date": "2026-07-28",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785240504654
+        },
+        {
+          "id": "3v8hglc",
+          "amount": 1,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-28",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785241058386
+        },
+        {
+          "id": "3aivp6o",
+          "amount": 60,
+          "note": "BMTC",
+          "date": "2026-07-28",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785241275027
+        },
+        {
+          "id": "5aeqqq3",
+          "amount": 30,
+          "note": "7862968869@fam",
+          "date": "2026-07-28",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785241279660
         }
       ],
       "subscriptions": [],
