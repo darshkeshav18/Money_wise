@@ -1067,6 +1067,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785241275027
+        },
+        {
+          "id": "5aeqqq3",
+          "amount": 30,
+          "note": "7862968869@fam",
+          "date": "2026-07-28",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785241279660
         }
       ],
       "subscriptions": [],
