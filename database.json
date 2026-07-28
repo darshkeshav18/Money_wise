@@ -1077,6 +1077,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785241279660
+        },
+        {
+          "id": "27ilevg",
+          "amount": 55,
+          "note": "Liza Butani",
+          "date": "2026-07-28",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785243411077
         }
       ],
       "subscriptions": [],
