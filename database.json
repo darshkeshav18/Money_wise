@@ -1185,17 +1185,6 @@
           "isInvestment": false
         },
         {
-          "id": "loongdb",
-          "amount": 461,
-          "type": "credit",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "date": "2026-07-29",
-          "note": "Manual Income Injection",
-          "isRecurring": false,
-          "isInvestment": false
-        },
-        {
           "id": "deg7ffn",
           "amount": 10,
           "note": "DARSH  KESHAV",
