@@ -1021,6 +1021,16 @@
           "note": "Manual Income Injection",
           "isRecurring": false,
           "isInvestment": false
+        },
+        {
+          "id": "4p7uedx",
+          "amount": 10,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-29",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1785315525608
         }
       ],
       "subscriptions": [],
