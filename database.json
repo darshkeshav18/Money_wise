@@ -346,17 +346,6 @@
       },
       "expenses": [
         {
-          "id": "yr36axs",
-          "amount": 199,
-          "bucket": "Wants",
-          "category": "Entertainment",
-          "date": "2026-07-06",
-          "note": "Netflix",
-          "isRecurring": true,
-          "isInvestment": false,
-          "assetType": ""
-        },
-        {
           "id": "p7azzwm",
           "amount": 50,
           "bucket": "Savings",
