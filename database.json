@@ -313,6 +313,17 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785302138229
+        },
+        {
+          "id": "wlzowh5",
+          "amount": 50,
+          "bucket": "Wants",
+          "category": "Food Delivery",
+          "date": "2026-07-29",
+          "note": "",
+          "isRecurring": false,
+          "isInvestment": false,
+          "assetType": ""
         }
       ],
       "subscriptions": [],
@@ -345,7 +356,7 @@
             "Wants": {
               "10": false,
               "25": false,
-              "50": false
+              "50": true
             }
           }
         }
