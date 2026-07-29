@@ -1147,8 +1147,8 @@
           "amount": 235,
           "note": "SARAVANAN",
           "date": "2026-07-29",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785295725838
         },
