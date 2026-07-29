@@ -44,16 +44,6 @@
       },
       "expenses": [
         {
-          "id": "u7w1mnc",
-          "amount": 1,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-28",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1785240511892
-        },
-        {
           "id": "ak2x1ih",
           "amount": 1,
           "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
