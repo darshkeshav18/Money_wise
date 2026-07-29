@@ -305,6 +305,17 @@
           "isRecurring": false,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "9e65m6d",
+          "amount": 500,
+          "bucket": "Wants",
+          "category": "Food Delivery",
+          "date": "2026-07-29",
+          "note": "",
+          "isRecurring": false,
+          "isInvestment": false,
+          "assetType": ""
         }
       ],
       "subscriptions": [],
@@ -338,7 +349,8 @@
               "10": false,
               "25": false,
               "30": true,
-              "50": true
+              "50": true,
+              "70": true
             }
           }
         }
