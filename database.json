@@ -35,24 +35,14 @@
         "profession": "Student",
         "income": 500,
         "budgetSplits": {
-          "needs": 50,
-          "wants": 30,
-          "savings": 20
+          "needs": 21,
+          "wants": 66,
+          "savings": 13
         },
         "bankingConnected": false,
         "smsConsent": true
       },
       "expenses": [
-        {
-          "id": "u7w1mnc",
-          "amount": 1,
-          "note": "SAMHITA BHUV",
-          "date": "2026-07-28",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1785240511892
-        },
         {
           "id": "ak2x1ih",
           "amount": 1,
@@ -133,16 +123,6 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785039511592
-        },
-        {
-          "id": "7wf841z",
-          "amount": 10,
-          "note": "RKODANDARAMA",
-          "date": "2026-07-25",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784964106271
         },
         {
           "id": "fbzis0d",
@@ -263,6 +243,76 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1784199046112
+        },
+        {
+          "id": "p3c2djc",
+          "amount": 15,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785301507751
+        },
+        {
+          "id": "20a1n0l",
+          "amount": 15,
+          "note": "Credit alert received",
+          "date": "2026-07-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785301550116
+        },
+        {
+          "id": "eh6wex3",
+          "amount": 10,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785301589181
+        },
+        {
+          "id": "tmele3q",
+          "amount": 10,
+          "note": "Credit alert received",
+          "date": "2026-07-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785301596242
+        },
+        {
+          "id": "u07z3fg",
+          "amount": 1,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785301812233
+        },
+        {
+          "id": "a9iaz2f",
+          "amount": 10,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-29",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1785301975623
+        },
+        {
+          "id": "oxfvef3",
+          "amount": 10,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785302138229
         }
       ],
       "subscriptions": [],
@@ -284,7 +334,21 @@
         "darkMode": true,
         "showTooltips": true,
         "tourCompleted": true,
-        "hideBalance": false
+        "hideBalance": false,
+        "warnedThresholds": {
+          "2026-07": {
+            "Needs": {
+              "10": false,
+              "25": false,
+              "50": false
+            },
+            "Wants": {
+              "10": false,
+              "25": false,
+              "50": false
+            }
+          }
+        }
       }
     },
     "sammie24": {
@@ -292,9 +356,9 @@
         "profession": "Student",
         "income": 10000,
         "budgetSplits": {
-          "needs": 42,
-          "wants": 40,
-          "savings": 18
+          "needs": 54,
+          "wants": 6,
+          "savings": 40
         },
         "bankingConnected": false,
         "smsConsent": true
@@ -963,8 +1027,8 @@
           "amount": 60,
           "note": "BMTC",
           "date": "2026-07-27",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785155500816
         },
@@ -983,8 +1047,8 @@
           "amount": 2402.6,
           "note": "Airtel Mobile Bill",
           "date": "2026-07-28",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785207828857
         },
@@ -1087,6 +1151,98 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785243411077
+        },
+        {
+          "id": "eboqx74",
+          "amount": 235,
+          "note": "SARAVANAN",
+          "date": "2026-07-29",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785295725838
+        },
+        {
+          "id": "cxjave9",
+          "amount": 10,
+          "note": "7975530278@superyes",
+          "date": "2026-07-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785301428845
+        },
+        {
+          "id": "lm4uo77",
+          "amount": 15,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-29",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785301507601
+        },
+        {
+          "id": "r2681hu",
+          "amount": 10,
+          "note": "7975530278@superyes",
+          "date": "2026-07-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785301547551
+        },
+        {
+          "id": "raj44oe",
+          "amount": 10,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-29",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785301588447
+        },
+        {
+          "id": "8srmv9g",
+          "amount": 1,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-29",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1785301814082
+        },
+        {
+          "id": "danf4qc",
+          "amount": 3054,
+          "type": "credit",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "date": "2026-07-29",
+          "note": "Manual Income Injection",
+          "isRecurring": false,
+          "isInvestment": false
+        },
+        {
+          "id": "loongdb",
+          "amount": 461,
+          "type": "credit",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "date": "2026-07-29",
+          "note": "Manual Income Injection",
+          "isRecurring": false,
+          "isInvestment": false
+        },
+        {
+          "id": "deg7ffn",
+          "amount": 10,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-29",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1785302140644
         }
       ],
       "subscriptions": [],
@@ -1109,7 +1265,21 @@
         "darkMode": true,
         "showTooltips": true,
         "tourCompleted": true,
-        "hideBalance": false
+        "hideBalance": false,
+        "warnedThresholds": {
+          "2026-07": {
+            "Needs": {
+              "10": false,
+              "25": false,
+              "50": false
+            },
+            "Wants": {
+              "10": true,
+              "25": false,
+              "50": false
+            }
+          }
+        }
       }
     },
     "user123": {
