@@ -125,16 +125,6 @@
           "timestamp": 1785039511592
         },
         {
-          "id": "7wf841z",
-          "amount": 10,
-          "note": "RKODANDARAMA",
-          "date": "2026-07-25",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784964106271
-        },
-        {
           "id": "fbzis0d",
           "amount": 500,
           "note": "Credit alert received",
