@@ -9,7 +9,7 @@ object BankParsers {
             pkg.contains("sbi", true)     -> parseSBI(text, bankLabel)
             pkg.contains("hdfc", true)    -> parseHDFC(text, bankLabel)
             pkg.contains("canara", true)  -> parseCanara(text, bankLabel)
-            pkg.contains("super.payments", true) -> parseSuperMoney(text, bankLabel)
+            pkg.contains("super.payments", true) || pkg.contains("super.money", true) || pkg.contains("supermoney", true) -> parseSuperMoney(text, bankLabel)
             else -> null
         }
     }
@@ -90,7 +90,7 @@ object BankParsers {
             else -> return null
         }
 
-        val reason = Regex("""(?:received from|sent to|paid to|to|from)\s+([A-Za-z0-9 &._-]+?)(?:\s+(?:Deposited|on|at|from|to|in)\b|\.)""", RegexOption.IGNORE_CASE)
+        val reason = Regex("""(?:received from|sent to|paid to|to|from)\s+(.+?)(?:\s+(?:Deposited|on|at|from|to|in)\b|\.|\n|$)""", RegexOption.IGNORE_CASE)
             .find(text)?.groupValues?.get(1)?.trim()
 
         return Transaction(amount, type, reason ?: "UPI Transfer", null, bankLabel)

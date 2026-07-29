@@ -3400,18 +3400,21 @@ function checkBudgetThresholdsAndNotify(txn) {
   }
   if (!state.preferences.warnedThresholds[currentMonthStr]) {
     state.preferences.warnedThresholds[currentMonthStr] = {
-      Needs: { 50: false, 25: false, 10: false },
-      Wants: { 50: false, 25: false, 10: false }
+      Needs: { 30: false, 50: false, 70: false, 80: false, 90: false, 95: false },
+      Wants: { 30: false, 50: false, 70: false, 80: false, 90: false, 95: false }
     };
   }
 
   const monthWarns = state.preferences.warnedThresholds[currentMonthStr][bucket];
 
+  const spentPct = (totalSpent / limitAmt) * 100;
+
   let title = "";
   let message = "";
   let triggered = false;
+  let severity = 'warning';
 
-  if (remaining <= 0) {
+  if (spentPct >= 100) {
     // 100% Exhausted warning (triggers on every transaction once overdrawn)
     lastNotifiedTxnId = txn.id;
     localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
@@ -3421,40 +3424,70 @@ function checkBudgetThresholdsAndNotify(txn) {
     message = `Overspent on ${bucket}! Spent ₹${formatNumber(totalSpent)} / Limit ₹${formatNumber(limitAmt)}. Exceeded by ₹${formatNumber(overrun)}. Current remaining ${bucket} balance is -₹${formatNumber(overrun)}.`;
     showToast(`Warning: ${bucket} budget limit exceeded!`, 'danger');
     triggered = true;
-  } else if (remaining <= limitAmt * 0.10) {
-    // 10% Left warning
-    if (!monthWarns['10']) {
-      monthWarns['10'] = true;
+  } else if (spentPct >= 95) {
+    if (!monthWarns['95']) {
+      monthWarns['95'] = true;
       lastNotifiedTxnId = txn.id;
       localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
       
-      title = `🚨 Critical Warning: ${bucket} Budget Exhausting!`;
-      message = `Disclaimer: You have only 10% (or less) of your ${bucket} budget left! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Please tighten your belt!`;
-      showToast(`Disclaimer: You have only 10% (or less) of your ${bucket} budget left!`, 'danger');
+      title = `🚨 Critical Warning: ${bucket} Budget at 95%!`;
+      message = `Disclaimer: You have spent 95% of your ${bucket} budget! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Tighten your belt!`;
+      showToast(`Disclaimer: You have spent 95% of your ${bucket} budget!`, 'danger');
       triggered = true;
     }
-  } else if (remaining <= limitAmt * 0.25) {
-    // 25% Left warning
-    if (!monthWarns['25']) {
-      monthWarns['25'] = true;
+  } else if (spentPct >= 90) {
+    if (!monthWarns['90']) {
+      monthWarns['90'] = true;
       lastNotifiedTxnId = txn.id;
       localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
       
-      title = `⚠️ Warning: ${bucket} Budget Depleting!`;
-      message = `Disclaimer: You have only 25% (or less) of your ${bucket} budget left! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Spend wisely!`;
-      showToast(`Disclaimer: You have only 25% (or less) of your ${bucket} budget left!`, 'warning');
+      title = `🚨 Critical Warning: ${bucket} Budget at 90%!`;
+      message = `Disclaimer: You have spent 90% of your ${bucket} budget! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Tighten your belt!`;
+      showToast(`Disclaimer: You have spent 90% of your ${bucket} budget!`, 'danger');
       triggered = true;
     }
-  } else if (remaining <= limitAmt * 0.50) {
-    // 50% Left warning
+  } else if (spentPct >= 80) {
+    if (!monthWarns['80']) {
+      monthWarns['80'] = true;
+      lastNotifiedTxnId = txn.id;
+      localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
+      
+      title = `⚠️ Warning: ${bucket} Budget at 80%!`;
+      message = `Disclaimer: You have spent 80% of your ${bucket} budget! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Spend wisely!`;
+      showToast(`Disclaimer: You have spent 80% of your ${bucket} budget!`, 'warning');
+      triggered = true;
+    }
+  } else if (spentPct >= 70) {
+    if (!monthWarns['70']) {
+      monthWarns['70'] = true;
+      lastNotifiedTxnId = txn.id;
+      localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
+      
+      title = `⚠️ Warning: ${bucket} Budget at 70%!`;
+      message = `Disclaimer: You have spent 70% of your ${bucket} budget! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Spend wisely!`;
+      showToast(`Disclaimer: You have spent 70% of your ${bucket} budget!`, 'warning');
+      triggered = true;
+    }
+  } else if (spentPct >= 50) {
     if (!monthWarns['50']) {
       monthWarns['50'] = true;
       lastNotifiedTxnId = txn.id;
       localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
       
-      title = `💡 MoneyWise Notification: ${bucket} Budget Halfway!`;
-      message = `Disclaimer: You have only 50% (or less) of your ${bucket} budget left! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Use it wisely!`;
-      showToast(`Disclaimer: You have only 50% (or less) of your ${bucket} budget left!`, 'warning');
+      title = `💡 MoneyWise Notification: ${bucket} Budget at 50%!`;
+      message = `Disclaimer: You have spent 50% of your ${bucket} budget! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Use it wisely!`;
+      showToast(`Disclaimer: You have spent 50% of your ${bucket} budget!`, 'warning');
+      triggered = true;
+    }
+  } else if (spentPct >= 30) {
+    if (!monthWarns['30']) {
+      monthWarns['30'] = true;
+      lastNotifiedTxnId = txn.id;
+      localStorage.setItem('mw_last_notified_txn_id', lastNotifiedTxnId);
+      
+      title = `💡 MoneyWise Notification: ${bucket} Budget at 30%!`;
+      message = `Disclaimer: You have spent 30% of your ${bucket} budget! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Keep it up!`;
+      showToast(`Disclaimer: You have spent 30% of your ${bucket} budget!`, 'info');
       triggered = true;
     }
   }

@@ -17,13 +17,6 @@ class NotifListenerService : NotificationListenerService() {
     private val scope = CoroutineScope(Dispatchers.IO)
 
     // Confirmed packages - verify these against sbn.packageName logged on a real device
-    private val bankPackages = mapOf(
-        "com.sbi.SBIFreedomPlus" to "SBI",
-        "com.snapwork.hdfc" to "HDFC",
-        "com.canarabank.mobility" to "Canara",
-        "money.super.payments" to "SuperMoney"
-    )
-
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         // Abort processing immediately if no user is actively logged in
         val prefs = applicationContext.getSharedPreferences("MoneyWisePrefs", android.content.Context.MODE_PRIVATE)
@@ -38,7 +31,13 @@ class NotifListenerService : NotificationListenerService() {
         // Log package name to logcat as requested for on-device verification
         Log.d("BankNotifListener", "Posted package: $pkg")
         
-        val bankLabel = bankPackages[pkg] ?: return
+        val bankLabel = when {
+            pkg.equals("com.sbi.SBIFreedomPlus", true) -> "SBI"
+            pkg.equals("com.snapwork.hdfc", true) -> "HDFC"
+            pkg.equals("com.canarabank.mobility", true) -> "Canara"
+            pkg.contains("super.payments", true) || pkg.contains("super.money", true) || pkg.contains("supermoney", true) -> "SuperMoney"
+            else -> null
+        } ?: return
 
         val extras = sbn.notification.extras
         val title = extras.getString(Notification.EXTRA_TITLE) ?: ""
