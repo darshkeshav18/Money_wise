@@ -891,16 +891,6 @@
           "timestamp": 1784894549919
         },
         {
-          "id": "2xjps1t",
-          "amount": 239,
-          "note": "RAJU   B",
-          "date": "2026-07-27",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1785121585333
-        },
-        {
           "id": "e3byy6o",
           "amount": 1000,
           "type": "credit",
