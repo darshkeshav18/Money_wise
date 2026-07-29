@@ -1037,8 +1037,8 @@
           "amount": 2402.6,
           "note": "Airtel Mobile Bill",
           "date": "2026-07-28",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785207828857
         },
