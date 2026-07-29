@@ -1111,6 +1111,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785301428845
+        },
+        {
+          "id": "lm4uo77",
+          "amount": 15,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-29",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785301507601
         }
       ],
       "subscriptions": [],
