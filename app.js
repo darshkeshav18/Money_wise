@@ -798,7 +798,7 @@ function updateAlertsBanner() {
   }
 
   // 50/30/20 Warning banner calculations
-  const income = state.profile.income;
+  const income = state.profile.income + getMonthlyCredits();
   const splits = state.profile.budgetSplits;
   const spent = computeMonthlySpent();
   const isMidMonth = new Date().getDate() <= 15;
@@ -3376,7 +3376,7 @@ function checkBudgetThresholdsAndNotify(txn) {
   const bucket = txn.bucket;
   if (bucket !== 'Needs' && bucket !== 'Wants') return;
 
-  const income = Number(state.profile.income) || 50000;
+  const income = (Number(state.profile.income) || 0) + getMonthlyCredits();
   const splits = state.profile.budgetSplits || { needs: 50, wants: 30, savings: 20 };
   
   const limitPct = bucket === 'Needs' ? splits.needs : splits.wants;
