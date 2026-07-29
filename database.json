@@ -1233,6 +1233,16 @@
           "note": "Manual Income Injection",
           "isRecurring": false,
           "isInvestment": false
+        },
+        {
+          "id": "deg7ffn",
+          "amount": 10,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-29",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785302140644
         }
       ],
       "subscriptions": [],
