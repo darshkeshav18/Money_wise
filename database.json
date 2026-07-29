@@ -1087,6 +1087,16 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785243411077
+        },
+        {
+          "id": "eboqx74",
+          "amount": 235,
+          "note": "SARAVANAN",
+          "date": "2026-07-29",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785295725838
         }
       ],
       "subscriptions": [],
