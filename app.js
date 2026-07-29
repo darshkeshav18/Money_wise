@@ -156,6 +156,13 @@ function fetchDataFromBackend() {
 // SAVE STATE
 function saveStateToStorage() {
   localStorage.setItem('mw_user', JSON.stringify(state.user));
+  
+  // Check last transaction for overspend warning first, modifying preferences in-place
+  if (state.expenses && state.expenses.length > 0) {
+    const lastTxn = state.expenses[state.expenses.length - 1];
+    checkBudgetThresholdsAndNotify(lastTxn);
+  }
+
   if (state.profile) {
     localStorage.setItem('mw_profile', JSON.stringify(state.profile));
   }
@@ -163,12 +170,6 @@ function saveStateToStorage() {
   localStorage.setItem('mw_subscriptions', JSON.stringify(state.subscriptions));
   localStorage.setItem('mw_goals', JSON.stringify(state.goals));
   localStorage.setItem('mw_preferences', JSON.stringify(state.preferences));
-
-  // Check last transaction for overspend warning
-  if (state.expenses && state.expenses.length > 0) {
-    const lastTxn = state.expenses[state.expenses.length - 1];
-    checkBudgetThresholdsAndNotify(lastTxn);
-  }
 
   // Sync to database
   syncWithBackend();
@@ -3418,6 +3419,7 @@ function checkBudgetThresholdsAndNotify(txn) {
     title = `⚠️ Budget Limit Exceeded Warning!`;
     const overrun = Math.abs(remaining);
     message = `Overspent on ${bucket}! Spent ₹${formatNumber(totalSpent)} / Limit ₹${formatNumber(limitAmt)}. Exceeded by ₹${formatNumber(overrun)}. Current remaining ${bucket} balance is -₹${formatNumber(overrun)}.`;
+    showToast(`Warning: ${bucket} budget limit exceeded!`, 'danger');
     triggered = true;
   } else if (remaining <= limitAmt * 0.10) {
     // 10% Left warning
@@ -3428,6 +3430,7 @@ function checkBudgetThresholdsAndNotify(txn) {
       
       title = `🚨 Critical Warning: ${bucket} Budget Exhausting!`;
       message = `Disclaimer: You have only 10% (or less) of your ${bucket} budget left! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Please tighten your belt!`;
+      showToast(`Disclaimer: You have only 10% (or less) of your ${bucket} budget left!`, 'danger');
       triggered = true;
     }
   } else if (remaining <= limitAmt * 0.25) {
@@ -3439,6 +3442,7 @@ function checkBudgetThresholdsAndNotify(txn) {
       
       title = `⚠️ Warning: ${bucket} Budget Depleting!`;
       message = `Disclaimer: You have only 25% (or less) of your ${bucket} budget left! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Spend wisely!`;
+      showToast(`Disclaimer: You have only 25% (or less) of your ${bucket} budget left!`, 'warning');
       triggered = true;
     }
   } else if (remaining <= limitAmt * 0.50) {
@@ -3450,13 +3454,12 @@ function checkBudgetThresholdsAndNotify(txn) {
       
       title = `💡 MoneyWise Notification: ${bucket} Budget Halfway!`;
       message = `Disclaimer: You have only 50% (or less) of your ${bucket} budget left! Remaining balance: ₹${formatNumber(remaining)} / ₹${formatNumber(limitAmt)}. Use it wisely!`;
+      showToast(`Disclaimer: You have only 50% (or less) of your ${bucket} budget left!`, 'warning');
       triggered = true;
     }
   }
 
   if (triggered) {
-    saveStateToStorage();
-
     if (typeof AndroidBridge !== 'undefined' && typeof AndroidBridge.triggerSystemNotification === 'function') {
       AndroidBridge.triggerSystemNotification(title, message);
     } else {
