@@ -1151,6 +1151,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785301547551
+        },
+        {
+          "id": "raj44oe",
+          "amount": 10,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-29",
+          "bucket": "Needs",
+          "category": "Other Needs",
+          "type": "debit",
+          "timestamp": 1785301588447
         }
       ],
       "subscriptions": [],
