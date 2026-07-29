@@ -35,9 +35,9 @@
         "profession": "Student",
         "income": 500,
         "budgetSplits": {
-          "needs": 50,
-          "wants": 30,
-          "savings": 20
+          "needs": 26,
+          "wants": 65,
+          "savings": 9
         },
         "bankingConnected": false,
         "smsConsent": true
@@ -284,7 +284,21 @@
         "darkMode": true,
         "showTooltips": true,
         "tourCompleted": true,
-        "hideBalance": false
+        "hideBalance": false,
+        "warnedThresholds": {
+          "2026-07": {
+            "Needs": {
+              "10": false,
+              "25": false,
+              "50": false
+            },
+            "Wants": {
+              "10": false,
+              "25": false,
+              "50": false
+            }
+          }
+        }
       }
     },
     "sammie24": {
