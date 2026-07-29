@@ -293,6 +293,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785301812233
+        },
+        {
+          "id": "a9iaz2f",
+          "amount": 10,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-29",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1785301975623
         }
       ],
       "subscriptions": [],
