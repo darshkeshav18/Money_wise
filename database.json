@@ -1017,8 +1017,8 @@
           "amount": 60,
           "note": "BMTC",
           "date": "2026-07-27",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785155500816
         },
