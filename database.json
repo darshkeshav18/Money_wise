@@ -35,9 +35,9 @@
         "profession": "Student",
         "income": 500,
         "budgetSplits": {
-          "needs": 26,
-          "wants": 65,
-          "savings": 9
+          "needs": 19,
+          "wants": 73,
+          "savings": 8
         },
         "bankingConnected": false,
         "smsConsent": true
