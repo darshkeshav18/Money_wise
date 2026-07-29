@@ -807,20 +807,48 @@ function updateAlertsBanner() {
   ['Needs', 'Wants'].forEach(b => {
     const bSpent = spent[b] || 0;
     const bLimit = income * (splits[b.toLowerCase()] / 100);
-    
-    if (bSpent >= bLimit) {
-      const msg = isMidMonth 
+    const pct = (bSpent / bLimit) * 100;
+
+    let msg = "";
+    let alertClass = "";
+    let icon = "";
+
+    if (pct >= 100) {
+      msg = isMidMonth 
         ? `<strong>Critical!</strong> You've spent 100% of your ${b} budget — it's only the ${ordinalSuffixOf(new Date().getDate())}!`
         : `<strong>Depleted:</strong> Your monthly budget for ${b} is fully exhausted.`;
-      
+      alertClass = 'alert-card-danger';
+      icon = 'alert-octagon';
+    } else if (pct >= 95) {
+      msg = `<strong>Critical:</strong> Your monthly budget for ${b} has reached 95% capacity.`;
+      alertClass = 'alert-card-danger';
+      icon = 'alert-octagon';
+    } else if (pct >= 90) {
+      msg = `<strong>Critical:</strong> Your monthly budget for ${b} has reached 90% capacity.`;
+      alertClass = 'alert-card-danger';
+      icon = 'alert-octagon';
+    } else if (pct >= 80) {
+      msg = `<strong>Warning:</strong> Your monthly budget for ${b} has reached 80% capacity.`;
+      alertClass = 'alert-card-warning';
+      icon = 'alert-triangle';
+    } else if (pct >= 70) {
+      msg = `<strong>Warning:</strong> Your monthly budget for ${b} has reached 70% capacity.`;
+      alertClass = 'alert-card-warning';
+      icon = 'alert-triangle';
+    } else if (pct >= 50) {
+      msg = `<strong>Warning:</strong> Your monthly budget for ${b} is halfway spent (50% capacity).`;
+      alertClass = 'alert-card-warning';
+      icon = 'alert-triangle';
+    } else if (pct >= 30) {
+      msg = `<strong>Notice:</strong> Your monthly budget for ${b} has reached 30% capacity.`;
+      alertClass = 'alert-card-info';
+      icon = 'info';
+    }
+
+    if (msg) {
       const card = document.createElement('div');
-      card.className = 'alert-card alert-card-danger';
-      card.innerHTML = `<i data-lucide="alert-octagon"></i> <div class="alert-card-content">${msg}</div>`;
-      container.appendChild(card);
-    } else if (bSpent >= bLimit * 0.8) {
-      const card = document.createElement('div');
-      card.className = 'alert-card alert-card-warning';
-      card.innerHTML = `<i data-lucide="alert-triangle"></i> <div class="alert-card-content"><strong>Warning:</strong> ${b} budget is at ${Math.round((bSpent/bLimit)*100)}% capacity.</div>`;
+      card.className = `alert-card ${alertClass}`;
+      card.innerHTML = `<i data-lucide="${icon}"></i> <div class="alert-card-content">${msg}</div>`;
       container.appendChild(card);
     }
   });

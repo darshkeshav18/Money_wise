@@ -156,7 +156,7 @@ class TransactionRepository(private val dao: TransactionDao) {
     }
 
     private fun sendSystemNotification(context: android.content.Context, title: String, message: String) {
-        val channelId = "moneywise_alerts"
+        val channelId = "moneywise_alerts_v3"
         val notificationManager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -169,6 +169,7 @@ class TransactionRepository(private val dao: TransactionDao) {
                 enableLights(true)
                 lightColor = android.graphics.Color.RED
                 enableVibration(true)
+                vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
             }
             notificationManager.createNotificationChannel(channel)
         }
@@ -177,12 +178,15 @@ class TransactionRepository(private val dao: TransactionDao) {
             .setSmallIcon(android.R.drawable.stat_notify_error)
             .setContentTitle(title)
             .setContentText(message)
-            .setPriority(androidx.core.app.NotificationCompat.PRIORITY_HIGH)
+            .setPriority(androidx.core.app.NotificationCompat.PRIORITY_MAX)
+            .setVibrate(longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400))
+            .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
             .setAutoCancel(true)
             .setDefaults(androidx.core.app.NotificationCompat.DEFAULT_ALL)
 
         try {
-            notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+            val notificationId = (System.currentTimeMillis() % 100000).toInt()
+            notificationManager.notify(notificationId, builder.build())
             android.util.Log.d("TransactionRepository", "System notification sent successfully.")
         } catch (e: Exception) {
             android.util.Log.e("TransactionRepository", "Failed to trigger system notification", e)
