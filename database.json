@@ -340,17 +340,6 @@
           "isRecurring": false,
           "isInvestment": false,
           "assetType": ""
-        },
-        {
-          "id": "lkjh9qp",
-          "amount": 350,
-          "bucket": "Wants",
-          "category": "Food Delivery",
-          "date": "2026-07-29",
-          "note": "",
-          "isRecurring": false,
-          "isInvestment": false,
-          "assetType": ""
         }
       ],
       "subscriptions": [],
