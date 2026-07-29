@@ -902,17 +902,6 @@
           "isInvestment": false
         },
         {
-          "id": "icej380",
-          "amount": 6000,
-          "bucket": "Wants",
-          "category": "Food Delivery",
-          "date": "2026-07-27",
-          "note": "",
-          "isRecurring": false,
-          "isInvestment": false,
-          "assetType": ""
-        },
-        {
           "id": "q1josip",
           "amount": 1,
           "note": "DARSH  KESHAV",
