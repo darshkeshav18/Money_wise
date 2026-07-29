@@ -273,6 +273,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785301589181
+        },
+        {
+          "id": "tmele3q",
+          "amount": 10,
+          "note": "Credit alert received",
+          "date": "2026-07-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785301596242
         }
       ],
       "subscriptions": [],
