@@ -1036,6 +1036,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1785315525608
+        },
+        {
+          "id": "nt3v170",
+          "amount": 135,
+          "note": "Liza Butani",
+          "date": "2026-07-29",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785333864602
         }
       ],
       "subscriptions": [],
