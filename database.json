@@ -185,16 +185,6 @@
           "timestamp": 1784614655868
         },
         {
-          "id": "rm2hjgy",
-          "amount": 460,
-          "note": "MMUNIRAJU",
-          "date": "2026-07-19",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784441207422
-        },
-        {
           "id": "sqikwv7",
           "amount": 600,
           "note": "Credit alert received",
@@ -203,16 +193,6 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784440422009
-        },
-        {
-          "id": "ojqywdg",
-          "amount": 325,
-          "note": "AMRUTH SAGAR",
-          "date": "2026-07-18",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784384163599
         },
         {
           "id": "p3c2djc",
@@ -294,6 +274,28 @@
           "isRecurring": false,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "kyis0h8",
+          "amount": 10,
+          "bucket": "Wants",
+          "category": "Food Delivery",
+          "date": "2026-07-29",
+          "note": "",
+          "isRecurring": false,
+          "isInvestment": false,
+          "assetType": ""
+        },
+        {
+          "id": "c56hyba",
+          "amount": 300,
+          "bucket": "Wants",
+          "category": "Food Delivery",
+          "date": "2026-07-29",
+          "note": "",
+          "isRecurring": false,
+          "isInvestment": false,
+          "assetType": ""
         }
       ],
       "subscriptions": [],
@@ -326,7 +328,10 @@
             "Wants": {
               "10": false,
               "25": false,
-              "50": true
+              "30": true,
+              "50": true,
+              "70": true,
+              "90": true
             }
           }
         }
@@ -337,25 +342,14 @@
         "profession": "Student",
         "income": 10000,
         "budgetSplits": {
-          "needs": 54,
-          "wants": 6,
-          "savings": 40
+          "needs": 50,
+          "wants": 30,
+          "savings": 20
         },
         "bankingConnected": false,
         "smsConsent": true
       },
       "expenses": [
-        {
-          "id": "yr36axs",
-          "amount": 199,
-          "bucket": "Wants",
-          "category": "Entertainment",
-          "date": "2026-07-06",
-          "note": "Netflix",
-          "isRecurring": true,
-          "isInvestment": false,
-          "assetType": ""
-        },
         {
           "id": "p7azzwm",
           "amount": 50,
@@ -431,26 +425,6 @@
           "timestamp": 1784089609455
         },
         {
-          "id": "muw8fcl",
-          "amount": 100,
-          "note": "DARSH  KESHAV",
-          "date": "2026-07-15",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784089706091
-        },
-        {
-          "id": "93noj3i",
-          "amount": 15,
-          "note": "NAVEEN K G",
-          "date": "2026-07-15",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784090543150
-        },
-        {
           "id": "q81vg5d",
           "amount": 100,
           "note": "DARSH  KESHAV",
@@ -459,26 +433,6 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784091589836
-        },
-        {
-          "id": "q72fbxb",
-          "amount": 200,
-          "note": "DARSH  KESHAV",
-          "date": "2026-07-15",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784091719153
-        },
-        {
-          "id": "n2jyrqr",
-          "amount": 30,
-          "note": "VANAJAKSHI K G",
-          "date": "2026-07-15",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784099389720
         },
         {
           "id": "cq23og7",
@@ -611,16 +565,6 @@
           "timestamp": 1784517705245
         },
         {
-          "id": "c89sywv",
-          "amount": 140,
-          "note": "DARSH  KESHAV",
-          "date": "2026-07-20",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784529456133
-        },
-        {
           "id": "fq2ezzv",
           "amount": 40,
           "note": "SHARAVAN KUMAR Y",
@@ -649,16 +593,6 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784553486091
-        },
-        {
-          "id": "sa9u4iy",
-          "amount": 208,
-          "note": "MALEPALLI KURUBA LAKSHMI",
-          "date": "2026-07-20",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784554195220
         },
         {
           "id": "9dt6873",
@@ -729,16 +663,6 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1784690135683
-        },
-        {
-          "id": "k39017k",
-          "amount": 187,
-          "note": "Mr SHASHIDHARA",
-          "date": "2026-07-22",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784690209597
         },
         {
           "id": "k4wugdq",
@@ -841,16 +765,6 @@
           "timestamp": 1784811697204
         },
         {
-          "id": "zm9ezs4",
-          "amount": 205,
-          "note": "YAHIYA  BASHA",
-          "date": "2026-07-24",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784864521782
-        },
-        {
           "id": "86xbybc",
           "amount": 15,
           "note": "VANAJAKSHI K G",
@@ -871,36 +785,6 @@
           "timestamp": 1784878610365
         },
         {
-          "id": "zy0f1n9",
-          "amount": 500,
-          "note": "DARSH  KESHAV",
-          "date": "2026-07-24",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784888037440
-        },
-        {
-          "id": "spam8yn",
-          "amount": 209,
-          "note": "MADHU P",
-          "date": "2026-07-24",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784894549919
-        },
-        {
-          "id": "2xjps1t",
-          "amount": 239,
-          "note": "RAJU   B",
-          "date": "2026-07-27",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1785121585333
-        },
-        {
           "id": "e3byy6o",
           "amount": 1000,
           "type": "credit",
@@ -910,17 +794,6 @@
           "note": "Manual Income Injection",
           "isRecurring": false,
           "isInvestment": false
-        },
-        {
-          "id": "icej380",
-          "amount": 6000,
-          "bucket": "Wants",
-          "category": "Food Delivery",
-          "date": "2026-07-27",
-          "note": "",
-          "isRecurring": false,
-          "isInvestment": false,
-          "assetType": ""
         },
         {
           "id": "q1josip",
@@ -1024,16 +897,6 @@
           "timestamp": 1785155513015
         },
         {
-          "id": "axyug5o",
-          "amount": 2402.6,
-          "note": "Airtel Mobile Bill",
-          "date": "2026-07-28",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit",
-          "timestamp": 1785207828857
-        },
-        {
           "id": "97qe8os",
           "amount": 234,
           "note": "SHIVU",
@@ -1062,26 +925,6 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785226169988
-        },
-        {
-          "id": "gn2st8n",
-          "amount": 15,
-          "note": "NAVEEN K G",
-          "date": "2026-07-28",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit",
-          "timestamp": 1785226868771
-        },
-        {
-          "id": "woslbi6",
-          "amount": 20,
-          "note": "NAVEEN K G",
-          "date": "2026-07-28",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1785227017923
         },
         {
           "id": "d6y23x9",
@@ -1132,26 +975,6 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785243411077
-        },
-        {
-          "id": "eboqx74",
-          "amount": 235,
-          "note": "SARAVANAN",
-          "date": "2026-07-29",
-          "bucket": "Needs",
-          "category": "Other Needs",
-          "type": "debit",
-          "timestamp": 1785295725838
-        },
-        {
-          "id": "cxjave9",
-          "amount": 10,
-          "note": "7975530278@superyes",
-          "date": "2026-07-29",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "type": "credit",
-          "timestamp": 1785301428845
         },
         {
           "id": "lm4uo77",
@@ -1205,25 +1028,14 @@
           "isInvestment": false
         },
         {
-          "id": "loongdb",
-          "amount": 461,
-          "type": "credit",
-          "bucket": "Savings",
-          "category": "Other Income",
-          "date": "2026-07-29",
-          "note": "Manual Income Injection",
-          "isRecurring": false,
-          "isInvestment": false
-        },
-        {
-          "id": "deg7ffn",
+          "id": "4p7uedx",
           "amount": 10,
           "note": "DARSH  KESHAV",
           "date": "2026-07-29",
           "bucket": "Wants",
           "category": "Other Wants",
           "type": "debit",
-          "timestamp": 1785302140644
+          "timestamp": 1785315525608
         }
       ],
       "subscriptions": [],
