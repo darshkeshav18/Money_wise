@@ -1091,6 +1091,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1785295725838
+        },
+        {
+          "id": "cxjave9",
+          "amount": 10,
+          "note": "7975530278@superyes",
+          "date": "2026-07-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785301428845
         }
       ],
       "subscriptions": [],
