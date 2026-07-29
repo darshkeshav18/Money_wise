@@ -307,6 +307,17 @@
           "isRecurring": false,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "ayntqif",
+          "amount": 500,
+          "bucket": "Needs",
+          "category": "Rent",
+          "date": "2026-07-29",
+          "note": "",
+          "isRecurring": false,
+          "isInvestment": false,
+          "assetType": ""
         }
       ],
       "subscriptions": [],
