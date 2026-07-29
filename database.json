@@ -336,9 +336,9 @@
         "profession": "Student",
         "income": 10000,
         "budgetSplits": {
-          "needs": 42,
-          "wants": 40,
-          "savings": 18
+          "needs": 4,
+          "wants": 92,
+          "savings": 4
         },
         "bankingConnected": false,
         "smsConsent": true
@@ -1213,7 +1213,21 @@
         "darkMode": true,
         "showTooltips": true,
         "tourCompleted": true,
-        "hideBalance": false
+        "hideBalance": false,
+        "warnedThresholds": {
+          "2026-07": {
+            "Needs": {
+              "10": false,
+              "25": false,
+              "50": false
+            },
+            "Wants": {
+              "10": true,
+              "25": false,
+              "50": false
+            }
+          }
+        }
       }
     },
     "user123": {
