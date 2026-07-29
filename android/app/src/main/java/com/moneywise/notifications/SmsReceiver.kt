@@ -39,10 +39,11 @@ class SmsReceiver : BroadcastReceiver() {
                 sender.contains("canbnk", ignoreCase = true) || sender.contains("canara", ignoreCase = true) -> "Canara"
                 sender.contains("hdfcbk", ignoreCase = true) || sender.contains("hdfc", ignoreCase = true) -> "HDFC"
                 sender.contains("sbi", ignoreCase = true) -> "SBI"
+                sender.contains("union", ignoreCase = true) || sender.contains("ubin", ignoreCase = true) || sender.contains("ubi", ignoreCase = true) -> "Union Bank"
                 else -> null
             } ?: continue
 
-            val pkgMock = "com.${bankLabel.lowercase()}.app"
+            val pkgMock = "com.${bankLabel.lowercase().replace(" ", "")}.app"
             val txn = BankParsers.parse(pkgMock, bankLabel, messageBody) ?: continue
 
             scope.launch {

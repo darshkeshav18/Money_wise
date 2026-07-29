@@ -35,6 +35,7 @@ class NotifListenerService : NotificationListenerService() {
             pkg.equals("com.sbi.SBIFreedomPlus", true) -> "SBI"
             pkg.equals("com.snapwork.hdfc", true) -> "HDFC"
             pkg.equals("com.canarabank.mobility", true) -> "Canara"
+            pkg.contains("unionbank", true) || pkg.contains("vyom", true) -> "Union Bank"
             pkg.contains("super.payments", true) || pkg.contains("super.money", true) || pkg.contains("supermoney", true) -> "SuperMoney"
             else -> null
         } ?: return
