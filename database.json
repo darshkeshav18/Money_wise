@@ -820,16 +820,6 @@
           "timestamp": 1784878610365
         },
         {
-          "id": "spam8yn",
-          "amount": 209,
-          "note": "MADHU P",
-          "date": "2026-07-24",
-          "bucket": "Wants",
-          "category": "Other Wants",
-          "type": "debit",
-          "timestamp": 1784894549919
-        },
-        {
           "id": "e3byy6o",
           "amount": 1000,
           "type": "credit",
