@@ -307,6 +307,17 @@
           "isRecurring": false,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "7mu30ui",
+          "amount": 100,
+          "bucket": "Wants",
+          "category": "Food Delivery",
+          "date": "2026-07-29",
+          "note": "",
+          "isRecurring": false,
+          "isInvestment": false,
+          "assetType": ""
         }
       ],
       "subscriptions": [],
