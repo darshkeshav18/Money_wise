@@ -1083,6 +1083,16 @@
           "date": "2026-07-30",
           "note": "Subscription: Spotify",
           "isRecurring": true
+        },
+        {
+          "id": "hp128bi",
+          "amount": 100,
+          "note": "harsitathapa5@oksbi",
+          "date": "2026-07-30",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785415990716
         }
       ],
       "subscriptions": [
