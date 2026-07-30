@@ -1076,6 +1076,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1785394105695
+        },
+        {
+          "id": "v9kql08",
+          "amount": 160,
+          "note": "Amazon India",
+          "date": "2026-07-30",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1785394420898
         }
       ],
       "subscriptions": [],
