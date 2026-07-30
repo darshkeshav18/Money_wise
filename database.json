@@ -1065,9 +1065,26 @@
           "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785396258903
+        },
+        {
+          "id": "un07pg3",
+          "amount": 199,
+          "bucket": "Wants",
+          "category": "OTT Subscriptions",
+          "date": "2026-07-30",
+          "note": "Subscription: Netflix",
+          "isRecurring": true
         }
       ],
-      "subscriptions": [],
+      "subscriptions": [
+        {
+          "id": "fw4jkwm",
+          "name": "Netflix",
+          "cost": 199,
+          "billingDate": 30,
+          "lastUsedDate": "2026-07-30"
+        }
+      ],
       "goals": [
         {
           "id": "uqo7p4h",
