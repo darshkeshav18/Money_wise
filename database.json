@@ -1055,6 +1055,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1785315525608
+        },
+        {
+          "id": "t45mgzp",
+          "amount": 1,
+          "note": "DARSH  KESHAV",
+          "date": "2026-07-30",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785396258903
         }
       ],
       "subscriptions": [],
