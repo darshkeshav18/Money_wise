@@ -1093,6 +1093,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785415990716
+        },
+        {
+          "id": "0nadipj",
+          "amount": 285,
+          "note": "MUJEEB BASHA S K",
+          "date": "2026-07-30",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785418961721
         }
       ],
       "subscriptions": [
