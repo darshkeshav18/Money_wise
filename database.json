@@ -296,6 +296,16 @@
           "isRecurring": false,
           "isInvestment": false,
           "assetType": ""
+        },
+        {
+          "id": "mdn10zw",
+          "amount": 78,
+          "note": "SAMHITA BHUV",
+          "date": "2026-07-30",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785394893109
         }
       ],
       "subscriptions": [],
