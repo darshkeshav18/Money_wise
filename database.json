@@ -1061,8 +1061,8 @@
           "amount": 1,
           "note": "DARSH  KESHAV",
           "date": "2026-07-30",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Needs",
+          "category": "Other Needs",
           "type": "debit",
           "timestamp": 1785396258903
         }
@@ -1093,6 +1093,7 @@
             "Needs": {
               "10": false,
               "25": false,
+              "30": true,
               "50": false
             },
             "Wants": {
