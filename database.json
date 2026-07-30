@@ -1067,7 +1067,7 @@
         "darkMode": true,
         "showTooltips": true,
         "tourCompleted": true,
-        "hideBalance": false,
+        "hideBalance": true,
         "warnedThresholds": {
           "2026-07": {
             "Needs": {
