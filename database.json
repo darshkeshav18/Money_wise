@@ -1074,6 +1074,15 @@
           "date": "2026-07-30",
           "note": "Subscription: Netflix",
           "isRecurring": true
+        },
+        {
+          "id": "azf43sj",
+          "amount": 69,
+          "bucket": "Wants",
+          "category": "OTT Subscriptions",
+          "date": "2026-07-30",
+          "note": "Subscription: Spotify",
+          "isRecurring": true
         }
       ],
       "subscriptions": [
@@ -1081,6 +1090,13 @@
           "id": "fw4jkwm",
           "name": "Netflix",
           "cost": 199,
+          "billingDate": 30,
+          "lastUsedDate": "2026-07-30"
+        },
+        {
+          "id": "80m1bs4",
+          "name": "Spotify",
+          "cost": 69,
           "billingDate": 30,
           "lastUsedDate": "2026-07-30"
         }
