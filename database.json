@@ -306,6 +306,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1785394893109
+        },
+        {
+          "id": "8yd49c8",
+          "amount": 254,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-07-30",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785394983146
         }
       ],
       "subscriptions": [],
