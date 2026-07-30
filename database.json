@@ -1056,6 +1056,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1785381814033
+        },
+        {
+          "id": "sizjgpd",
+          "amount": 3000,
+          "note": "7090932154@ptyes",
+          "date": "2026-07-30",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785393871807
         }
       ],
       "subscriptions": [],
