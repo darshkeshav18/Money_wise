@@ -1046,6 +1046,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1785333864602
+        },
+        {
+          "id": "ptd7xx6",
+          "amount": 196,
+          "note": "SYED   ALTHAF",
+          "date": "2026-07-30",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785381814033
         }
       ],
       "subscriptions": [],
