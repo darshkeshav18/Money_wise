@@ -1066,6 +1066,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785393871807
+        },
+        {
+          "id": "cln0rh3",
+          "amount": 1286,
+          "note": "Meesho",
+          "date": "2026-07-30",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1785394105695
         }
       ],
       "subscriptions": [],
