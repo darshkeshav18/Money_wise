@@ -356,6 +356,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785497142878
+        },
+        {
+          "id": "txk0lwf",
+          "amount": 512.4,
+          "note": "EVERSUB INDI",
+          "date": "2026-07-31",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785503554083
         }
       ],
       "subscriptions": [],
