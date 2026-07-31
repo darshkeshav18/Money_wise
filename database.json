@@ -336,6 +336,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785465649508
+        },
+        {
+          "id": "3z9kbxn",
+          "amount": 500,
+          "bucket": "Savings",
+          "category": "Emergency Fund",
+          "date": "2026-07-31",
+          "note": "Goal Injection: Trip",
+          "isRecurring": false,
+          "isInvestment": false
         }
       ],
       "subscriptions": [],
