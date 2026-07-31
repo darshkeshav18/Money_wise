@@ -326,6 +326,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785396260414
+        },
+        {
+          "id": "fubusvg",
+          "amount": 1500,
+          "note": "Credit alert received",
+          "date": "2026-07-31",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785465649508
         }
       ],
       "subscriptions": [],
