@@ -1113,6 +1113,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1785418961721
+        },
+        {
+          "id": "2hjqh8m",
+          "amount": 212,
+          "note": "Mr Rajan Kumar",
+          "date": "2026-07-31",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785468440523
         }
       ],
       "subscriptions": [
