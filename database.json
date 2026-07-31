@@ -346,6 +346,16 @@
           "note": "Goal Injection: Trip",
           "isRecurring": false,
           "isInvestment": false
+        },
+        {
+          "id": "sx8xgor",
+          "amount": 132.56,
+          "note": "Credit alert received",
+          "date": "2026-07-31",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785497142878
         }
       ],
       "subscriptions": [],
