@@ -346,16 +346,6 @@
           "note": "Goal Injection: Trip",
           "isRecurring": false,
           "isInvestment": false
-        },
-        {
-          "id": "e0ohu01",
-          "amount": 2000,
-          "bucket": "Savings",
-          "category": "Emergency Fund",
-          "date": "2026-07-31",
-          "note": "Goal Injection: Trip",
-          "isRecurring": false,
-          "isInvestment": false
         }
       ],
       "subscriptions": [],
