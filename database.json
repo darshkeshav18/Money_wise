@@ -374,7 +374,7 @@
           "renewal": true,
           "goals": true
         },
-        "darkMode": true,
+        "darkMode": false,
         "showTooltips": true,
         "tourCompleted": true,
         "hideBalance": false,
