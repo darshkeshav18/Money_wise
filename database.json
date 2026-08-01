@@ -372,8 +372,8 @@
           "amount": 87.5,
           "note": "SAMHITA BHUV",
           "date": "2026-08-01",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Wants",
+          "category": "Other Wants",
           "type": "debit",
           "timestamp": 1785548699538
         }
@@ -412,6 +412,24 @@
               "50": true,
               "70": true,
               "90": true
+            }
+          },
+          "2026-08": {
+            "Needs": {
+              "30": false,
+              "50": false,
+              "70": false,
+              "80": false,
+              "90": false,
+              "95": false
+            },
+            "Wants": {
+              "30": false,
+              "50": false,
+              "70": false,
+              "80": false,
+              "90": false,
+              "95": false
             }
           }
         }
