@@ -366,6 +366,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1785503554083
+        },
+        {
+          "id": "fneijy5",
+          "amount": 87.5,
+          "note": "SAMHITA BHUV",
+          "date": "2026-08-01",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1785548699538
         }
       ],
       "subscriptions": [],
