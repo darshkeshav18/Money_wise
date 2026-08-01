@@ -362,8 +362,8 @@
           "amount": 512.4,
           "note": "EVERSUB INDI",
           "date": "2026-07-31",
-          "bucket": "Uncategorized",
-          "category": "Uncategorized",
+          "bucket": "Wants",
+          "category": "Other Wants",
           "type": "debit",
           "timestamp": 1785503554083
         },
