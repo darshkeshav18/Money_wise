@@ -436,6 +436,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785992472605
+        },
+        {
+          "id": "pejnfi5",
+          "amount": 300,
+          "note": "SAMHITA BHUV",
+          "date": "2026-08-06",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1786021163050
         }
       ],
       "subscriptions": [],
