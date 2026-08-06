@@ -396,6 +396,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1785991605952
+        },
+        {
+          "id": "oj5v5y9",
+          "amount": 20,
+          "note": "Ayushman  Anand",
+          "date": "2026-08-06",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785991976353
         }
       ],
       "subscriptions": [],
