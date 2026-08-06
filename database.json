@@ -426,6 +426,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1785992026346
+        },
+        {
+          "id": "74qok1y",
+          "amount": 30,
+          "note": "Credit alert received",
+          "date": "2026-08-06",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1785992472605
         }
       ],
       "subscriptions": [],
