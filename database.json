@@ -486,6 +486,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1786429500779
+        },
+        {
+          "id": "davt7pk",
+          "amount": 20,
+          "note": "Ayushman  Anand",
+          "date": "2026-08-11",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1786432541267
         }
       ],
       "subscriptions": [],
