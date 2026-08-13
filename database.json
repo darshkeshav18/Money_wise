@@ -506,6 +506,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1786624030595
+        },
+        {
+          "id": "wuf1l6b",
+          "amount": 999,
+          "note": "YASHAS V",
+          "date": "2026-08-13",
+          "bucket": "Wants",
+          "category": "Other Wants",
+          "type": "debit",
+          "timestamp": 1786624099462
         }
       ],
       "subscriptions": [],
