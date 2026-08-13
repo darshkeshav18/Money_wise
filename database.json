@@ -496,6 +496,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1786432541267
+        },
+        {
+          "id": "exl81an",
+          "amount": 1,
+          "note": "YASHAS V",
+          "date": "2026-08-13",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1786624030595
         }
       ],
       "subscriptions": [],
