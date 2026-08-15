@@ -516,6 +516,16 @@
           "category": "Other Wants",
           "type": "debit",
           "timestamp": 1786624099462
+        },
+        {
+          "id": "f5msevr",
+          "amount": 157.5,
+          "note": "SAMHITA BHUVANAGIRI UG VENUGOPAL B",
+          "date": "2026-08-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1786783002805
         }
       ],
       "subscriptions": [],
