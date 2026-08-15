@@ -526,6 +526,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1786783002805
+        },
+        {
+          "id": "7b8qgxe",
+          "amount": 682,
+          "note": "Ayushman  Anand",
+          "date": "2026-08-15",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1786822713076
         }
       ],
       "subscriptions": [],
