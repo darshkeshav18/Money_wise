@@ -546,6 +546,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1786861978306
+        },
+        {
+          "id": "tmvo19x",
+          "amount": 664,
+          "note": "AASHRITH BHAT C R",
+          "date": "2026-08-16",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1786875997287
         }
       ],
       "subscriptions": [],
