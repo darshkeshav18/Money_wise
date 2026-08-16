@@ -556,6 +556,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1786875997287
+        },
+        {
+          "id": "x8ukfay",
+          "amount": 682,
+          "note": "RAJESHWARI DIVAKAR",
+          "date": "2026-08-16",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1786878457915
         }
       ],
       "subscriptions": [],
