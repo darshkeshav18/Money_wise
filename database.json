@@ -566,6 +566,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1786878457915
+        },
+        {
+          "id": "wx6x8qy",
+          "amount": 682,
+          "note": "ARYAN NERAMBALLI  VENKATESH RAO",
+          "date": "2026-08-17",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1786935877752
         }
       ],
       "subscriptions": [],
