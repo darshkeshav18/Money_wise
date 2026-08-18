@@ -596,6 +596,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1787048634707
+        },
+        {
+          "id": "hay8hwh",
+          "amount": 682,
+          "note": "Credit alert received",
+          "date": "2026-08-18",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1787086098029
         }
       ],
       "subscriptions": [],
