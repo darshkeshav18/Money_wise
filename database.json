@@ -586,6 +586,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1786935947136
+        },
+        {
+          "id": "9wgcoso",
+          "amount": 4850,
+          "note": "Credit alert received",
+          "date": "2026-08-18",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1787048634707
         }
       ],
       "subscriptions": [],
