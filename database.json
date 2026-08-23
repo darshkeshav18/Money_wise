@@ -616,6 +616,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1787379177480
+        },
+        {
+          "id": "9e4glq2",
+          "amount": 2604,
+          "note": "Credit alert received",
+          "date": "2026-08-23",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1787478169721
         }
       ],
       "subscriptions": [],
