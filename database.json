@@ -646,6 +646,16 @@
           "category": "Uncategorized",
           "type": "debit",
           "timestamp": 1787832142809
+        },
+        {
+          "id": "cduqhqg",
+          "amount": 20,
+          "note": "VIBHA RANI",
+          "date": "2026-08-29",
+          "bucket": "Savings",
+          "category": "Other Income",
+          "type": "credit",
+          "timestamp": 1787995949512
         }
       ],
       "subscriptions": [],
