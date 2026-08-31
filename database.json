@@ -666,6 +666,16 @@
           "category": "Other Income",
           "type": "credit",
           "timestamp": 1788158056142
+        },
+        {
+          "id": "7e8ywmv",
+          "amount": 40,
+          "note": "Coffee shop",
+          "date": "2026-08-31",
+          "bucket": "Uncategorized",
+          "category": "Uncategorized",
+          "type": "debit",
+          "timestamp": 1788171195517
         }
       ],
       "subscriptions": [],
