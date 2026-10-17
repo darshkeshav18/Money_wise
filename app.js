@@ -159,8 +159,12 @@ function saveStateToStorage() {
   
   // Check last transaction for overspend warning first, modifying preferences in-place
   if (state.expenses && state.expenses.length > 0) {
-    const lastTxn = state.expenses[state.expenses.length - 1];
-    checkBudgetThresholdsAndNotify(lastTxn);
+    try {
+      const lastTxn = state.expenses[state.expenses.length - 1];
+      checkBudgetThresholdsAndNotify(lastTxn);
+    } catch (err) {
+      console.warn("Threshold check error in saveStateToStorage:", err);
+    }
   }
 
   if (state.profile) {
@@ -799,14 +803,16 @@ function updateAlertsBanner() {
   }
 
   // 50/30/20 Warning banner calculations
-  const income = state.profile.income + getMonthlyCredits();
-  const splits = state.profile.budgetSplits;
+  const income = (Number(state.profile.income) || 0) + getMonthlyCredits();
+  const splits = state.profile.budgetSplits || { needs: 50, wants: 30, savings: 20 };
   const spent = computeMonthlySpent();
   const isMidMonth = new Date().getDate() <= 15;
 
   ['Needs', 'Wants'].forEach(b => {
     const bSpent = spent[b] || 0;
-    const bLimit = income * (splits[b.toLowerCase()] / 100);
+    const splitPct = splits[b.toLowerCase()] || 0;
+    const bLimit = income * (splitPct / 100);
+    if (bLimit <= 0) return;
     const pct = (bSpent / bLimit) * 100;
 
     let msg = "";
@@ -869,7 +875,7 @@ function updateAlertsBanner() {
 function renderDashboard() {
   if (!state.profile) return;
 
-  const baseIncome = state.profile.income;
+  const baseIncome = Number(state.profile.income) || 0;
   const credits = getMonthlyCredits();
   const income = baseIncome + credits;
 
@@ -2509,7 +2515,7 @@ function computeMonthlySpent() {
   const list = getCurrentMonthExpenses();
   const spent = { Needs: 0, Wants: 0, Savings: 0 };
   list.forEach(x => {
-    if (spent[x.bucket] !== undefined) spent[x.bucket] += x.amount;
+    if (spent[x.bucket] !== undefined) spent[x.bucket] += Number(x.amount || 0);
   });
   return spent;
 }
@@ -2518,7 +2524,7 @@ function computeMonthlySpentByCategory() {
   const list = getCurrentMonthExpenses();
   const spent = {};
   list.forEach(x => {
-    spent[x.category] = (spent[x.category] || 0) + x.amount;
+    spent[x.category] = (spent[x.category] || 0) + Number(x.amount || 0);
   });
   return spent;
 }
@@ -2536,7 +2542,7 @@ function getMonthlyCredits() {
   return state.expenses.filter(x => {
     const d = new Date(x.date);
     return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && x.type === 'credit';
-  }).reduce((acc, x) => acc + x.amount, 0);
+  }).reduce((acc, x) => acc + Number(x.amount || 0), 0);
 }
 
 function getCurrentMonthTransactions() {
@@ -3410,16 +3416,19 @@ function checkBudgetThresholdsAndNotify(txn) {
   
   const limitPct = bucket === 'Needs' ? splits.needs : splits.wants;
   const limitAmt = Math.round(income * (limitPct / 100));
+  if (limitAmt <= 0) return;
 
   const today = new Date();
-  const currentMonthStr = today.toISOString().substring(0, 7); // e.g. "2026-07"
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const currentMonthStr = `${year}-${month}`;
   
   const currentMonthExpenses = state.expenses.filter(x => {
     const d = new Date(x.date);
     return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && x.type !== 'credit' && x.bucket === bucket;
   });
 
-  const totalSpent = currentMonthExpenses.reduce((sum, x) => sum + Number(x.amount), 0);
+  const totalSpent = currentMonthExpenses.reduce((sum, x) => sum + Number(x.amount || 0), 0);
   const remaining = limitAmt - totalSpent;
 
   // Initialize warned thresholds tracking in preferences if not present
@@ -3431,6 +3440,9 @@ function checkBudgetThresholdsAndNotify(txn) {
       Needs: { 30: false, 50: false, 70: false, 80: false, 90: false, 95: false },
       Wants: { 30: false, 50: false, 70: false, 80: false, 90: false, 95: false }
     };
+  }
+  if (!state.preferences.warnedThresholds[currentMonthStr][bucket]) {
+    state.preferences.warnedThresholds[currentMonthStr][bucket] = { 30: false, 50: false, 70: false, 80: false, 90: false, 95: false };
   }
 
   const monthWarns = state.preferences.warnedThresholds[currentMonthStr][bucket];
