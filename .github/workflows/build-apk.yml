@@ -5,10 +5,14 @@ on:
     branches: [ main ]
     paths-ignore:
       - 'database.json'
+      - 'README.md'
+      - 'docs/**'
   pull_request:
     branches: [ main ]
     paths-ignore:
       - 'database.json'
+      - 'README.md'
+      - 'docs/**'
 
 permissions:
   contents: write

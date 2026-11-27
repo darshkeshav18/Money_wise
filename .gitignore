@@ -11,6 +11,10 @@ logs/
 *.log
 database.json
 
+# Vercel & build artifacts
+.vercel/
+*.apk
+
 # Operating System files
 .DS_Store
 Thumbs.db
